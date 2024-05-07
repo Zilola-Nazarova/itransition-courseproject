@@ -1,8 +1,15 @@
-body {
-  margin: 0;
-  background-color: blueviolet;
+nav {
+  background-color: goldenrod;
 }
 
-h1 {
-  color: cadetblue;
+#collections {
+  background-color: cadetblue;
+}
+
+#items {
+  background-color: darkseagreen;
+}
+
+#form {
+  background-color: rosybrown;
 }
