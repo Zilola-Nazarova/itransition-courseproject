@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@eslint/eslintrc": "^3.0.2",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -18,5 +19,13 @@
     "mongodb": "^6.6.1",
     "mongoose": "^8.3.3",
     "nodemon": "^3.1.0"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.24.5",
+    "eslint": "^8.57.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.1.1"
   }
 }
