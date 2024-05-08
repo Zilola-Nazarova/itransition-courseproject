@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const COLLECTIONS_URL = 'http://localhost:5000/collections';
+const COLLECTIONS_URL = 'https://itransition-courseproject-tljv.onrender.com/collections';
 
 export const getCollections = createAsyncThunk(
   'collections/getCollections',

@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const ITEMS_URL = 'http://localhost:5000/items';
+const ITEMS_URL = 'https://itransition-courseproject-tljv.onrender.com/items';
 
 export const getItems = createAsyncThunk(
   'items/getItems',
