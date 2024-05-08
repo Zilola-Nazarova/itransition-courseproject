@@ -7,9 +7,8 @@ const Collection = ({ collection }) => (
   </div>
 );
 
-
 Collection.propTypes = {
-  collection: PropTypes.arrayOf(PropTypes.string).isRequired,
+  collection: PropTypes.string.isRequired,
 };
 
 export default Collection;

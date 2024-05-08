@@ -3,12 +3,14 @@ import { v4 as uuidv4 } from 'uuid';
 import Item from './item/Item';
 
 const Items = () => {
-  const items = useSelector((state) => state.items.value);
+  const { value, isLoading, error } = useSelector((state) => state.items);
 
   return (
     <div>
       <h3>ITEMS COMPONENT</h3>
-      {items.map((item) => (
+      {error && <p>{error}</p>}
+      {isLoading && <p>Loading...</p>}
+      {value.length > 0 && value.map((item) => (
         <Item key={uuidv4()} item={item} />
       ))}
     </div>

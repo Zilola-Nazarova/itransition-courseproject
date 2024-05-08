@@ -8,7 +8,7 @@ const Item = ({ item }) => (
 );
 
 Item.propTypes = {
-  item: PropTypes.arrayOf(PropTypes.string).isRequired,
+  item: PropTypes.string.isRequired,
 };
 
 export default Item;
