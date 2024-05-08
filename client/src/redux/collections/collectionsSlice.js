@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const COLLECTIONS_URL = 'https://itransition-courseproject-tljv.onrender.com/collections';
+const BASE_URL = process.env.REACT_APP_API_ENDPOINT || 'https://itransition-courseproject-tljv.onrender.com';
+const COLLECTIONS_URL = `${BASE_URL}/collections`;
 
 export const getCollections = createAsyncThunk(
   'collections/getCollections',
