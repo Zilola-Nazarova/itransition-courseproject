@@ -1,12 +1,15 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
 import { getCollections } from './redux/collections/collectionsSlice';
 import { getItems } from './redux/items/itemsSlice';
 
-import Items from './components/items/Items';
-import Collections from './components/collections/Collections';
-import Form from './components/form/Form';
+import CollectionsPage from './routes/CollectionsPage';
+import ItemsPage from './routes/ItemsPage';
+import HomePage from './routes/HomePage';
+import Layout from './routes/Layout';
+import NotFound from './routes/NotFound';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -16,29 +19,16 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <>
-      <nav>
-        <h1>MY CATALOGUE</h1>
-      </nav>
-      <section id="collections">
-        <h2>
-          COLLECTIONS:
-        </h2>
-        <Collections />
-      </section>
-      <section id="items">
-        <h2>
-          ITEMS:
-        </h2>
-        <Items />
-      </section>
-      <section id="form">
-        <h2>
-          FORM:
-        </h2>
-        <Form />
-      </section>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="collections" element={<CollectionsPage />} />
+          <Route path="items" element={<ItemsPage />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 

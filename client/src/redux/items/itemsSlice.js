@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const ITEMS_URL = 'http://localhost:5000/items';
+const BASE_URL = process.env.REACT_APP_API_ENDPOINT || 'https://itransition-courseproject-tljv.onrender.com';
+const ITEMS_URL = `${BASE_URL}/items`;
 
 export const getItems = createAsyncThunk(
   'items/getItems',
