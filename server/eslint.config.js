@@ -27,13 +27,15 @@ export default [
     ],
     parser: '@babel/eslint-parser',
     parserOptions: {
-      ecmaVersion: 2018,
-      sourceType: 'module',
-      allowImportExportEverywhere: true
+      ecmaVersion: 2020,
+      sourceType: 'module'
     },
     rules: {
       semi: [2, 'always'],
-      'import/no-unresolved': 'off'
+      'import/no-unresolved': 'off',
+      'n/no-unpublished-import': ['error', {
+        allowModules: ['@eslint/eslintrc']
+      }]
     },
     ignorePatterns: [
       'dist/',

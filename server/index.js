@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import postRoutes from './routes/post.js';
 import collectionRoutes from './routes/collection.js';
 import itemRoutes from './routes/item.js';
 
