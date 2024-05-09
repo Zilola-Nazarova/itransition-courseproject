@@ -1,13 +1,16 @@
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const User = ({ user }) => {
   const { id, name } = user;
   return (
-    <div>
-      <p>SINGLE USER</p>
-      <p>{id}</p>
-      <p>{name}</p>
-    </div>
+    <Link to={`${user.id}`}>
+      <div>
+        <p>SINGLE USER</p>
+        <p>{id}</p>
+        <p>{name}</p>
+      </div>
+    </Link>
   );
 };
 

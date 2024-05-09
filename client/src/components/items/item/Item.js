@@ -1,14 +1,17 @@
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const Item = ({ item }) => {
   const { id, name } = item;
 
   return (
-    <div>
-      <p>SINGLE ITEM</p>
-      <p>{id}</p>
-      <p>{name}</p>
-    </div>
+    <Link to={`${item.id}`}>
+      <div>
+        <p>SINGLE ITEM</p>
+        <p>{id}</p>
+        <p>{name}</p>
+      </div>
+    </Link>
   );
 };
 

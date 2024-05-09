@@ -1,14 +1,17 @@
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const Collection = ({ collection }) => {
   const { id, name } = collection;
 
   return (
-    <div>
-      <p>SINGLE COLLECTION</p>
-      <p>{id}</p>
-      <p>{name}</p>
-    </div>
+    <Link to={`${collection.id}`}>
+      <div>
+        <p>SINGLE COLLECTION</p>
+        <p>{id}</p>
+        <p>{name}</p>
+      </div>
+    </Link>
   );
 };
 
