@@ -38,7 +38,11 @@ const initialState = {
 export const itemsSlice = createSlice({
   name: 'items',
   initialState,
-  reducers: {},
+  reducers: {
+    createItem: (state, action) => {
+      state.value.push(action.payload);
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(getItems.pending, (state) => {
@@ -56,5 +60,7 @@ export const itemsSlice = createSlice({
       });
   },
 });
+
+export const { createItem } = itemsSlice.actions;
 
 export default itemsSlice.reducer;

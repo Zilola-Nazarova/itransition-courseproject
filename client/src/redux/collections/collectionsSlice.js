@@ -38,7 +38,11 @@ const initialState = {
 export const collectionsSlice = createSlice({
   name: 'collections',
   initialState,
-  reducers: {},
+  reducers: {
+    createCollection: (state, action) => {
+      state.value.push(action.payload);
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(getCollections.pending, (state) => {
@@ -56,5 +60,7 @@ export const collectionsSlice = createSlice({
       });
   },
 });
+
+export const { createCollection } = collectionsSlice.actions;
 
 export default collectionsSlice.reducer;
