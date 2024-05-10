@@ -32,15 +32,18 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
-          <Route path="users" element={<UsersPage />} />
+          <Route path="users" element={<UsersPage />}>
+            <Route path="form" element={<NewUser />} />
+          </Route>
           <Route path="users/:id" element={<UserPage />} />
-          <Route path="users/form" element={<NewUser />} />
-          <Route path="collections" element={<CollectionsPage />} />
+          <Route path="collections" element={<CollectionsPage />}>
+            <Route path="form" element={<NewCollection />} />
+          </Route>
           <Route path="collections/:id" element={<CollectionPage />} />
-          <Route path="collections/form" element={<NewCollection />} />
-          <Route path="items" element={<ItemsPage />} />
+          <Route path="items" element={<ItemsPage />}>
+            <Route path="form" element={<NewItem />} />
+          </Route>
           <Route path="items/:id" element={<ItemPage />} />
-          <Route path="items/form" element={<NewItem />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
