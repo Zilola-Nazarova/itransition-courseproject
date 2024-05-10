@@ -1,13 +1,12 @@
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const Item = ({ item }) => {
-  const { id, name } = item;
-
+const User = ({ user }) => {
+  const { id, name } = user;
   return (
-    <Link to={`${item.id}`}>
+    <Link to={`${user.id}`}>
       <div>
-        <p>SINGLE ITEM</p>
+        <p>SINGLE USER</p>
         <p>{id}</p>
         <p>{name}</p>
       </div>
@@ -15,11 +14,11 @@ const Item = ({ item }) => {
   );
 };
 
-Item.propTypes = {
-  item: PropTypes.shape({
+User.propTypes = {
+  user: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-export default Item;
+export default User;

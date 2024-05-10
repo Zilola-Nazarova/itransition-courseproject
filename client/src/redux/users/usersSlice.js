@@ -2,13 +2,13 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const BASE_URL = process.env.REACT_APP_API_ENDPOINT || 'https://itransition-courseproject-tljv.onrender.com';
-const COLLECTIONS_URL = `${BASE_URL}/collections`;
+const USERS_URL = `${BASE_URL}/users`;
 
-export const getCollections = createAsyncThunk(
-  'collections/getCollections',
+export const getUsers = createAsyncThunk(
+  'users/getUsers',
   async (_, thunkAPI) => {
     try {
-      const resp = await axios.get(COLLECTIONS_URL);
+      const resp = await axios.get(USERS_URL);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -20,47 +20,47 @@ const initialState = {
   value: [
     {
       id: 1,
-      name: 'Collection #1',
+      name: 'User #1',
     },
     {
       id: 2,
-      name: 'Collection #2',
+      name: 'User #2',
     },
     {
       id: 3,
-      name: 'Collection #3',
+      name: 'User #3',
     },
   ],
   isLoading: false,
   error: undefined,
 };
 
-export const collectionsSlice = createSlice({
-  name: 'collections',
+export const usersSlice = createSlice({
+  name: 'users',
   initialState,
   reducers: {
-    createCollection: (state, action) => {
+    createUser: (state, action) => {
       state.value.push(action.payload);
     },
   },
   extraReducers(builder) {
     builder
-      .addCase(getCollections.pending, (state) => {
+      .addCase(getUsers.pending, (state) => {
         state.isLoading = true;
         state.error = false;
       })
-      .addCase(getCollections.fulfilled, (state, action) => {
+      .addCase(getUsers.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = false;
         state.value = action.payload;
       })
-      .addCase(getCollections.rejected, (state, action) => {
+      .addCase(getUsers.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
   },
 });
 
-export const { createCollection } = collectionsSlice.actions;
+export const { createUser } = usersSlice.actions;
 
-export default collectionsSlice.reducer;
+export default usersSlice.reducer;
