@@ -17,20 +17,7 @@ export const getCollections = createAsyncThunk(
 );
 
 const initialState = {
-  value: [
-    {
-      id: 1,
-      name: 'Collection #1',
-    },
-    {
-      id: 2,
-      name: 'Collection #2',
-    },
-    {
-      id: 3,
-      name: 'Collection #3',
-    },
-  ],
+  value: [],
   isLoading: false,
   error: undefined,
 };
