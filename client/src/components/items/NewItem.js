@@ -8,15 +8,16 @@ const NewItem = () => {
     id: '',
     name: '',
   });
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createItem(itemData));
-  };
   const clear = () => {
     setItemData({
       id: '',
       name: '',
     });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(createItem(itemData));
+    clear();
   };
 
   return (

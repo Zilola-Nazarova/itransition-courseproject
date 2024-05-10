@@ -8,15 +8,16 @@ const NewUser = () => {
     id: '',
     name: '',
   });
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createUser(userData));
-  };
   const clear = () => {
     setUserData({
       id: '',
       name: '',
     });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(createUser(userData));
+    clear();
   };
 
   return (

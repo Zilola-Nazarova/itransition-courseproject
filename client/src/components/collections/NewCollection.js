@@ -8,15 +8,16 @@ const NewCollection = () => {
     id: '',
     name: '',
   });
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createCollection(collectionData));
-  };
   const clear = () => {
     setCollectionData({
       id: '',
       name: '',
     });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(createCollection(collectionData));
+    clear();
   };
 
   return (
