@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createUser } from '../../redux/users/usersSlice';
+import { postUser } from '../../redux/users/usersSlice';
 
 const NewUser = () => {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const NewUser = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createUser(userData));
+    dispatch(postUser(userData));
     clear();
   };
 

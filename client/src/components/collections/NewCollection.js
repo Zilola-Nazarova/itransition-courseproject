@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createCollection } from '../../redux/collections/collectionsSlice';
+import { postCollection } from '../../redux/collections/collectionsSlice';
 
 const NewCollection = () => {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const NewCollection = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createCollection(collectionData));
+    dispatch(postCollection(collectionData));
     clear();
   };
 

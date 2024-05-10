@@ -16,6 +16,18 @@ export const getCollections = createAsyncThunk(
   },
 );
 
+export const postCollection = createAsyncThunk(
+  'collections/postCollection',
+  async (newCollection, thunkAPI) => {
+    try {
+      const resp = await axios.post(COLLECTIONS_URL, newCollection);
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
 const initialState = {
   value: [],
   isLoading: false,
@@ -42,6 +54,19 @@ export const collectionsSlice = createSlice({
         state.value = action.payload;
       })
       .addCase(getCollections.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(postCollection.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(postCollection.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = false;
+        state.value.push(action.payload);
+      })
+      .addCase(postCollection.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

@@ -16,6 +16,18 @@ export const getItems = createAsyncThunk(
   },
 );
 
+export const postItem = createAsyncThunk(
+  'items/postItem',
+  async (newItem, thunkAPI) => {
+    try {
+      const resp = await axios.post(ITEMS_URL, newItem);
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
 const initialState = {
   value: [],
   isLoading: false,
@@ -42,6 +54,19 @@ export const itemsSlice = createSlice({
         state.value = action.payload;
       })
       .addCase(getItems.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(postItem.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(postItem.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = false;
+        state.value.push(action.payload);
+      })
+      .addCase(postItem.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

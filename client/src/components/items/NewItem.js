@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createItem } from '../../redux/items/itemsSlice';
+import { postItem } from '../../redux/items/itemsSlice';
 
 const NewItem = () => {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const NewItem = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createItem(itemData));
+    dispatch(postItem(itemData));
     clear();
   };
 
