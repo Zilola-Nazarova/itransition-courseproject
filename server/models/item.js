@@ -5,6 +5,6 @@ const itemSchema = mongoose.Schema({
   description: String
 });
 
-const ItemMessage = mongoose.model('ItemMessage', itemSchema);
+const Item = mongoose.model('Item', itemSchema);
 
-export default ItemMessage;
+export default Item;
