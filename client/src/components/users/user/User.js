@@ -2,13 +2,13 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const User = ({ user }) => {
-  const { id, name } = user;
+  const { name, email } = user;
   return (
-    <Link to={`${user.id}`}>
+    <Link to={`${user._id}`}>
       <div>
         <p>SINGLE USER</p>
-        <p>{id}</p>
         <p>{name}</p>
+        <p>{email}</p>
       </div>
     </Link>
   );
@@ -16,8 +16,9 @@ const User = ({ user }) => {
 
 User.propTypes = {
   user: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
   }).isRequired,
 };
 
