@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 const ItemDetails = () => {
   const { id } = useParams();
   const { value, isLoading, error } = useSelector((state) => state.items);
-  const item = value.find((item) => item.id === Number(id));
+  const item = value.find((item) => item._id === id);
 
   return (
     <div>
@@ -13,8 +13,9 @@ const ItemDetails = () => {
       {isLoading && <p>Loading...</p>}
       {item ? (
         <>
-          <h3>{item.name}</h3>
-          <h4>{item.id}</h4>
+          <h3>{item._id}</h3>
+          <h3>{item.title}</h3>
+          <h4>{item.description}</h4>
         </>
       ) : (
         <p>

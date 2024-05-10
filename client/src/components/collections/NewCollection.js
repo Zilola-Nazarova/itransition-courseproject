@@ -5,13 +5,13 @@ import { createCollection } from '../../redux/collections/collectionsSlice';
 const NewCollection = () => {
   const dispatch = useDispatch();
   const [collectionData, setCollectionData] = useState({
-    id: '',
-    name: '',
+    title: '',
+    description: '',
   });
   const clear = () => {
     setCollectionData({
-      id: '',
-      name: '',
+      title: '',
+      description: '',
     });
   };
   const handleSubmit = (e) => {
@@ -25,19 +25,18 @@ const NewCollection = () => {
       <h3>CREATE COLLECTION</h3>
       <form onSubmit={handleSubmit}>
         <input
-          name="id"
-          type="number"
-          placeholder="5"
-          label="id"
-          value={collectionData.id}
-          onChange={(e) => setCollectionData({ ...collectionData, id: e.target.valueAsNumber })}
+          name="title"
+          placeholder="title"
+          label="title"
+          value={collectionData.title}
+          onChange={(e) => setCollectionData({ ...collectionData, title: e.target.value })}
         />
         <input
-          name="name"
-          placeholder="Collection #5"
-          label="name"
-          value={collectionData.name}
-          onChange={(e) => setCollectionData({ ...collectionData, name: e.target.value })}
+          name="description"
+          placeholder="description"
+          label="description"
+          value={collectionData.description}
+          onChange={(e) => setCollectionData({ ...collectionData, description: e.target.value })}
         />
         <button type="submit">Submit</button>
         <button type="button" onClick={clear}>Clear</button>

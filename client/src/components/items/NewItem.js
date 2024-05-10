@@ -5,13 +5,13 @@ import { createItem } from '../../redux/items/itemsSlice';
 const NewItem = () => {
   const dispatch = useDispatch();
   const [itemData, setItemData] = useState({
-    id: '',
-    name: '',
+    title: '',
+    description: '',
   });
   const clear = () => {
     setItemData({
-      id: '',
-      name: '',
+      title: '',
+      description: '',
     });
   };
   const handleSubmit = (e) => {
@@ -25,19 +25,18 @@ const NewItem = () => {
       <h3>CREATE ITEM</h3>
       <form onSubmit={handleSubmit}>
         <input
-          name="id"
-          type="number"
-          placeholder="5"
-          label="id"
-          value={itemData.id}
-          onChange={(e) => setItemData({ ...itemData, id: e.target.valueAsNumber })}
+          name="title"
+          placeholder="title"
+          label="title"
+          value={itemData.title}
+          onChange={(e) => setItemData({ ...itemData, title: e.target.value })}
         />
         <input
-          name="name"
-          placeholder="Item #5"
-          label="name"
-          value={itemData.name}
-          onChange={(e) => setItemData({ ...itemData, name: e.target.value })}
+          name="description"
+          placeholder="description"
+          label="description"
+          value={itemData.description}
+          onChange={(e) => setItemData({ ...itemData, description: e.target.value })}
         />
         <button type="submit">Submit</button>
         <button type="button" onClick={clear}>Clear</button>

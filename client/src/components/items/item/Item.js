@@ -2,14 +2,14 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const Item = ({ item }) => {
-  const { id, name } = item;
+  const { title, description } = item;
 
   return (
-    <Link to={`${item.id}`}>
+    <Link to={`${item._id}`}>
       <div>
         <p>SINGLE ITEM</p>
-        <p>{id}</p>
-        <p>{name}</p>
+        <p>{title}</p>
+        <p>{description}</p>
       </div>
     </Link>
   );
@@ -17,8 +17,9 @@ const Item = ({ item }) => {
 
 Item.propTypes = {
   item: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
   }).isRequired,
 };
 

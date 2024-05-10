@@ -2,14 +2,14 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const Collection = ({ collection }) => {
-  const { id, name } = collection;
+  const { title, description } = collection;
 
   return (
-    <Link to={`${collection.id}`}>
+    <Link to={`${collection._id}`}>
       <div>
         <p>SINGLE COLLECTION</p>
-        <p>{id}</p>
-        <p>{name}</p>
+        <p>{title}</p>
+        <p>{description}</p>
       </div>
     </Link>
   );
@@ -17,8 +17,9 @@ const Collection = ({ collection }) => {
 
 Collection.propTypes = {
   collection: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
   }).isRequired,
 };
 

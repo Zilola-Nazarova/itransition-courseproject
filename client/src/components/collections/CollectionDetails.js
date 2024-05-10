@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 const CollectionDetails = () => {
   const { id } = useParams();
   const { value, isLoading, error } = useSelector((state) => state.collections);
-  const collection = value.find((collection) => collection.id === Number(id));
+  const collection = value.find((collection) => collection._id === id);
 
   return (
     <div>
@@ -13,8 +13,9 @@ const CollectionDetails = () => {
       {isLoading && <p>Loading...</p>}
       {collection ? (
         <>
-          <h3>{collection.name}</h3>
-          <h4>{collection.id}</h4>
+          <h3>{collection._id}</h3>
+          <h3>{collection.title}</h3>
+          <h4>{collection.description}</h4>
         </>
       ) : (
         <p>
