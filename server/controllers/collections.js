@@ -32,3 +32,14 @@ export const updateCollection = async (req, res) => {
     res.status(409).json({ message: error.message });
   }
 };
+
+export const deleteCollection = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No collection with id ${_id}`);
+  try {
+    await Collection.findByIdAndRemove(id);
+    res.status(200).json({ message: `Collections with id ${id} has been removed` });
+  } catch (error) {
+    res.status(409).json({ message: error.message });
+  }
+};

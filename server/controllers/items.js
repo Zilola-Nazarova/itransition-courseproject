@@ -32,3 +32,14 @@ export const updateItem = async (req, res) => {
     res.status(409).json({ message: error.message });
   }
 };
+
+export const deleteItem = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No item with id ${id}`);
+  try {
+    await Item.findByIdAndRemove(id);
+    res.status(200).json({ message: `Item with id ${id} has been removed` });
+  } catch (error) {
+    res.status(409).json({ message: error.message });
+  }
+};
