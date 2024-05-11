@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Item from '../models/item.js';
 
 export const getItems = async (req, res) => {
@@ -15,6 +16,18 @@ export const createItem = async (req, res) => {
   try {
     await newItem.save();
     res.status(201).json(newItem);
+  } catch (error) {
+    res.status(409).json({ message: error.message });
+  }
+};
+
+export const updateItem = async (req, res) => {
+  const { id: _id } = req.params;
+  const item = req.body;
+  if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send(`No item with id ${_id}`);
+  try {
+    const updatedItem = await Item.findByIdAndUpdate(_id, item, { new: true });
+    res.status(201).json(updatedItem);
   } catch (error) {
     res.status(409).json({ message: error.message });
   }

@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import User from '../models/user.js';
 
 export const getUsers = async (req, res) => {
@@ -15,6 +16,18 @@ export const createUser = async (req, res) => {
   try {
     await newUser.save();
     res.status(201).json(newUser);
+  } catch (error) {
+    res.status(409).json({ message: error.message });
+  }
+};
+
+export const updateUser = async (req, res) => {
+  const { id: _id } = req.params;
+  const user = req.body;
+  if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send(`No user with id ${_id}`);
+  try {
+    const updatedUser = await User.findByIdAndUpdate(_id, user, { new: true });
+    res.status(201).json(updatedUser);
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
