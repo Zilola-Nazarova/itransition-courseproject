@@ -16,21 +16,44 @@ export const getItems = createAsyncThunk(
   },
 );
 
+export const postItem = createAsyncThunk(
+  'items/postItem',
+  async (newItem, thunkAPI) => {
+    try {
+      const resp = await axios.post(ITEMS_URL, newItem);
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
+export const updateItem = createAsyncThunk(
+  'items/updateItem',
+  async (updatedItem, thunkAPI) => {
+    try {
+      const resp = await axios.patch(`${ITEMS_URL}/${updatedItem._id}`, updatedItem);
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
+export const deleteItem = createAsyncThunk(
+  'items/deleteItem',
+  async (id, thunkAPI) => {
+    try {
+      const resp = await axios.patch(`${ITEMS_URL}/${id}`);
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
 const initialState = {
-  value: [
-    {
-      id: 1,
-      name: 'Item #1',
-    },
-    {
-      id: 2,
-      name: 'Item #2',
-    },
-    {
-      id: 3,
-      name: 'Item #3',
-    },
-  ],
+  value: [],
   isLoading: false,
   error: undefined,
 };
@@ -55,6 +78,49 @@ export const itemsSlice = createSlice({
         state.value = action.payload;
       })
       .addCase(getItems.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(postItem.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(postItem.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = false;
+        state.value.push(action.payload);
+      })
+      .addCase(postItem.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateItem.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(updateItem.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = false;
+        state.value = state.value.map((item) => (
+          item._id === action.payload._id ? action.payload : item
+        ));
+      })
+      .addCase(updateItem.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(deleteItem.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(deleteItem.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = false;
+        state.value = state.value.filter((item) => (
+          item._id !== action.payload._id
+        ));
+      })
+      .addCase(deleteItem.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

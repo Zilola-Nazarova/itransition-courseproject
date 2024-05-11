@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
-// import { getUsers } from './redux/users/usersSlice';
-// import { getCollections } from './redux/collections/collectionsSlice';
-// import { getItems } from './redux/items/itemsSlice';
+import { getUsers } from './redux/users/usersSlice';
+import { getCollections } from './redux/collections/collectionsSlice';
+import { getItems } from './redux/items/itemsSlice';
 
 import CollectionsPage from './routes/CollectionsPage';
 import CollectionPage from './routes/CollectionPage';
@@ -22,9 +22,9 @@ import NotFound from './routes/NotFound';
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    // dispatch(getUsers());
-    // dispatch(getCollections());
-    // dispatch(getItems());
+    dispatch(getUsers());
+    dispatch(getCollections());
+    dispatch(getItems());
   }, [dispatch]);
 
   return (

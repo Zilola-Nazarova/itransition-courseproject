@@ -5,6 +5,6 @@ const collectionSchema = mongoose.Schema({
   description: String
 });
 
-const CollectionMessage = mongoose.model('CollectionMessage', collectionSchema);
+const Collection = mongoose.model('Collection', collectionSchema);
 
-export default CollectionMessage;
+export default Collection;

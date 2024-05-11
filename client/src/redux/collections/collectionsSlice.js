@@ -16,21 +16,44 @@ export const getCollections = createAsyncThunk(
   },
 );
 
+export const postCollection = createAsyncThunk(
+  'collections/postCollection',
+  async (newCollection, thunkAPI) => {
+    try {
+      const resp = await axios.post(COLLECTIONS_URL, newCollection);
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
+export const updateCollection = createAsyncThunk(
+  'collections/updateCollection',
+  async (updatedCollection, thunkAPI) => {
+    try {
+      const resp = await axios.patch(`${COLLECTIONS_URL}/${updatedCollection._id}`, updatedCollection);
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
+export const deleteCollection = createAsyncThunk(
+  'collections/deleteCollection',
+  async (id, thunkAPI) => {
+    try {
+      const resp = await axios.patch(`${COLLECTIONS_URL}/${id}`);
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
 const initialState = {
-  value: [
-    {
-      id: 1,
-      name: 'Collection #1',
-    },
-    {
-      id: 2,
-      name: 'Collection #2',
-    },
-    {
-      id: 3,
-      name: 'Collection #3',
-    },
-  ],
+  value: [],
   isLoading: false,
   error: undefined,
 };
@@ -55,6 +78,49 @@ export const collectionsSlice = createSlice({
         state.value = action.payload;
       })
       .addCase(getCollections.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(postCollection.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(postCollection.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = false;
+        state.value.push(action.payload);
+      })
+      .addCase(postCollection.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateCollection.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(updateCollection.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = false;
+        state.value = state.value.map((collection) => (
+          collection._id === action.payload._id ? action.payload : collection
+        ));
+      })
+      .addCase(updateCollection.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(deleteCollection.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(deleteCollection.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = false;
+        state.value = state.value.filter((collection) => (
+          collection._id !== action.payload._id
+        ));
+      })
+      .addCase(deleteCollection.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

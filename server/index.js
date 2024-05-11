@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import userRoutes from './routes/user.js';
 import collectionRoutes from './routes/collection.js';
 import itemRoutes from './routes/item.js';
 
@@ -13,6 +14,7 @@ app.use(bodyParser.json({ limit: '30mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(cors());
 
+app.use('/users', userRoutes);
 app.use('/collections', collectionRoutes);
 app.use('/items', itemRoutes);
 
