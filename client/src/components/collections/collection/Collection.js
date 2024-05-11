@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { updateCollection } from '../../../redux/collections/collectionsSlice';
+import { updateCollection, deleteCollection } from '../../../redux/collections/collectionsSlice';
 
 const Collection = ({ collection }) => {
   const dispatch = useDispatch();
@@ -46,6 +46,7 @@ const Collection = ({ collection }) => {
           <button type="button" onClick={() => setOnEdit(true)}>Edit</button>
         </>
       )}
+      <button type="button" onClick={() => dispatch(deleteCollection(_id))}>Delete</button>
     </div>
   );
 };

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { updateItem } from '../../../redux/items/itemsSlice';
+import { updateItem, deleteItem } from '../../../redux/items/itemsSlice';
 
 const Item = ({ item }) => {
   const dispatch = useDispatch();
@@ -46,6 +46,7 @@ const Item = ({ item }) => {
           <button type="button" onClick={() => setOnEdit(true)}>Edit</button>
         </>
       )}
+      <button type="button" onClick={() => dispatch(deleteItem(_id))}>Delete</button>
     </div>
   );
 };

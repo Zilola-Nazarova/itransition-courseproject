@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { updateUser } from '../../../redux/users/usersSlice';
+import { updateUser, deleteUser } from '../../../redux/users/usersSlice';
 
 const User = ({ user }) => {
   const dispatch = useDispatch();
@@ -46,6 +46,7 @@ const User = ({ user }) => {
           <button type="button" onClick={() => setOnEdit(true)}>Edit</button>
         </>
       )}
+      <button type="button" onClick={() => dispatch(deleteUser(_id))}>Delete</button>
     </div>
   );
 };
