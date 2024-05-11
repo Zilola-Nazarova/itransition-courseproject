@@ -28,6 +28,18 @@ export const postUser = createAsyncThunk(
   },
 );
 
+export const updateUser = createAsyncThunk(
+  'users/updateUser',
+  async (updatedUser, thunkAPI) => {
+    try {
+      const resp = await axios.patch(`${USERS_URL}/${updatedUser._id}`, updatedUser);
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
 const initialState = {
   value: [],
   isLoading: false,
@@ -67,6 +79,21 @@ export const usersSlice = createSlice({
         state.value.push(action.payload);
       })
       .addCase(postUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = false;
+        state.value = state.value.map((user) => (
+          user._id === action.payload._id ? action.payload : user
+        ));
+      })
+      .addCase(updateUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

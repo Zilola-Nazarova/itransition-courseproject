@@ -28,6 +28,18 @@ export const postItem = createAsyncThunk(
   },
 );
 
+export const updateItem = createAsyncThunk(
+  'items/updateItem',
+  async (updatedItem, thunkAPI) => {
+    try {
+      const resp = await axios.patch(`${ITEMS_URL}/${updatedItem._id}`, updatedItem);
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
 const initialState = {
   value: [],
   isLoading: false,
@@ -67,6 +79,21 @@ export const itemsSlice = createSlice({
         state.value.push(action.payload);
       })
       .addCase(postItem.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateItem.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(updateItem.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = false;
+        state.value = state.value.map((item) => (
+          item._id === action.payload._id ? action.payload : item
+        ));
+      })
+      .addCase(updateItem.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
