@@ -40,6 +40,18 @@ export const updateItem = createAsyncThunk(
   },
 );
 
+export const deleteItem = createAsyncThunk(
+  'items/deleteItem',
+  async (id, thunkAPI) => {
+    try {
+      const resp = await axios.patch(`${ITEMS_URL}/${id}`);
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
 const initialState = {
   value: [],
   isLoading: false,
@@ -94,6 +106,21 @@ export const itemsSlice = createSlice({
         ));
       })
       .addCase(updateItem.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(deleteItem.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(deleteItem.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = false;
+        state.value = state.value.filter((item) => (
+          item._id !== action.payload._id
+        ));
+      })
+      .addCase(deleteItem.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

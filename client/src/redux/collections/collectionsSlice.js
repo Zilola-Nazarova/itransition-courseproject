@@ -40,6 +40,18 @@ export const updateCollection = createAsyncThunk(
   },
 );
 
+export const deleteCollection = createAsyncThunk(
+  'collections/deleteCollection',
+  async (id, thunkAPI) => {
+    try {
+      const resp = await axios.patch(`${COLLECTIONS_URL}/${id}`);
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
 const initialState = {
   value: [],
   isLoading: false,
@@ -94,6 +106,21 @@ export const collectionsSlice = createSlice({
         ));
       })
       .addCase(updateCollection.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(deleteCollection.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(deleteCollection.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = false;
+        state.value = state.value.filter((collection) => (
+          collection._id !== action.payload._id
+        ));
+      })
+      .addCase(deleteCollection.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
