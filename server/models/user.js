@@ -1,4 +1,7 @@
 import mongoose from 'mongoose';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const userSchema = mongoose.Schema(
   {
@@ -28,6 +31,12 @@ const userSchema = mongoose.Schema(
     timestamps: true
   }
 );
+
+userSchema.plugin(AutoIncrement, {
+  id: 'user_seq',
+  inc_field: 'seq_no',
+  start_seq: 0
+});
 
 const User = mongoose.model('User', userSchema);
 
