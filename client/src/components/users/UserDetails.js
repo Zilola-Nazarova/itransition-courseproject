@@ -14,8 +14,11 @@ const UserDetails = () => {
       {user ? (
         <>
           <h3>{user._id}</h3>
-          <h3>{user.name}</h3>
+          <h3>{user.username}</h3>
           <h4>{user.email}</h4>
+          <h4>{user.password}</h4>
+          <h4>{user.role}</h4>
+          <h4>{user.active}</h4>
         </>
       ) : (
         <p>
