@@ -34,11 +34,11 @@ export const updateItem = async (req, res) => {
 };
 
 export const deleteItem = async (req, res) => {
-  const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No item with id ${id}`);
+  const { id: _id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send(`No item with id ${_id}`);
   try {
-    await Item.findByIdAndRemove(id);
-    res.status(200).json({ message: `Item with id ${id} has been removed` });
+    await Item.findByIdAndDelete(_id);
+    res.status(200).json({ message: `Item with id ${_id} has been deleted`, _id });
   } catch (error) {
     res.status(409).json({ message: error.message });
   }

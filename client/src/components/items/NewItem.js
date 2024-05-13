@@ -4,16 +4,12 @@ import { postItem } from '../../redux/items/itemsSlice';
 
 const NewItem = () => {
   const dispatch = useDispatch();
-  const [itemData, setItemData] = useState({
+  const emptyItemObj = {
     title: '',
-    description: '',
-  });
-  const clear = () => {
-    setItemData({
-      title: '',
-      description: '',
-    });
+    text: '',
   };
+  const [itemData, setItemData] = useState(emptyItemObj);
+  const clear = () => setItemData(emptyItemObj);
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(postItem(itemData));
@@ -25,18 +21,16 @@ const NewItem = () => {
       <h3>CREATE ITEM</h3>
       <form onSubmit={handleSubmit}>
         <input
-          name="title"
+          required
           placeholder="title"
-          label="title"
           value={itemData.title}
           onChange={(e) => setItemData({ ...itemData, title: e.target.value })}
         />
         <input
-          name="description"
-          placeholder="description"
-          label="description"
-          value={itemData.description}
-          onChange={(e) => setItemData({ ...itemData, description: e.target.value })}
+          required
+          placeholder="text"
+          value={itemData.text}
+          onChange={(e) => setItemData({ ...itemData, text: e.target.value })}
         />
         <button type="submit">Submit</button>
         <button type="button" onClick={clear}>Clear</button>

@@ -15,7 +15,7 @@ const ItemDetails = () => {
         <>
           <h3>{item._id}</h3>
           <h3>{item.title}</h3>
-          <h4>{item.description}</h4>
+          <h4>{item.text}</h4>
         </>
       ) : (
         <p>

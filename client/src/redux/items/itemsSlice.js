@@ -11,7 +11,7 @@ export const getItems = createAsyncThunk(
       const resp = await axios.get(ITEMS_URL);
       return resp.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   },
 );
@@ -23,7 +23,7 @@ export const postItem = createAsyncThunk(
       const resp = await axios.post(ITEMS_URL, newItem);
       return resp.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   },
 );
@@ -35,7 +35,7 @@ export const updateItem = createAsyncThunk(
       const resp = await axios.patch(`${ITEMS_URL}/${updatedItem._id}`, updatedItem);
       return resp.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   },
 );
@@ -44,10 +44,10 @@ export const deleteItem = createAsyncThunk(
   'items/deleteItem',
   async (id, thunkAPI) => {
     try {
-      const resp = await axios.patch(`${ITEMS_URL}/${id}`);
+      const resp = await axios.delete(`${ITEMS_URL}/${id}`);
       return resp.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   },
 );

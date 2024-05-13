@@ -5,6 +5,9 @@ const CollectionDetails = () => {
   const { id } = useParams();
   const { value, isLoading, error } = useSelector((state) => state.collections);
   const collection = value.find((collection) => collection._id === id);
+  const {
+    _id, title, text, category, image,
+  } = collection;
 
   return (
     <div>
@@ -13,9 +16,11 @@ const CollectionDetails = () => {
       {isLoading && <p>Loading...</p>}
       {collection ? (
         <>
-          <h3>{collection._id}</h3>
-          <h3>{collection.title}</h3>
-          <h4>{collection.description}</h4>
+          <h3>{_id}</h3>
+          <h3>{title}</h3>
+          <h4>{text}</h4>
+          <h4>{category}</h4>
+          {image ? <img src={image} alt={title} /> : <p>No image provided</p>}
         </>
       ) : (
         <p>

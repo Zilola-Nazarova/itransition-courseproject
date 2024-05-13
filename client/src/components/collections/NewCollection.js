@@ -1,43 +1,60 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import FileBase from 'react-file-base64';
+import { v4 as uuidv4 } from 'uuid';
 import { postCollection } from '../../redux/collections/collectionsSlice';
 
 const NewCollection = () => {
   const dispatch = useDispatch();
-  const [collectionData, setCollectionData] = useState({
+  const emptyCollectionObj = {
     title: '',
-    description: '',
-  });
-  const clear = () => {
-    setCollectionData({
-      title: '',
-      description: '',
-    });
+    text: '',
+    category: '',
+    image: '',
   };
+  const [collectionData, setCollectionData] = useState(emptyCollectionObj);
+  const clear = () => setCollectionData(emptyCollectionObj);
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(postCollection(collectionData));
     clear();
   };
+  const categories = ['cat1', 'cat2', 'cat3', 'other'];
 
   return (
     <>
       <h3>CREATE COLLECTION</h3>
       <form onSubmit={handleSubmit}>
         <input
-          name="title"
+          required
           placeholder="title"
-          label="title"
           value={collectionData.title}
           onChange={(e) => setCollectionData({ ...collectionData, title: e.target.value })}
         />
         <input
-          name="description"
-          placeholder="description"
-          label="description"
-          value={collectionData.description}
-          onChange={(e) => setCollectionData({ ...collectionData, description: e.target.value })}
+          required
+          placeholder="text"
+          value={collectionData.text}
+          onChange={(e) => setCollectionData({ ...collectionData, text: e.target.value })}
         />
+        <select
+          required
+          placeholder="category"
+          onChange={(e) => setCollectionData({ ...collectionData, category: e.target.value })}
+          value={collectionData.category}
+        >
+          <option value="">Please select a category</option>
+          {categories.map((category) => (
+            <option key={uuidv4()} value={category}>{category}</option>
+          ))}
+        </select>
+        <div>
+          <FileBase
+            type="file"
+            multiple={false}
+            onDone={({ base64 }) => setCollectionData({ ...collectionData, image: base64 })}
+          />
+        </div>
         <button type="submit">Submit</button>
         <button type="button" onClick={clear}>Clear</button>
       </form>
