@@ -11,7 +11,7 @@ export const getCollections = createAsyncThunk(
       const resp = await axios.get(COLLECTIONS_URL);
       return resp.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   },
 );
@@ -23,7 +23,7 @@ export const postCollection = createAsyncThunk(
       const resp = await axios.post(COLLECTIONS_URL, newCollection);
       return resp.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   },
 );
@@ -35,7 +35,7 @@ export const updateCollection = createAsyncThunk(
       const resp = await axios.patch(`${COLLECTIONS_URL}/${updatedCollection._id}`, updatedCollection);
       return resp.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   },
 );
@@ -47,7 +47,7 @@ export const deleteCollection = createAsyncThunk(
       const resp = await axios.delete(`${COLLECTIONS_URL}/${id}`);
       return resp.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   },
 );

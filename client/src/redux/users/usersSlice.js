@@ -11,7 +11,7 @@ export const getUsers = createAsyncThunk(
       const resp = await axios.get(USERS_URL);
       return resp.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   },
 );
@@ -23,7 +23,7 @@ export const postUser = createAsyncThunk(
       const resp = await axios.post(USERS_URL, newUser);
       return resp.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   },
 );
@@ -35,7 +35,7 @@ export const updateUser = createAsyncThunk(
       const resp = await axios.patch(`${USERS_URL}/${updatedUser._id}`, updatedUser);
       return resp.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   },
 );
@@ -47,7 +47,7 @@ export const deleteUser = createAsyncThunk(
       const resp = await axios.delete(`${USERS_URL}/${id}`);
       return resp.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   },
 );
