@@ -34,11 +34,11 @@ export const updateCollection = async (req, res) => {
 };
 
 export const deleteCollection = async (req, res) => {
-  const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No collection with id ${id}`);
+  const { id: _id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send(`No collection with id ${_id}`);
   try {
-    await Collection.findByIdAndDelete(id);
-    res.status(200).json({ message: `Collection with id ${id} has been deleted` });
+    await Collection.findByIdAndDelete(_id);
+    res.status(200).json({ message: `Collection with id ${_id} has been deleted`, _id });
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
