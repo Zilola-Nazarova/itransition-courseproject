@@ -44,7 +44,7 @@ export const deleteUser = createAsyncThunk(
   'users/deleteUser',
   async (id, thunkAPI) => {
     try {
-      const resp = await axios.patch(`${USERS_URL}/${id}`);
+      const resp = await axios.delete(`${USERS_URL}/${id}`);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

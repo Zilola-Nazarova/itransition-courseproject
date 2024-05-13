@@ -44,7 +44,7 @@ export const deleteCollection = createAsyncThunk(
   'collections/deleteCollection',
   async (id, thunkAPI) => {
     try {
-      const resp = await axios.patch(`${COLLECTIONS_URL}/${id}`);
+      const resp = await axios.delete(`${COLLECTIONS_URL}/${id}`);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

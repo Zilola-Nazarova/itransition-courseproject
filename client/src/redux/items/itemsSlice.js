@@ -44,7 +44,7 @@ export const deleteItem = createAsyncThunk(
   'items/deleteItem',
   async (id, thunkAPI) => {
     try {
-      const resp = await axios.patch(`${ITEMS_URL}/${id}`);
+      const resp = await axios.delete(`${ITEMS_URL}/${id}`);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

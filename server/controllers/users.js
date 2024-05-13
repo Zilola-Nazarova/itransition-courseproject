@@ -37,8 +37,8 @@ export const deleteUser = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No user with id ${id}`);
   try {
-    await User.findByIdAndRemove(id);
-    res.status(200).json({ message: `User with id ${id} has been removed` });
+    await User.findByIdAndDelete(id);
+    res.status(200).json({ message: `User with id ${id} has been deleted` });
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
