@@ -7,8 +7,8 @@ import { updateItem, deleteItem } from '../../../redux/items/itemsSlice';
 const Item = ({ item }) => {
   const dispatch = useDispatch();
   const [onEdit, setOnEdit] = useState(false);
-  const { _id, title, description } = item;
-  const [itemData, setItemData] = useState({ _id, title, description });
+  const { _id, title, text } = item;
+  const [itemData, setItemData] = useState(item);
   const handleSave = (e) => {
     e.preventDefault();
     dispatch(updateItem(itemData));
@@ -17,14 +17,16 @@ const Item = ({ item }) => {
   const updateForm = (
     <>
       <input
+        required
         placeholder={title}
         value={itemData.title}
         onChange={(e) => setItemData({ ...itemData, title: e.target.value })}
       />
       <input
-        placeholder={description}
-        value={itemData.description}
-        onChange={(e) => setItemData({ ...itemData, description: e.target.value })}
+        required
+        placeholder={text}
+        value={itemData.text}
+        onChange={(e) => setItemData({ ...itemData, text: e.target.value })}
       />
     </>
   );
@@ -40,8 +42,9 @@ const Item = ({ item }) => {
       ) : (
         <>
           <Link to={`${item._id}`}>
+            <p>{_id}</p>
             <p>{title}</p>
-            <p>{description}</p>
+            <p>{text}</p>
           </Link>
           <button type="button" onClick={() => setOnEdit(true)}>Edit</button>
         </>
@@ -55,7 +58,7 @@ Item.propTypes = {
   item: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
   }).isRequired,
 };
 
