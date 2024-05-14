@@ -6,6 +6,7 @@ const ItemsPage = () => {
   const [openForm, setOpenForm] = useState(false);
   return (
     <>
+      <h3>ITEMS COMPONENT</h3>
       <Items />
       {openForm
         ? <Link to="/items" onClick={() => setOpenForm(false)}>Close</Link>

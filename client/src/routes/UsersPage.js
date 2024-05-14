@@ -6,6 +6,7 @@ const UsersPage = () => {
   const [openForm, setOpenForm] = useState(false);
   return (
     <>
+      <h3>USERS COMPONENT</h3>
       <Users />
       {openForm
         ? <Link to="/users" onClick={() => setOpenForm(false)}>Close</Link>
