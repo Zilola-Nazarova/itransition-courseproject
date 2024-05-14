@@ -1,15 +1,15 @@
-import { Link, Outlet} from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import Collections from '../components/collections/Collections';
 
 const CollectionsPage = () => {
-  const [openForm, setOpenForm] = useState(false);
+  const { pathname } = useLocation();
   return (
     <>
       <h3>COLLECTIONS COMPONENT</h3>
       <Collections />
-      {openForm
-        ? <Link to="/collections" onClick={() => setOpenForm(false)}>Close</Link>
-        : <Link to="form" onClick={() => setOpenForm(true)}>Create Collection</Link>}
+      {pathname === '/collections/form'
+        ? <Link to="/collections">Close</Link>
+        : <Link to="form">Create Collection</Link>}
       <Outlet />
     </>
   );

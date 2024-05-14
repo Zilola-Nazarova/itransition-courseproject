@@ -1,16 +1,15 @@
-import { useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import Users from '../components/users/Users';
 
 const UsersPage = () => {
-  const [openForm, setOpenForm] = useState(false);
+  const { pathname } = useLocation();
   return (
     <>
       <h3>USERS COMPONENT</h3>
       <Users />
-      {openForm
-        ? <Link to="/users" onClick={() => setOpenForm(false)}>Close</Link>
-        : <Link to="form" onClick={() => setOpenForm(true)}>Create User</Link>}
+      {pathname === '/users/form'
+        ? <Link to="/users">Close</Link>
+        : <Link to="form">Create User</Link>}
       <Outlet />
     </>
   );
