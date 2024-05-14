@@ -20,7 +20,7 @@ export const getUser = createAsyncThunk(
 );
 
 const initialState = {
-  currentUser: null,
+  currentUser: JSON.parse(localStorage.getItem('profile')) || null,
   error: undefined,
   isAuthorizing: false,
 };
@@ -28,7 +28,12 @@ const initialState = {
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      localStorage.clear();
+      state.currentUser = null;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(getUser.pending, (state) => {
@@ -47,5 +52,7 @@ export const authSlice = createSlice({
       });
   },
 });
+
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;
