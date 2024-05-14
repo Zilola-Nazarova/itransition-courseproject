@@ -1,10 +1,24 @@
 import React, { useState } from 'react';
+import { useGoogleLogin } from '@react-oauth/google';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { getUser } from '../../redux/auth/authSlice';
 import Input from './Input';
 
 const Auth = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isSignup, setIsSignup] = useState(false);
+  const [loginFailed, setLoginFailed] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword);
+  const googleLogin = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      dispatch(getUser(tokenResponse.access_token));
+      navigate('/');
+    },
+    onError: () => setLoginFailed(true),
+  });
   const handleSubmit = () => {
 
   };
@@ -17,6 +31,11 @@ const Auth = () => {
   };
   return (
     <>
+      {loginFailed && (
+        <span>
+          Google Login failed! Please, try again or login using your email.
+        </span>
+      )}
       <h1>{isSignup ? 'Sign Up' : 'Sign In'}</h1>
       lock icon
       <button type="button" onClick={switchSignup}>
@@ -56,6 +75,12 @@ const Auth = () => {
         )}
         <button type="submit">
           {isSignup ? 'Sign Up' : 'Sign In'}
+        </button>
+        <button
+          type="button"
+          onClick={() => googleLogin()}
+        >
+          Sign in with Google 🚀
         </button>
       </form>
     </>
