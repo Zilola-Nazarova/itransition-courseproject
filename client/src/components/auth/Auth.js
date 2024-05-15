@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getUser, signin, signup } from '../../redux/auth/authSlice';
 import Input from './Input';
@@ -15,8 +15,9 @@ const initialState = {
 const Auth = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { isAuthenticating, error } = useSelector((state) => state.auth);
   const [isSignup, setIsSignup] = useState(false);
-  const [loginFailed, setLoginFailed] = useState(false);
+  const [message, setMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState(initialState);
   const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -25,7 +26,7 @@ const Auth = () => {
       dispatch(getUser(tokenResponse.access_token));
       navigate('/');
     },
-    onError: () => setLoginFailed(true),
+    onError: (err) => setMessage(err),
   });
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -44,11 +45,7 @@ const Auth = () => {
   };
   return (
     <>
-      {loginFailed && (
-        <span>
-          Google Login failed! Please, try again or login using your email.
-        </span>
-      )}
+      {(isAuthenticating && 'Loading...') || error || message}
       <h1>{isSignup ? 'Sign Up' : 'Sign In'}</h1>
       lock icon
       <button type="button" onClick={switchSignup}>

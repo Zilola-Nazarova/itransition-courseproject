@@ -6,7 +6,7 @@ import Profile from './Profile';
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user, isAuthenticating, error } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const signout = () => {
     dispatch(logout());
     navigate('/auth');
@@ -15,8 +15,6 @@ const Navbar = () => {
   return (
     <nav>
       <div>
-        {isAuthenticating && <span>Logging In</span>}
-        {error && <span>{error}</span>}
         {user
           ? <Profile currentUser={user.user} signout={signout} />
           : <Link to="auth">Login</Link>}
