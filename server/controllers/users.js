@@ -66,7 +66,7 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    const { _id } = req.body;
+    const { id: _id } = req.params;
     if (!_id) {
       return res.status(400).json({ message: 'User ID required' });
     }
