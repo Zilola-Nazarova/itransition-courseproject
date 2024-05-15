@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
 import { postUser } from '../../redux/users/usersSlice';
+import Radio from './Radio';
 
 const NewUser = () => {
   const dispatch = useDispatch();
@@ -9,11 +9,14 @@ const NewUser = () => {
     username: '',
     email: '',
     password: '',
-    role: '',
+    role: [],
     active: '',
   };
   const [userData, setUserData] = useState(emptyUserObj);
   const clear = () => setUserData(emptyUserObj);
+  const handleChange = (e) => {
+    setUserData({ ...userData, [e.target.name]: e.target.value });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(postUser(userData));
@@ -31,55 +34,36 @@ const NewUser = () => {
           name="username"
           placeholder="username"
           value={userData.username}
-          onChange={(e) => setUserData({ ...userData, username: e.target.value })}
+          onChange={handleChange}
         />
         <input
           required
           name="email"
           placeholder="email"
           value={userData.email}
-          onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+          onChange={handleChange}
         />
         <input
           required
+          name="password"
           placeholder="password"
           value={userData.password}
-          onChange={(e) => setUserData({ ...userData, password: e.target.value })}
+          onChange={handleChange}
         />
-        <fieldset>
-          <legend>Select a role:</legend>
-          {roles.map((role) => (
-            <label key={uuidv4()} htmlFor={role}>
-              <input
-                checked={userData.role === role}
-                type="radio"
-                name="role"
-                value={role}
-                id={role}
-                required
-                onChange={(e) => setUserData({ ...userData, role: e.target.value })}
-              />
-              {role}
-            </label>
-          ))}
-        </fieldset>
-        <fieldset>
-          <legend>Is user active?</legend>
-          {active.map((bool) => (
-            <label key={uuidv4()} htmlFor={`${bool}`}>
-              <input
-                checked={userData.active === bool}
-                type="radio"
-                name="active"
-                value={bool}
-                id={`${bool}`}
-                required
-                onChange={() => setUserData({ ...userData, active: bool })}
-              />
-              {`${bool}`}
-            </label>
-          ))}
-        </fieldset>
+        <Radio
+          legend="Select a role:"
+          options={roles}
+          name="role"
+          current={userData.role[0]}
+          handleChange={(e) => setUserData({ ...userData, role: [e.target.value] })}
+        />
+        <Radio
+          legend="Is user active?"
+          options={active}
+          name="active"
+          current={userData.active}
+          handleChange={(e, bool) => setUserData({ ...userData, active: bool })}
+        />
         <button type="submit">Submit</button>
         <button type="button" onClick={clear}>Clear</button>
       </form>
