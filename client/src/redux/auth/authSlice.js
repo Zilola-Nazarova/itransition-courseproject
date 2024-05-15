@@ -16,7 +16,7 @@ export const getUser = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
-      return { user: user.data, token };
+      return { user: user.data, token: { token, type: 'oauth/google' } };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
     }
