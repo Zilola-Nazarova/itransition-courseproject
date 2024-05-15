@@ -17,7 +17,7 @@ export const signin = async (req, res) => {
       return res.status(404).json({ message: `Invalid password` });
     }
     const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, 'test', {expiresIn: '1h'});
-    res.status(201).json({ currentUser: existingUser, token});
+    res.status(201).json({ user: existingUser, token });
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
@@ -44,7 +44,7 @@ export const signup = async (req, res) => {
     const newUser = await User.create({ username, email, password: hashedPwd });
     const token = jwt.sign({ email: newUser.email, id: newUser._id }, 'test', {expiresIn: '1h'});
     if (newUser) {
-      res.status(201).json({ newUser, token });
+      res.status(201).json({  user: newUser, token  });
     }
   } catch (error) {
     res.status(409).json({ message: error.message });

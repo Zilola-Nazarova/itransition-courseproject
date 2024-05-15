@@ -43,16 +43,15 @@ export const signup = createAsyncThunk(
       navigate('/');
       return user.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   },
 );
 
 const initialState = {
-  currentUser: JSON.parse(localStorage.getItem('profile')) || null,
-  token: undefined,
+  user: JSON.parse(localStorage.getItem('profile')) || null,
   error: undefined,
-  isAuthorizing: false,
+  isAuthenticating: false,
 };
 
 export const authSlice = createSlice({
@@ -61,53 +60,51 @@ export const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       localStorage.clear();
-      state.currentUser = null;
+      state.user = null;
     },
   },
   extraReducers(builder) {
     builder
       .addCase(getUser.pending, (state) => {
-        state.isAuthorizing = true;
+        state.isAuthenticating = true;
         state.error = false;
       })
       .addCase(getUser.fulfilled, (state, action) => {
-        state.isAuthorizing = false;
+        state.isAuthenticating = false;
         state.error = false;
-        localStorage.setItem('profile', JSON.stringify({ ...action.payload.user }));
-        state.token = action.payload.token;
-        state.currentUser = action.payload.user;
+        localStorage.setItem('profile', JSON.stringify(action.payload));
+        state.user = action.payload;
       })
       .addCase(getUser.rejected, (state, action) => {
-        state.isAuthorizing = false;
+        state.isAuthenticating = false;
         state.error = action.payload;
       })
       .addCase(signin.pending, (state) => {
-        state.isAuthorizing = true;
+        state.isAuthenticating = true;
         state.error = false;
       })
       .addCase(signin.fulfilled, (state, action) => {
-        state.isAuthorizing = false;
+        state.isAuthenticating = false;
         state.error = false;
-        localStorage.setItem('profile', JSON.stringify({ ...action.payload.currentUser }));
-        state.token = action.payload.token;
-        state.currentUser = action.payload.currentUser;
+        localStorage.setItem('profile', JSON.stringify(action.payload));
+        state.user = action.payload;
       })
       .addCase(signin.rejected, (state, action) => {
-        state.isAuthorizing = false;
+        state.isAuthenticating = false;
         state.error = action.payload;
       })
       .addCase(signup.pending, (state) => {
-        state.isAuthorizing = true;
+        state.isAuthenticating = true;
         state.error = false;
       })
       .addCase(signup.fulfilled, (state, action) => {
-        state.isAuthorizing = false;
+        state.isAuthenticating = false;
         state.error = false;
-        state.token = action.payload.token;
-        state.currentUser = action.payload.newUser;
+        localStorage.setItem('profile', JSON.stringify(action.payload));
+        state.user = action.payload;
       })
       .addCase(signup.rejected, (state, action) => {
-        state.isAuthorizing = false;
+        state.isAuthenticating = false;
         state.error = action.payload;
       });
   },
