@@ -21,7 +21,7 @@ const User = ({ user }) => {
     username,
     email,
     password,
-    role: role[0],
+    role,
     active,
   });
   const handleSave = (e) => {

@@ -9,7 +9,7 @@ const NewUser = () => {
     username: '',
     email: '',
     password: '',
-    role: [],
+    role: '',
     active: '',
   };
   const [userData, setUserData] = useState(emptyUserObj);
@@ -54,8 +54,8 @@ const NewUser = () => {
           legend="Select a role:"
           options={roles}
           name="role"
-          current={userData.role[0]}
-          handleChange={(e) => setUserData({ ...userData, role: [e.target.value] })}
+          current={userData.role}
+          handleChange={(e) => setUserData({ ...userData, role: e.target.value })}
         />
         <Radio
           legend="Is user active?"

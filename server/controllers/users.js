@@ -15,7 +15,7 @@ export const getUsers = async (req, res) => {
 export const createUser = async (req, res) => {
   try {
     const { username, email, password, role, active } = req.body;
-    if (!username || !email || !password || !Array.isArray(role) || !role.length || typeof active !== 'boolean') {
+    if (!username || !email || !password || !role || typeof active !== 'boolean') {
       return res.status(400).json({ message: 'All fields are required' });
     }
     const duplicateName = await User.findOne({ username }).lean().exec();
@@ -25,9 +25,10 @@ export const createUser = async (req, res) => {
     }
     const hashedPwd = await bcrypt.hash(password, 10);
     const userObject = { username, email, password: hashedPwd, role, active };
-    const newUser = new User(userObject);
-    await newUser.save();
-    res.status(201).json(newUser);
+    const newUser = await User.create(userObject)
+    if (newUser) {
+      res.status(201).json(newUser);
+    }
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
@@ -36,7 +37,7 @@ export const createUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const { _id, username, email, password, role, active } = req.body;
-    if (!_id || !email || !username || !Array.isArray(role) || !role.length || typeof active !== 'boolean') {
+    if (!_id || !email || !username || !role || typeof active !== 'boolean') {
       return res.status(400).json({ message: 'All fields are required' });
     }
     if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send(`No user with id ${_id}`);
