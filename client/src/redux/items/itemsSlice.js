@@ -1,14 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-
-const BASE_URL = process.env.REACT_APP_API_ENDPOINT || 'https://itransition-courseproject-tljv.onrender.com';
-const ITEMS_URL = `${BASE_URL}/items`;
+import API from '../api';
 
 export const getItems = createAsyncThunk(
   'items/getItems',
   async (_, thunkAPI) => {
     try {
-      const resp = await axios.get(ITEMS_URL);
+      const resp = await API.get('/items');
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -20,7 +17,7 @@ export const postItem = createAsyncThunk(
   'items/postItem',
   async (newItem, thunkAPI) => {
     try {
-      const resp = await axios.post(ITEMS_URL, newItem);
+      const resp = await API.post('/items', newItem);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -32,7 +29,7 @@ export const updateItem = createAsyncThunk(
   'items/updateItem',
   async (updatedItem, thunkAPI) => {
     try {
-      const resp = await axios.patch(`${ITEMS_URL}/${updatedItem._id}`, updatedItem);
+      const resp = await API.patch(`/items/${updatedItem._id}`, updatedItem);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -44,7 +41,7 @@ export const deleteItem = createAsyncThunk(
   'items/deleteItem',
   async (id, thunkAPI) => {
     try {
-      const resp = await axios.delete(`${ITEMS_URL}/${id}`);
+      const resp = await API.delete(`/items/${id}`);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);

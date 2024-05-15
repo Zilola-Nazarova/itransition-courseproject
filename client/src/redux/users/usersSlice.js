@@ -1,14 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-
-const BASE_URL = process.env.REACT_APP_API_ENDPOINT || 'https://itransition-courseproject-tljv.onrender.com';
-const USERS_URL = `${BASE_URL}/users`;
+import API from '../api';
 
 export const getUsers = createAsyncThunk(
   'users/getUsers',
   async (_, thunkAPI) => {
     try {
-      const resp = await axios.get(USERS_URL);
+      const resp = await API.get('/users');
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -20,7 +17,7 @@ export const postUser = createAsyncThunk(
   'users/postUser',
   async (newUser, thunkAPI) => {
     try {
-      const resp = await axios.post(USERS_URL, newUser);
+      const resp = await API.post('/users', newUser);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -32,7 +29,7 @@ export const updateUser = createAsyncThunk(
   'users/updateUser',
   async (updatedUser, thunkAPI) => {
     try {
-      const resp = await axios.patch(`${USERS_URL}/${updatedUser._id}`, updatedUser);
+      const resp = await API.patch(`/users/${updatedUser._id}`, updatedUser);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -44,7 +41,7 @@ export const deleteUser = createAsyncThunk(
   'users/deleteUser',
   async (id, thunkAPI) => {
     try {
-      const resp = await axios.delete(`${USERS_URL}/${id}`);
+      const resp = await API.delete(`/users/${id}`);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
