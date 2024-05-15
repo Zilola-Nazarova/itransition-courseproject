@@ -2,8 +2,15 @@ import React, { useState } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getUser } from '../../redux/auth/authSlice';
+import { getUser, signin, signup } from '../../redux/auth/authSlice';
 import Input from './Input';
+
+const initialState = {
+  username: '',
+  email: '',
+  password: '',
+  confirmedPassword: '',
+};
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -11,6 +18,7 @@ const Auth = () => {
   const [isSignup, setIsSignup] = useState(false);
   const [loginFailed, setLoginFailed] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState(initialState);
   const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword);
   const googleLogin = useGoogleLogin({
     onSuccess: (tokenResponse) => {
@@ -19,11 +27,16 @@ const Auth = () => {
     },
     onError: () => setLoginFailed(true),
   });
-  const handleSubmit = () => {
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (isSignup) {
+      dispatch(signup({ formData, navigate }));
+    } else {
+      dispatch(signin({ formData, navigate }));
+    }
   };
-  const handleChange = () => {
-
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const switchSignup = () => {
     setIsSignup((prevSignup) => !prevSignup);
@@ -49,14 +62,14 @@ const Auth = () => {
             name="username"
             placeholder="John Doe"
             handleChange={handleChange}
-            type="username"
+            type="text"
           />
         )}
         <Input
           name="email"
           placeholder="johndoe@gmail.com"
           handleChange={handleChange}
-          type="text"
+          type="email"
         />
         <Input
           name="password"
@@ -67,7 +80,7 @@ const Auth = () => {
         />
         {isSignup && (
           <Input
-            name="confirmPassword"
+            name="confirmedPassword"
             placeholder="Confirm your password"
             handleChange={handleChange}
             type="password"
