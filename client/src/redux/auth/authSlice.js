@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { getUsers } from '../users/usersSlice';
 
 const GOOGLE_API_URL = 'https://www.googleapis.com/oauth2/v3/userinfo';
 const BASE_URL = process.env.REACT_APP_API_ENDPOINT || 'https://itransition-courseproject-tljv.onrender.com';
@@ -42,7 +41,6 @@ export const signup = createAsyncThunk(
     try {
       const user = await axios.post(SIGNUP_URL, formData);
       navigate('/');
-      thunkAPI.dispatch(getUsers());
       return user.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
