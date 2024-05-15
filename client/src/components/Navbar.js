@@ -16,7 +16,7 @@ const Navbar = () => {
     <nav>
       <div>
         {isAuthenticating && <span>Logging In</span>}
-        {error && <span>Login Failed</span>}
+        {error && <span>{error}</span>}
         {currentUser
           ? <Profile currentUser={currentUser} signout={signout} />
           : <Link to="auth">Login</Link>}
