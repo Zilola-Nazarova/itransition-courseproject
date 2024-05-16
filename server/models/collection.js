@@ -20,7 +20,16 @@ const collectionSchema = mongoose.Schema(
     }],
     image: {
       type: String
-    }
+    },
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User'
+    },
+    items: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Item'
+    }]
   },
   {
     timestamps: true

@@ -12,6 +12,16 @@ const itemSchema = mongoose.Schema(
     text: {
       type: String,
       required: true
+    },
+    coll: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'Collection'
+    },
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User'
     }
   },
   {

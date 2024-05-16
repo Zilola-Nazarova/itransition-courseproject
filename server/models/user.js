@@ -28,7 +28,15 @@ const userSchema = mongoose.Schema(
     active: {
       type: Boolean,
       default: true
-    }
+    },
+    colls: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Collection'
+    }],
+    items: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Item'
+    }]
   },
   {
     timestamps: true
