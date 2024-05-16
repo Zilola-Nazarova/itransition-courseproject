@@ -1,14 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-
-const BASE_URL = process.env.REACT_APP_API_ENDPOINT || 'https://itransition-courseproject-tljv.onrender.com';
-const COLLECTIONS_URL = `${BASE_URL}/collections`;
+import API from '../api';
 
 export const getCollections = createAsyncThunk(
   'collections/getCollections',
   async (_, thunkAPI) => {
     try {
-      const resp = await axios.get(COLLECTIONS_URL);
+      const resp = await API.get('/collections');
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -20,7 +17,7 @@ export const postCollection = createAsyncThunk(
   'collections/postCollection',
   async (newCollection, thunkAPI) => {
     try {
-      const resp = await axios.post(COLLECTIONS_URL, newCollection);
+      const resp = await API.post('/collections', newCollection);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -32,7 +29,7 @@ export const updateCollection = createAsyncThunk(
   'collections/updateCollection',
   async (updatedCollection, thunkAPI) => {
     try {
-      const resp = await axios.patch(`${COLLECTIONS_URL}/${updatedCollection._id}`, updatedCollection);
+      const resp = await API.patch(`/collections/${updatedCollection._id}`, updatedCollection);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -44,7 +41,7 @@ export const deleteCollection = createAsyncThunk(
   'collections/deleteCollection',
   async (id, thunkAPI) => {
     try {
-      const resp = await axios.delete(`${COLLECTIONS_URL}/${id}`);
+      const resp = await API.delete(`/collections/${id}`);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);

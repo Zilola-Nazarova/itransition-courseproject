@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
 import { getUsers } from './redux/users/usersSlice';
@@ -18,20 +18,23 @@ import NewUser from './components/users/NewUser';
 import HomePage from './routes/HomePage';
 import Layout from './routes/Layout';
 import NotFound from './routes/NotFound';
+import Auth from './components/auth/Auth';
 
 const App = () => {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
   useEffect(() => {
     dispatch(getUsers());
     dispatch(getCollections());
     dispatch(getItems());
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
+          <Route path="auth" element={<Auth />} />
           <Route path="users" element={<UsersPage />}>
             <Route path="form" element={<NewUser />} />
           </Route>

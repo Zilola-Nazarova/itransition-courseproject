@@ -17,11 +17,14 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true
     },
-    role: [{
+    role: {
       type: String,
-      enum: ['User', 'Admin'],
+      enum: {
+        values: ['User', 'Admin'],
+        message: "Role can be only 'User' or 'Admin')"
+      },
       default: 'User'
-    }],
+    },
     active: {
       type: Boolean,
       default: true
