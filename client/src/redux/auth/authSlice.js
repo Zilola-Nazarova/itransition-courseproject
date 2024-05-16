@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const GOOGLE_API_URL = 'https://www.googleapis.com/oauth2/v3/userinfo';
 const BASE_URL = process.env.REACT_APP_API_ENDPOINT || 'https://itransition-courseproject-tljv.onrender.com';
@@ -49,7 +50,7 @@ export const signup = createAsyncThunk(
 );
 
 const initialState = {
-  user: JSON.parse(localStorage.getItem('profile')) || null,
+  user: Cookies.get('profile') ? JSON.parse(Cookies.get('profile')) : null,
   error: undefined,
   isAuthenticating: false,
 };
@@ -59,7 +60,7 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      localStorage.clear();
+      Cookies.remove('profile');
       state.user = null;
     },
   },
@@ -72,7 +73,7 @@ export const authSlice = createSlice({
       .addCase(getUser.fulfilled, (state, action) => {
         state.isAuthenticating = false;
         state.error = false;
-        localStorage.setItem('profile', JSON.stringify(action.payload));
+        Cookies.set('profile', JSON.stringify(action.payload), { expires: 1 / 24 });
         state.user = action.payload;
       })
       .addCase(getUser.rejected, (state, action) => {
@@ -86,7 +87,7 @@ export const authSlice = createSlice({
       .addCase(signin.fulfilled, (state, action) => {
         state.isAuthenticating = false;
         state.error = false;
-        localStorage.setItem('profile', JSON.stringify(action.payload));
+        Cookies.set('profile', JSON.stringify(action.payload), { expires: 1 / 24 });
         state.user = action.payload;
       })
       .addCase(signin.rejected, (state, action) => {
@@ -100,7 +101,7 @@ export const authSlice = createSlice({
       .addCase(signup.fulfilled, (state, action) => {
         state.isAuthenticating = false;
         state.error = false;
-        localStorage.setItem('profile', JSON.stringify(action.payload));
+        Cookies.set('profile', JSON.stringify(action.payload), { expires: 1 / 24 });
         state.user = action.payload;
       })
       .addCase(signup.rejected, (state, action) => {
