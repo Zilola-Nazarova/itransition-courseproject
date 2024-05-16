@@ -10,8 +10,8 @@ const auth = async (req, res, next) => {
     if (type === 'Bearer') {
       decodedData = await axios.get(GOOGLE_API_URL, {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       req.userId = decodedData.sub;
     } else if (type === 'Basic') {
@@ -23,6 +23,6 @@ const auth = async (req, res, next) => {
     console.log(error);
     res.status(401).json({ message: 'You are not authorized to access this page!' });
   }
-}
+};
 
 export default auth;

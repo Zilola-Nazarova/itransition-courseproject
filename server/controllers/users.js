@@ -25,7 +25,7 @@ export const createUser = async (req, res) => {
     }
     const hashedPwd = await bcrypt.hash(password, 10);
     const userObject = { username, email, password: hashedPwd, role, active };
-    const newUser = await User.create(userObject)
+    const newUser = await User.create(userObject);
     if (newUser) {
       res.status(201).json(newUser);
     }
