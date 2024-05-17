@@ -7,6 +7,7 @@ const Users = () => {
 
   return (
     <div>
+      <h3>USERS COMPONENT</h3>
       {error && <p>{error}</p>}
       {isLoading && <p>Loading...</p>}
       {value?.length > 0 && value.map((user) => (
