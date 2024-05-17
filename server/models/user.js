@@ -7,21 +7,21 @@ const userSchema = mongoose.Schema(
   {
     username: {
       type: String,
-      required: true
+      required: [true, 'Username field can not be empty']
     },
     email: {
       type: String,
-      required: true
+      required: [true, 'Email field can not be empty']
     },
     password: {
       type: String,
-      required: true
+      required: [true, 'Password field can not be empty']
     },
     role: {
       type: String,
       enum: {
         values: ['User', 'Admin'],
-        message: "Role can be only 'User' or 'Admin')"
+        message: "Role can be only 'User' or 'Admin'"
       },
       default: 'User'
     },

@@ -7,20 +7,20 @@ const itemSchema = mongoose.Schema(
   {
     title: {
       type: String,
-      required: true
+      required: [true, 'Title field can not be empty']
     },
     text: {
       type: String,
-      required: true
+      required: [true, 'Text field can not be empty']
     },
     coll: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      required: [true, 'Collection field can not be empty'],
       ref: 'Collection'
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      required: [true, 'Author field can not be empty'],
       ref: 'User'
     }
   },

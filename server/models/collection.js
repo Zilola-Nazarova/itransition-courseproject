@@ -7,23 +7,26 @@ const collectionSchema = mongoose.Schema(
   {
     title: {
       type: String,
-      required: true
+      required: [true, 'Title field can not be empty']
     },
     text: {
       type: String,
-      required: true
+      required: [true, 'Text field can not be empty']
     },
     category: [{
       type: String,
-      enum: ['cat1', 'cat2', 'cat3', 'other'],
-      required: true
+      enum: {
+        values: ['cat1', 'cat2', 'cat3', 'other'],
+        message: 'Provide one of allowed categories'
+      },
+      required: [true, 'Category field can not be empty']
     }],
     image: {
       type: String
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      required: [true, 'Author field can not be empty'],
       ref: 'User'
     },
     items: [{
