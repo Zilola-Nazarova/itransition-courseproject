@@ -1,12 +1,15 @@
 import express from 'express';
+import auth from '../middleware/auth.js';
+import {
+  getUserCollections, getCollection, createCollection, updateCollection, deleteCollection
+} from '../controllers/collections.js';
 
-import { getCollections, createCollection, updateCollection, deleteCollection } from '../controllers/collections.js';
+const router = express.Router({ mergeParams: true });
 
-const router = express.Router();
-
-router.get('/', getCollections);
-router.post('/', createCollection);
-router.patch('/:id', updateCollection);
-router.delete('/:id', deleteCollection);
+router.get('/', getUserCollections);
+router.get('/:collectionId', getCollection);
+router.post('/', auth, createCollection);
+router.patch('/:collectionId', auth, updateCollection);
+router.delete('/:collectionId', auth, deleteCollection);
 
 export default router;

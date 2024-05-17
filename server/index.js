@@ -17,8 +17,8 @@ app.use(cors());
 
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
-app.use('/collections', collectionRoutes);
-app.use('/items', itemRoutes);
+userRoutes.use('/:userId/collections', collectionRoutes);
+collectionRoutes.use('/:collectionId/items', itemRoutes);
 
 const PORT = process.env.PORT || 5000;
 

@@ -1,12 +1,15 @@
 import express from 'express';
+import auth from '../middleware/auth.js';
+import {
+  getCollectionItems, getItem, createItem, updateItem, deleteItem
+} from '../controllers/items.js';
 
-import { getItems, createItem, updateItem, deleteItem } from '../controllers/items.js';
+const router = express.Router({ mergeParams: true });
 
-const router = express.Router();
-
-router.get('/', getItems);
-router.post('/', createItem);
-router.patch('/:id', updateItem);
-router.delete('/:id', deleteItem);
+router.get('/', getCollectionItems);
+router.get('/:itemId', getItem);
+router.post('/', auth, createItem);
+router.patch('/:itemId', auth, updateItem);
+router.delete('/:itemId', auth, deleteItem);
 
 export default router;
