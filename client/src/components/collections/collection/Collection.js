@@ -1,5 +1,6 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import FileBase from 'react-file-base64';
@@ -8,6 +9,7 @@ import { updateCollection, deleteCollection } from '../../../redux/collections/c
 
 const Collection = ({ collection }) => {
   const dispatch = useDispatch();
+  const { userId } = useParams();
   const [onEdit, setOnEdit] = useState(false);
   const {
     _id,
@@ -25,7 +27,7 @@ const Collection = ({ collection }) => {
   });
   const handleSave = (e) => {
     e.preventDefault();
-    dispatch(updateCollection(collectionData));
+    dispatch(updateCollection({ userId, collId: _id, updatedCollection: collectionData }));
     setOnEdit(false);
   };
   const categories = ['cat1', 'cat2', 'cat3', 'other'];
@@ -86,7 +88,7 @@ const Collection = ({ collection }) => {
           <button type="button" onClick={() => setOnEdit(true)}>Edit</button>
         </>
       )}
-      <button type="button" onClick={() => dispatch(deleteCollection(_id))}>Delete</button>
+      <button type="button" onClick={() => dispatch(deleteCollection({ userId, collId: _id }))}>Delete</button>
     </div>
   );
 };

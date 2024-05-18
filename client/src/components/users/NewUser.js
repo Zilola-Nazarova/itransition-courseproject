@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useState } from 'react';
 import { postUser } from '../../redux/users/usersSlice';
 import Radio from './Radio';
 

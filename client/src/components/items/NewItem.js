@@ -1,18 +1,20 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
+import { useState } from 'react';
 import { postItem } from '../../redux/items/itemsSlice';
 
 const NewItem = () => {
   const dispatch = useDispatch();
+  const { userId, collId } = useParams();
   const emptyItemObj = {
     title: '',
-    text: '',
+    text: ''
   };
   const [itemData, setItemData] = useState(emptyItemObj);
   const clear = () => setItemData(emptyItemObj);
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postItem(itemData));
+    dispatch(postItem({ userId, collId, newItem: itemData }));
     clear();
   };
 

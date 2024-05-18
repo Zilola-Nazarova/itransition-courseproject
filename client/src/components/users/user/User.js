@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
@@ -26,7 +26,7 @@ const User = ({ user }) => {
   });
   const handleSave = (e) => {
     e.preventDefault();
-    dispatch(updateUser(userData));
+    dispatch(updateUser({ userId: _id, updatedUser: userData }));
     setOnEdit(false);
   };
   const roleOptions = ['User', 'Admin'];
