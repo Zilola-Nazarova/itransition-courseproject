@@ -89,7 +89,7 @@ export const deleteItem = async (req, res) => {
     author.items.filter((id) => id !== itemId);
     const result = await Item.findOneAndDelete({ _id: itemId, coll: collectionId, author: userId });
     if (!result) return res.status(400).json({ message: 'Item not found' });
-    res.status(200).json({ message: `Item with id ${itemId} has been deleted`, itemId });
+    res.status(200).json({ message: `Item with id ${itemId} has been deleted`, _id: itemId });
   } catch (error) {
     res.status(409).json({ message: error.message });
   }

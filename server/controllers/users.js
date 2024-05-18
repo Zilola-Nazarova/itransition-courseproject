@@ -78,7 +78,7 @@ export const deleteUser = async (req, res) => {
     const collection = await Collection.findOne({ author: userId }).lean().exec();
     if (collection) return res.status(400).json({ message: 'User has assigned collections' });
     await user.deleteOne();
-    res.status(200).json({ message: `User with id ${userId} has been deleted`, userId });
+    res.status(200).json({ message: `User with id ${userId} has been deleted`, _id: userId });
   } catch (error) {
     res.status(409).json({ message: error.message });
   }

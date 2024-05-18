@@ -81,7 +81,7 @@ export const deleteCollection = async (req, res) => {
     author.colls.filter((id) => id !== collectionId);
     const result = await Collection.findOneAndDelete({ _id: collectionId, author: userId });
     if (!result) return res.status(400).json({ message: 'Collection not found' });
-    res.status(200).json({ message: `Collection with id ${collectionId} has been deleted`, collectionId });
+    res.status(200).json({ message: `Collection with id ${collectionId} has been deleted`, _id: collectionId });
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
