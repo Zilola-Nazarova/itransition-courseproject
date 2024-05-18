@@ -6,10 +6,7 @@ import { postItem } from '../../redux/items/itemsSlice';
 const NewItem = () => {
   const dispatch = useDispatch();
   const { userId, collId } = useParams();
-  const emptyItemObj = {
-    title: '',
-    text: ''
-  };
+  const emptyItemObj = { title: '', text: '' };
   const [itemData, setItemData] = useState(emptyItemObj);
   const clear = () => setItemData(emptyItemObj);
   const handleSubmit = (e) => {

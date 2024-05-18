@@ -9,10 +9,7 @@ const NewCollection = () => {
   const dispatch = useDispatch();
   const { userId } = useParams();
   const emptyCollectionObj = {
-    title: '',
-    text: '',
-    category: '',
-    image: '',
+    title: '', text: '', category: '', image: '',
   };
   const [collectionData, setCollectionData] = useState(emptyCollectionObj);
   const clear = () => setCollectionData(emptyCollectionObj);

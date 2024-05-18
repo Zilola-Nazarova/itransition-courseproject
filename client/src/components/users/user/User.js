@@ -9,21 +9,9 @@ const User = ({ user }) => {
   const dispatch = useDispatch();
   const [onEdit, setOnEdit] = useState(false);
   const {
-    _id,
-    username,
-    email,
-    password,
-    role,
-    active,
+    _id, username, email, password, role, active,
   } = user;
-  const [userData, setUserData] = useState({
-    _id,
-    username,
-    email,
-    password,
-    role,
-    active,
-  });
+  const [userData, setUserData] = useState(user);
   const handleSave = (e) => {
     e.preventDefault();
     dispatch(updateUser({ userId: _id, updatedUser: userData }));
@@ -98,7 +86,7 @@ const User = ({ user }) => {
         </>
       ) : (
         <>
-          <Link to={`${user._id}`}>
+          <Link to={`${user._id}/collections`}>
             <p>{_id}</p>
             <p>{username}</p>
             <p>{email}</p>

@@ -12,19 +12,9 @@ const Collection = ({ collection }) => {
   const { userId } = useParams();
   const [onEdit, setOnEdit] = useState(false);
   const {
-    _id,
-    title,
-    text,
-    category,
-    image,
+    _id, title, text, category, image,
   } = collection;
-  const [collectionData, setCollectionData] = useState({
-    _id,
-    title,
-    text,
-    category: category[0],
-    image,
-  });
+  const [collectionData, setCollectionData] = useState(collection);
   const handleSave = (e) => {
     e.preventDefault();
     dispatch(updateCollection({ userId, collId: _id, updatedCollection: collectionData }));
@@ -78,7 +68,7 @@ const Collection = ({ collection }) => {
         </>
       ) : (
         <>
-          <Link to={`${collection._id}`}>
+          <Link to={`${collection._id}/items`}>
             <p>{_id}</p>
             <p>{title}</p>
             <p>{text}</p>
