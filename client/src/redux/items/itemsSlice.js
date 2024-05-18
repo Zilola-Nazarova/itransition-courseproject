@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import API from '../api';
 
-export const getItems = createAsyncThunk(
-  'items/getItems',
-  async (_, thunkAPI) => {
+export const getCollectionItems = createAsyncThunk(
+  'items/getCollectionItems',
+  async ({ userId, collId }, thunkAPI) => {
     try {
-      const resp = await API.get('/items');
+      const resp = await API.get(`users/${userId}/collections/${collId}/items`);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -15,9 +15,9 @@ export const getItems = createAsyncThunk(
 
 export const postItem = createAsyncThunk(
   'items/postItem',
-  async (newItem, thunkAPI) => {
+  async ({ userId, collId, newItem }, thunkAPI) => {
     try {
-      const resp = await API.post('/items', newItem);
+      const resp = await API.post(`users/${userId}/collections/${collId}/items`, newItem);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -27,9 +27,9 @@ export const postItem = createAsyncThunk(
 
 export const updateItem = createAsyncThunk(
   'items/updateItem',
-  async (updatedItem, thunkAPI) => {
+  async ({ userId, collId, itemId, updatedItem }, thunkAPI) => {
     try {
-      const resp = await API.patch(`/items/${updatedItem._id}`, updatedItem);
+      const resp = await API.patch(`users/${userId}/collections/${collId}/items/${itemId}`, updatedItem);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -39,9 +39,9 @@ export const updateItem = createAsyncThunk(
 
 export const deleteItem = createAsyncThunk(
   'items/deleteItem',
-  async (id, thunkAPI) => {
+  async ({ userId, collId, itemId }, thunkAPI) => {
     try {
-      const resp = await API.delete(`/items/${id}`);
+      const resp = await API.delete(`users/${userId}/collections/${collId}/items/${itemId}`);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -65,18 +65,19 @@ export const itemsSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(getItems.pending, (state) => {
+      .addCase(getCollectionItems.pending, (state) => {
         state.isLoading = true;
         state.error = false;
       })
-      .addCase(getItems.fulfilled, (state, action) => {
+      .addCase(getCollectionItems.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = false;
         state.value = action.payload;
       })
-      .addCase(getItems.rejected, (state, action) => {
+      .addCase(getCollectionItems.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+        state.value = null;
       })
       .addCase(postItem.pending, (state) => {
         state.isLoading = true;

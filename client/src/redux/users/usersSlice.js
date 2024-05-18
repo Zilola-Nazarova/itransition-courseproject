@@ -27,9 +27,9 @@ export const postUser = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
   'users/updateUser',
-  async (updatedUser, thunkAPI) => {
+  async ({ userId, updatedUser }, thunkAPI) => {
     try {
-      const resp = await API.patch(`/users/${updatedUser._id}`, updatedUser);
+      const resp = await API.patch(`/users/${userId}`, updatedUser);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -39,9 +39,9 @@ export const updateUser = createAsyncThunk(
 
 export const deleteUser = createAsyncThunk(
   'users/deleteUser',
-  async (id, thunkAPI) => {
+  async (userId, thunkAPI) => {
     try {
-      const resp = await API.delete(`/users/${id}`);
+      const resp = await API.delete(`/users/${userId}`);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -58,17 +58,12 @@ const initialState = {
 export const usersSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {
-    createUser: (state, action) => {
-      state.value.push(action.payload);
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(getUsers.pending, (state) => {
         state.isLoading = true;
         state.error = false;
-        state.value = null;
       })
       .addCase(getUsers.fulfilled, (state, action) => {
         state.isLoading = false;
