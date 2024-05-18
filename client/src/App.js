@@ -17,22 +17,23 @@ const App = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Layout />}>
+        <Route path="*" element={<NotFound />} />
         <Route index element={<HomePage />} />
         <Route path="auth" element={<Auth />} />
-        <Route path="users" element={<UsersPage />}>
+        <Route path="users">
+          <Route index element={<UsersPage />} />
           <Route path="form" element={<NewUser />} />
+          <Route path=":userId/collections">
+            <Route index element={<UserPage />} />
+            <Route path="form" element={<NewCollection />} />
+            <Route path=":collId/items">
+              <Route index element={<CollectionPage />} />
+              <Route path="form" element={<NewItem />} />
+              <Route path=":itemId" element={<ItemPage />} />
+            </Route>
+          </Route>
         </Route>
-        <Route path="users/:id" element={<UserPage />} />
-        <Route path="collections" element={<CollectionsPage />}>
-          <Route path="form" element={<NewCollection />} />
-        </Route>
-        <Route path="collections/:id" element={<CollectionPage />} />
-        <Route path="items" element={<ItemsPage />}>
-          <Route path="form" element={<NewItem />} />
-        </Route>
-        <Route path="items/:id" element={<ItemPage />} />
       </Route>
-      <Route path="*" element={<NotFound />} />
     </Routes>
   </BrowserRouter>
 );
