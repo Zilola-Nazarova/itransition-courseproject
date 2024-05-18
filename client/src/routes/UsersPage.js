@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { getUsers } from '../redux/users/usersSlice';
 import Users from '../components/users/Users';
+import NewUser from '../components/users/NewUser';
 
 const UsersPage = () => {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const UsersPage = () => {
       {pathname === '/users/form'
         ? <Link to="/users">Close</Link>
         : <Link to="form">Create User</Link>}
-      <Outlet />
+      <NewUser />
     </>
   );
 };

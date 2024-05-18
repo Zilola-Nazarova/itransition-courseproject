@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Items from '../components/items/Items';
 import { getCollectionItems } from '../redux/items/itemsSlice';
 import CollectionDetails from '../components/collections/CollectionDetails';
+import NewItem from '../components/items/NewItem';
 
 const CollectionPage = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const CollectionPage = () => {
       {pathname === `/users/${userId}/collections/${collId}/items/form`
         ? <Link to={`/users/${userId}/collections/${collId}/items`}>Close</Link>
         : <Link to="form">Create Item</Link>}
-      <Outlet />
+      <NewItem />
     </>
   );
 };
