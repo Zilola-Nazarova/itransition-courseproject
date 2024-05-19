@@ -14,11 +14,15 @@ a {
   background-color: lightslategrey;
 }
 
-.user, .collection, .item {
+.user,
+.collection,
+.item {
   border-top: 2px solid darkslategray;
 }
 
-#users, #collections, #items {
+#users,
+#collections,
+#items {
   background-color: tan;
 }
 
