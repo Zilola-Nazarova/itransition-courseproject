@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/', getUsers);
 router.get('/:userId', getUser);
 router.post('/', auth, createUser); // not using auth now, but will to detect if it's admin
-router.patch('/:userId',  auth, ownerCheck, updateUser);
+router.patch('/:userId', auth, ownerCheck, updateUser);
 router.delete('/:userId', auth, ownerCheck, deleteUser);
 
 export default router;

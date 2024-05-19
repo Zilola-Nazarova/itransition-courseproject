@@ -1,5 +1,5 @@
 import express from 'express';
-import { auth, ownerCheck} from '../middleware/auth.js';
+import { auth, ownerCheck } from '../middleware/auth.js';
 import {
   getUserCollections, getCollection, createCollection, updateCollection, deleteCollection
 } from '../controllers/collections.js';

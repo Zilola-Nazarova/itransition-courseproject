@@ -2,8 +2,8 @@ import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { v4 as uuidv4 } from 'uuid';
 import { updateUser, deleteUser } from '../../../redux/users/usersSlice';
+import Radio from '../Radio';
 
 const User = ({ user }) => {
   const dispatch = useDispatch();
@@ -11,7 +11,7 @@ const User = ({ user }) => {
   const {
     _id, username, email, password, role, active,
   } = user;
-  const [userData, setUserData] = useState(user);
+  const [userData, setUserData] = useState({ ...user, password: '' });
   const handleSave = (e) => {
     e.preventDefault();
     dispatch(updateUser({ userId: _id, updatedUser: userData }));
@@ -35,44 +35,24 @@ const User = ({ user }) => {
       />
       <input
         required
-        placeholder={password}
+        placeholder="password"
         value={userData.password}
         onChange={(e) => setUserData({ ...userData, password: e.target.value })}
       />
-      <fieldset>
-        <legend>Select a role:</legend>
-        {roleOptions.map((role) => (
-          <label key={uuidv4()} htmlFor={role}>
-            <input
-              checked={userData.role === role}
-              type="radio"
-              name="role"
-              value={role}
-              id={role}
-              required
-              onChange={(e) => setUserData({ ...userData, role: e.target.value })}
-            />
-            {role}
-          </label>
-        ))}
-      </fieldset>
-      <fieldset>
-        <legend>Is user active?</legend>
-        {activeOptions.map((bool) => (
-          <label key={uuidv4()} htmlFor={`${bool}`}>
-            <input
-              checked={userData.active === bool}
-              type="radio"
-              name="active"
-              value={bool}
-              id={`${bool}`}
-              required
-              onChange={() => setUserData({ ...userData, active: bool })}
-            />
-            {`${bool}`}
-          </label>
-        ))}
-      </fieldset>
+      <Radio
+        legend="Select a role:"
+        options={roleOptions}
+        name="role"
+        current={userData.role}
+        handleChange={(e) => setUserData({ ...userData, role: e.target.value })}
+      />
+      <Radio
+        legend="Is user active?"
+        options={activeOptions}
+        name="active"
+        current={userData.active}
+        handleChange={(e, bool) => setUserData({ ...userData, active: bool })}
+      />
     </>
   );
 
@@ -108,7 +88,7 @@ User.propTypes = {
     username: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired,
-    role: PropTypes.arrayOf(String).isRequired,
+    role: PropTypes.string.isRequired,
     active: PropTypes.bool.isRequired,
   }).isRequired,
 };

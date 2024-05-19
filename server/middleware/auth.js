@@ -35,7 +35,7 @@ export const ownerCheck = async (req, res, next) => {
     const currentUser = req.userId;
     const { userId } = req.params;
     if (!mongoose.Types.ObjectId.isValid(userId)) return res.status(404).json(`No user with id ${userId}`);
-    if (currentUser !== userId) return res.status(404).send('You can not perform actions on behalf of other users');
+    if (currentUser !== userId) return res.status(404).json({ message: 'You can not perform actions on behalf of other users' });
     next();
   } catch (error) {
     console.log(error);

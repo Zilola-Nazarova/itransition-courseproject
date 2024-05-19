@@ -2,9 +2,10 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import User from '../models/user.js';
 import Collection from '../models/collection.js';
+
 export const getUsers = async (req, res) => {
   try {
-    const users = await User.find().select('-password').lean();
+    const users = await User.find().lean();
     res.status(200).json(users);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -15,7 +16,7 @@ export const getUser = async (req, res) => {
   try {
     const { userId } = req.params;
     if (!mongoose.Types.ObjectId.isValid(userId)) return res.status(404).json(`No user with id ${userId}`);
-    const user = await User.findById(userId).select('-password').lean();
+    const user = await User.findById(userId).lean();
     if (!user) return res.status(400).json({ message: 'User not found' });
     res.status(200).json(user);
   } catch (error) {
