@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { updateUser, deleteUser } from '../../../redux/users/usersSlice';
-import Radio from '../Radio';
+import UpdateUser from './UpdateUser';
 
 const User = ({ user }) => {
   const dispatch = useDispatch();
@@ -17,51 +17,17 @@ const User = ({ user }) => {
     dispatch(updateUser({ userId: _id, updatedUser: userData }));
     setOnEdit(false);
   };
-  const roleOptions = ['User', 'Admin'];
-  const activeOptions = [true, false];
-  const updateForm = (
-    <>
-      <input
-        required
-        placeholder={username}
-        value={userData.username}
-        onChange={(e) => setUserData({ ...userData, username: e.target.value })}
-      />
-      <input
-        required
-        placeholder={email}
-        value={userData.email}
-        onChange={(e) => setUserData({ ...userData, email: e.target.value })}
-      />
-      <input
-        required
-        placeholder="password"
-        value={userData.password}
-        onChange={(e) => setUserData({ ...userData, password: e.target.value })}
-      />
-      <Radio
-        legend="Select a role:"
-        options={roleOptions}
-        name="role"
-        current={userData.role}
-        handleChange={(e) => setUserData({ ...userData, role: e.target.value })}
-      />
-      <Radio
-        legend="Is user active?"
-        options={activeOptions}
-        name="active"
-        current={userData.active}
-        handleChange={(e, bool) => setUserData({ ...userData, active: bool })}
-      />
-    </>
-  );
 
   return (
     <div className="user">
       <p>SINGLE USER</p>
       {onEdit ? (
         <>
-          {updateForm}
+          <UpdateUser
+            userData={userData}
+            user={user}
+            handleChange={(data) => setUserData(data)}
+          />
           <button type="button" onClick={handleSave}>Save</button>
         </>
       ) : (
