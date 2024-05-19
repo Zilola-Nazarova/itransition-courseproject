@@ -1,10 +1,7 @@
-import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 
 const UserDetails = () => {
-  const { userId } = useParams();
-  const { value, isLoading, error } = useSelector((state) => state.users);
-  const user = value?.find((user) => user._id === userId);
+  const { user, isLoading, error } = useSelector((state) => state.users);
 
   return (
     <div>

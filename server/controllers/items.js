@@ -31,7 +31,7 @@ export const getItem = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(userId)) return res.status(404).json(`No item with id ${userId}`);
     if (!mongoose.Types.ObjectId.isValid(collectionId)) return res.status(404).json(`No item with id ${collectionId}`);
     if (!mongoose.Types.ObjectId.isValid(itemId)) return res.status(404).json(`No item with id ${itemId}`);
-    const item = await Item.find({ _id: itemId, coll: collectionId, author: userId }).lean();
+    const item = await Item.findOne({ _id: itemId, coll: collectionId, author: userId }).lean();
     if (!item) return res.status(400).json({ message: 'Item not found' });
     res.status(200).json(item);
   } catch (error) {

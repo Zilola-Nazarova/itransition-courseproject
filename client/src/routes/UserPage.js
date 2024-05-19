@@ -5,6 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import UserDetails from '../components/users/UserDetails';
 import Collections from '../components/collections/Collections';
 import { getUserCollections } from '../redux/collections/collectionsSlice';
+import { getUser } from '../redux/users/usersSlice';
 import NewCollection from '../components/collections/NewCollection';
 
 const UserPage = () => {
@@ -13,7 +14,7 @@ const UserPage = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    console.log('GETTING USERCOLLECTIONS');
+    dispatch(getUser(userId));
     dispatch(getUserCollections(userId));
   }, [dispatch, userId]);
 

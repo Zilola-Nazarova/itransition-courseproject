@@ -13,6 +13,18 @@ export const getCollectionItems = createAsyncThunk(
   },
 );
 
+export const getItem = createAsyncThunk(
+  'items/getItem',
+  async ({ userId, collId, itemId }, thunkAPI) => {
+    try {
+      const resp = await API.get(`users/${userId}/collections/${collId}/items/${itemId}`);
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  },
+);
+
 export const postItem = createAsyncThunk(
   'items/postItem',
   async ({ userId, collId, newItem }, thunkAPI) => {
@@ -27,7 +39,9 @@ export const postItem = createAsyncThunk(
 
 export const updateItem = createAsyncThunk(
   'items/updateItem',
-  async ({ userId, collId, itemId, updatedItem }, thunkAPI) => {
+  async ({
+    userId, collId, itemId, updatedItem,
+  }, thunkAPI) => {
     try {
       const resp = await API.patch(`users/${userId}/collections/${collId}/items/${itemId}`, updatedItem);
       return resp.data;
@@ -50,6 +64,7 @@ export const deleteItem = createAsyncThunk(
 );
 
 const initialState = {
+  item: null,
   value: [],
   isLoading: false,
   error: undefined,
@@ -78,6 +93,20 @@ export const itemsSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
         state.value = null;
+      })
+      .addCase(getItem.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(getItem.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = false;
+        state.item = action.payload;
+      })
+      .addCase(getItem.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+        state.item = null;
       })
       .addCase(postItem.pending, (state) => {
         state.isLoading = true;

@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import Items from '../components/items/Items';
 import { getCollectionItems } from '../redux/items/itemsSlice';
+import { getCollection } from '../redux/collections/collectionsSlice';
 import CollectionDetails from '../components/collections/CollectionDetails';
 import NewItem from '../components/items/NewItem';
 
@@ -13,7 +14,7 @@ const CollectionPage = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    console.log('GETTING COLLECTION ITEMS');
+    dispatch(getCollection({ userId, collId }));
     dispatch(getCollectionItems({ userId, collId }));
   }, [dispatch, collId, userId]);
 

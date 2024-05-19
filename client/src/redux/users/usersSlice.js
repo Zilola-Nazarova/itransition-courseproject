@@ -13,6 +13,18 @@ export const getUsers = createAsyncThunk(
   },
 );
 
+export const getUser = createAsyncThunk(
+  'users/getUser',
+  async (userId, thunkAPI) => {
+    try {
+      const resp = await API.get(`/users/${userId}`);
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  },
+);
+
 export const postUser = createAsyncThunk(
   'users/postUser',
   async (newUser, thunkAPI) => {
@@ -50,6 +62,7 @@ export const deleteUser = createAsyncThunk(
 );
 
 const initialState = {
+  user: null,
   value: [],
   isLoading: false,
   error: undefined,
@@ -71,6 +84,20 @@ export const usersSlice = createSlice({
         state.value = action.payload;
       })
       .addCase(getUsers.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+        state.user = null;
+      })
+      .addCase(getUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(getUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = false;
+        state.user = action.payload;
+      })
+      .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
         state.value = null;

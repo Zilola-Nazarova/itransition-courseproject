@@ -13,6 +13,18 @@ export const getUserCollections = createAsyncThunk(
   },
 );
 
+export const getCollection = createAsyncThunk(
+  'collections/getCollection',
+  async ({ userId, collId }, thunkAPI) => {
+    try {
+      const resp = await API.get(`users/${userId}/collections/${collId}`);
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  },
+);
+
 export const postCollection = createAsyncThunk(
   'collections/postCollection',
   async ({ userId, newCollection }, thunkAPI) => {
@@ -50,6 +62,7 @@ export const deleteCollection = createAsyncThunk(
 );
 
 const initialState = {
+  collection: null,
   value: [],
   isLoading: false,
   error: undefined,
@@ -74,6 +87,20 @@ export const collectionsSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
         state.value = null;
+      })
+      .addCase(getCollection.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(getCollection.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = false;
+        state.collection = action.payload;
+      })
+      .addCase(getCollection.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+        state.collection = null;
       })
       .addCase(postCollection.pending, (state) => {
         state.isLoading = true;
