@@ -48,7 +48,7 @@ const Collection = ({ collection }) => {
         ))}
       </select>
       <div>
-        <img src={image} alt={title} />
+        {image ? <img src={image} alt={title} /> : <p>No image provided</p>}
         <FileBase
           type="file"
           multiple={false}

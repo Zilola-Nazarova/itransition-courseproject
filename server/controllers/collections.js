@@ -41,7 +41,7 @@ export const createCollection = async (req, res) => {
   try {
     const { userId } = req.params;
     const { title, text, category, image } = req.body;
-    if (!title || !text || !category || !image) return res.status(400).json({ message: 'All fields are required' });
+    if (!title || !text || !category) return res.status(400).json({ message: 'All fields are required' });
     const author = await User.findById(userId);
     if (!author) return res.status(400).json({ message: 'User not found' });
     const newCollection = await Collection.create({ title, text, category, image, author: userId });
