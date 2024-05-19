@@ -13,14 +13,14 @@ const collectionSchema = mongoose.Schema(
       type: String,
       required: [true, 'Text field can not be empty']
     },
-    category: [{
+    category: {
       type: String,
       enum: {
         values: ['cat1', 'cat2', 'cat3', 'other'],
         message: 'Provide one of allowed categories'
       },
       required: [true, 'Category field can not be empty']
-    }],
+    },
     image: {
       type: String
     },
