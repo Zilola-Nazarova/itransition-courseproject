@@ -16,7 +16,7 @@ const NewItem = () => {
   };
 
   return (
-    <>
+    <div className="form">
       <h3>CREATE ITEM</h3>
       <form onSubmit={handleSubmit}>
         <input
@@ -34,7 +34,7 @@ const NewItem = () => {
         <button type="submit">Submit</button>
         <button type="button" onClick={clear}>Clear</button>
       </form>
-    </>
+    </div>
   );
 };
 

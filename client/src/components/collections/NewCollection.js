@@ -21,7 +21,7 @@ const NewCollection = () => {
   const categories = ['cat1', 'cat2', 'cat3', 'other'];
 
   return (
-    <>
+    <div className="form">
       <h3>CREATE COLLECTION</h3>
       <form onSubmit={handleSubmit}>
         <input
@@ -57,7 +57,7 @@ const NewCollection = () => {
         <button type="submit">Submit</button>
         <button type="button" onClick={clear}>Clear</button>
       </form>
-    </>
+    </div>
   );
 };
 

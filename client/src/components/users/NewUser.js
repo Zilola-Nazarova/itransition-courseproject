@@ -22,7 +22,7 @@ const NewUser = () => {
   const active = [true, false];
 
   return (
-    <>
+    <div className="form">
       <h3>CREATE USER</h3>
       <form onSubmit={handleSubmit}>
         <input
@@ -63,7 +63,7 @@ const NewUser = () => {
         <button type="submit">Submit</button>
         <button type="button" onClick={clear}>Clear</button>
       </form>
-    </>
+    </div>
   );
 };
 

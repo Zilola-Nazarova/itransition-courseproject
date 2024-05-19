@@ -28,9 +28,11 @@ const Navbar = () => {
           ? <Profile currentUser={user.user} signout={signout} />
           : <Link to="auth">Login</Link>}
       </div>
-      <Link to="users">Users</Link>
-      <Link to="items">Items</Link>
-      <Link to="collections">Collections</Link>
+      <ul>
+        <li><Link to="users">Users</Link></li>
+        <li><Link to="collections">Collections</Link></li>
+        <li><Link to="items">Items</Link></li>
+      </ul>
     </nav>
   );
 };

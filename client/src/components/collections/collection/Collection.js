@@ -59,7 +59,7 @@ const Collection = ({ collection }) => {
   );
 
   return (
-    <div>
+    <div className="collection">
       <p>SINGLE COLLECTION</p>
       {onEdit ? (
         <>

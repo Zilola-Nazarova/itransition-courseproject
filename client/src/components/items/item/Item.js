@@ -36,7 +36,7 @@ const Item = ({ item }) => {
   );
 
   return (
-    <div>
+    <div className="item">
       <p>SINGLE ITEM</p>
       {onEdit ? (
         <>

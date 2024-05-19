@@ -77,7 +77,7 @@ const User = ({ user }) => {
   );
 
   return (
-    <div>
+    <div className="user">
       <p>SINGLE USER</p>
       {onEdit ? (
         <>

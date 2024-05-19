@@ -3,7 +3,7 @@ import Navbar from './Navbar';
 
 const Header = () => (
   <header>
-    <Link to="/">MY CATALOGUE</Link>
+    <h1><Link to="/">MY CATALOGUE</Link></h1>
     <Navbar />
   </header>
 );

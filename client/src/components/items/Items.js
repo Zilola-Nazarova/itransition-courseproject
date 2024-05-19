@@ -6,7 +6,7 @@ const Items = () => {
   const { value, isLoading, error } = useSelector((state) => state.items);
 
   return (
-    <div>
+    <div id="items">
       <h3>ITEMS COMPONENT</h3>
       {error && <p>{error}</p>}
       {isLoading && <p>Loading...</p>}

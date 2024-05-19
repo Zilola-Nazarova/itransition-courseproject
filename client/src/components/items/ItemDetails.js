@@ -4,7 +4,7 @@ const ItemDetails = () => {
   const { item, isLoading, error } = useSelector((state) => state.items);
 
   return (
-    <div>
+    <div id="details">
       <h2>ITEM DETAILS</h2>
       {error && <p>{error}</p>}
       {isLoading && <p>Loading...</p>}
