@@ -1,16 +1,16 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+// import { useEffect } from 'react';
+// import { useDispatch } from 'react-redux';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { getCollections } from '../redux/collections/collectionsSlice';
+// import { getCollections } from '../redux/collections/collectionsSlice';
 import Collections from '../components/collections/Collections';
 
 const CollectionsPage = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { pathname } = useLocation();
 
-  useEffect(() => {
-    dispatch(getCollections());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getCollections());
+  // }, [dispatch]);
 
   return (
     <>

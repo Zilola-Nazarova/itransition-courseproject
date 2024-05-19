@@ -1,16 +1,16 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+// import { useEffect } from 'react';
+// import { useDispatch } from 'react-redux';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { getItems } from '../redux/items/itemsSlice';
+// import { getItems } from '../redux/items/itemsSlice';
 import Items from '../components/items/Items';
 
 const ItemsPage = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { pathname } = useLocation();
 
-  useEffect(() => {
-    dispatch(getItems());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getItems());
+  // }, [dispatch]);
 
   return (
     <>
