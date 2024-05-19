@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import PropTypes from 'prop-types';
 
 const Radio = ({
-  legend, options, name, current, handleChange,
+  legend, options, name, current = null, handleChange,
 }) => (
   <fieldset>
     <legend>{legend}</legend>
@@ -26,14 +26,13 @@ const Radio = ({
 
 Radio.propTypes = {
   legend: PropTypes.string.isRequired,
-  current: PropTypes.string,
+  current: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+  ]),
   options: PropTypes.arrayOf(String).isRequired,
   name: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
-};
-
-Radio.defaultProps = {
-  current: null,
 };
 
 export default Radio;

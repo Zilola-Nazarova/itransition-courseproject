@@ -1,23 +1,22 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
+import { useState } from 'react';
 import { postItem } from '../../redux/items/itemsSlice';
 
 const NewItem = () => {
   const dispatch = useDispatch();
-  const emptyItemObj = {
-    title: '',
-    text: '',
-  };
+  const { userId, collId } = useParams();
+  const emptyItemObj = { title: '', text: '' };
   const [itemData, setItemData] = useState(emptyItemObj);
   const clear = () => setItemData(emptyItemObj);
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postItem(itemData));
+    dispatch(postItem({ userId, collId, newItem: itemData }));
     clear();
   };
 
   return (
-    <>
+    <div className="form">
       <h3>CREATE ITEM</h3>
       <form onSubmit={handleSubmit}>
         <input
@@ -35,7 +34,7 @@ const NewItem = () => {
         <button type="submit">Submit</button>
         <button type="button" onClick={clear}>Clear</button>
       </form>
-    </>
+    </div>
   );
 };
 

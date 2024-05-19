@@ -1,11 +1,23 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import API from '../api';
 
-export const getCollections = createAsyncThunk(
-  'collections/getCollections',
-  async (_, thunkAPI) => {
+export const getUserCollections = createAsyncThunk(
+  'collections/getUserCollections',
+  async (userId, thunkAPI) => {
     try {
-      const resp = await API.get('/collections');
+      const resp = await API.get(`users/${userId}/collections`);
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  },
+);
+
+export const getCollection = createAsyncThunk(
+  'collections/getCollection',
+  async ({ userId, collId }, thunkAPI) => {
+    try {
+      const resp = await API.get(`users/${userId}/collections/${collId}`);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -15,9 +27,9 @@ export const getCollections = createAsyncThunk(
 
 export const postCollection = createAsyncThunk(
   'collections/postCollection',
-  async (newCollection, thunkAPI) => {
+  async ({ userId, newCollection }, thunkAPI) => {
     try {
-      const resp = await API.post('/collections', newCollection);
+      const resp = await API.post(`users/${userId}/collections`, newCollection);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -27,9 +39,9 @@ export const postCollection = createAsyncThunk(
 
 export const updateCollection = createAsyncThunk(
   'collections/updateCollection',
-  async (updatedCollection, thunkAPI) => {
+  async ({ userId, collId, updatedCollection }, thunkAPI) => {
     try {
-      const resp = await API.patch(`/collections/${updatedCollection._id}`, updatedCollection);
+      const resp = await API.patch(`users/${userId}/collections/${collId}`, updatedCollection);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -39,9 +51,9 @@ export const updateCollection = createAsyncThunk(
 
 export const deleteCollection = createAsyncThunk(
   'collections/deleteCollection',
-  async (id, thunkAPI) => {
+  async ({ userId, collId }, thunkAPI) => {
     try {
-      const resp = await API.delete(`/collections/${id}`);
+      const resp = await API.delete(`users/${userId}/collections/${collId}`);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -50,6 +62,7 @@ export const deleteCollection = createAsyncThunk(
 );
 
 const initialState = {
+  collection: null,
   value: [],
   isLoading: false,
   error: undefined,
@@ -58,25 +71,36 @@ const initialState = {
 export const collectionsSlice = createSlice({
   name: 'collections',
   initialState,
-  reducers: {
-    createCollection: (state, action) => {
-      state.value.push(action.payload);
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(getCollections.pending, (state) => {
+      .addCase(getUserCollections.pending, (state) => {
         state.isLoading = true;
         state.error = false;
       })
-      .addCase(getCollections.fulfilled, (state, action) => {
+      .addCase(getUserCollections.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = false;
         state.value = action.payload;
       })
-      .addCase(getCollections.rejected, (state, action) => {
+      .addCase(getUserCollections.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+        state.value = null;
+      })
+      .addCase(getCollection.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(getCollection.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = false;
+        state.collection = action.payload;
+      })
+      .addCase(getCollection.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+        state.collection = null;
       })
       .addCase(postCollection.pending, (state) => {
         state.isLoading = true;

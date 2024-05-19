@@ -1,16 +1,21 @@
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getUsers } from '../redux/users/usersSlice';
 import Users from '../components/users/Users';
+import NewUser from '../components/users/NewUser';
 
 const UsersPage = () => {
-  const { pathname } = useLocation();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUsers());
+  }, [dispatch]);
+
   return (
     <>
-      <h3>USERS COMPONENT</h3>
+      <h2>USERS PAGE</h2>
       <Users />
-      {pathname === '/users/form'
-        ? <Link to="/users">Close</Link>
-        : <Link to="form">Create User</Link>}
-      <Outlet />
+      <NewUser />
     </>
   );
 };

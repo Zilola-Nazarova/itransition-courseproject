@@ -1,26 +1,22 @@
-import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 
 const CollectionDetails = () => {
-  const { id } = useParams();
-  const { value, isLoading, error } = useSelector((state) => state.collections);
-  const collection = value.find((collection) => collection._id === id);
-  const {
-    _id, title, text, category, image,
-  } = collection;
+  const { collection, isLoading, error } = useSelector((state) => state.collections);
 
   return (
-    <div>
-      <h2>COLLECTION DETAILS</h2>
+    <div id="details">
+      <h3>COLLECTION DETAILS</h3>
       {error && <p>{error}</p>}
       {isLoading && <p>Loading...</p>}
       {collection ? (
         <>
-          <h3>{_id}</h3>
-          <h3>{title}</h3>
-          <h4>{text}</h4>
-          <h4>{category}</h4>
-          {image ? <img src={image} alt={title} /> : <p>No image provided</p>}
+          <h4>{collection._id}</h4>
+          <h4>{collection.title}</h4>
+          <h4>{collection.text}</h4>
+          <h4>{collection.category}</h4>
+          {collection.image
+            ? <img src={collection.image} alt={collection.title} />
+            : <p>No image provided</p>}
         </>
       ) : (
         <p>

@@ -1,17 +1,21 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { updateItem, deleteItem } from '../../../redux/items/itemsSlice';
 
 const Item = ({ item }) => {
   const dispatch = useDispatch();
+  const { userId, collId } = useParams();
   const [onEdit, setOnEdit] = useState(false);
   const { _id, title, text } = item;
   const [itemData, setItemData] = useState(item);
   const handleSave = (e) => {
     e.preventDefault();
-    dispatch(updateItem(itemData));
+    dispatch(updateItem({
+      userId, collId, itemId: _id, updatedItem: itemData,
+    }));
     setOnEdit(false);
   };
   const updateForm = (
@@ -32,7 +36,7 @@ const Item = ({ item }) => {
   );
 
   return (
-    <div>
+    <div className="item">
       <p>SINGLE ITEM</p>
       {onEdit ? (
         <>
@@ -49,7 +53,7 @@ const Item = ({ item }) => {
           <button type="button" onClick={() => setOnEdit(true)}>Edit</button>
         </>
       )}
-      <button type="button" onClick={() => dispatch(deleteItem(_id))}>Delete</button>
+      <button type="button" onClick={() => dispatch(deleteItem({ userId, collId, itemId: _id }))}>Delete</button>
     </div>
   );
 };

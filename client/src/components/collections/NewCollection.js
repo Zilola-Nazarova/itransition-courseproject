@@ -1,28 +1,27 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
+import { useState } from 'react';
 import FileBase from 'react-file-base64';
 import { v4 as uuidv4 } from 'uuid';
 import { postCollection } from '../../redux/collections/collectionsSlice';
 
 const NewCollection = () => {
   const dispatch = useDispatch();
+  const { userId } = useParams();
   const emptyCollectionObj = {
-    title: '',
-    text: '',
-    category: '',
-    image: '',
+    title: '', text: '', category: '', image: '',
   };
   const [collectionData, setCollectionData] = useState(emptyCollectionObj);
   const clear = () => setCollectionData(emptyCollectionObj);
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postCollection(collectionData));
+    dispatch(postCollection({ userId, newCollection: collectionData }));
     clear();
   };
   const categories = ['cat1', 'cat2', 'cat3', 'other'];
 
   return (
-    <>
+    <div className="form">
       <h3>CREATE COLLECTION</h3>
       <form onSubmit={handleSubmit}>
         <input
@@ -58,7 +57,7 @@ const NewCollection = () => {
         <button type="submit">Submit</button>
         <button type="button" onClick={clear}>Clear</button>
       </form>
-    </>
+    </div>
   );
 };
 

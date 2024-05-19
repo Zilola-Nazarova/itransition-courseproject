@@ -1,16 +1,12 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useState } from 'react';
 import { postUser } from '../../redux/users/usersSlice';
 import Radio from './Radio';
 
 const NewUser = () => {
   const dispatch = useDispatch();
   const emptyUserObj = {
-    username: '',
-    email: '',
-    password: '',
-    role: '',
-    active: '',
+    username: '', email: '', password: '', role: null, active: '',
   };
   const [userData, setUserData] = useState(emptyUserObj);
   const clear = () => setUserData(emptyUserObj);
@@ -26,7 +22,7 @@ const NewUser = () => {
   const active = [true, false];
 
   return (
-    <>
+    <div className="form">
       <h3>CREATE USER</h3>
       <form onSubmit={handleSubmit}>
         <input
@@ -67,7 +63,7 @@ const NewUser = () => {
         <button type="submit">Submit</button>
         <button type="button" onClick={clear}>Clear</button>
       </form>
-    </>
+    </div>
   );
 };
 
