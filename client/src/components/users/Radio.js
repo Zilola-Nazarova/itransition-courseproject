@@ -26,7 +26,10 @@ const Radio = ({
 
 Radio.propTypes = {
   legend: PropTypes.string.isRequired,
-  current: PropTypes.string.isRequired,
+  current: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+  ]),
   options: PropTypes.arrayOf(String).isRequired,
   name: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,

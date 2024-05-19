@@ -6,7 +6,7 @@ import Radio from './Radio';
 const NewUser = () => {
   const dispatch = useDispatch();
   const emptyUserObj = {
-    username: '', email: '', password: '', role: '', active: '',
+    username: '', email: '', password: '', role: null, active: '',
   };
   const [userData, setUserData] = useState(emptyUserObj);
   const clear = () => setUserData(emptyUserObj);
