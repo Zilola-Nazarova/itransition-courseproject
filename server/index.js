@@ -6,6 +6,8 @@ import dotenv from 'dotenv';
 import userRoutes from './routes/user.js';
 import collectionRoutes from './routes/collection.js';
 import itemRoutes from './routes/item.js';
+import likeRoutes from './routes/like.js';
+import commentRoutes from './routes/comment.js';
 import authRoutes from './routes/auth.js';
 
 const app = express();
@@ -19,6 +21,8 @@ app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 userRoutes.use('/:userId/collections', collectionRoutes);
 collectionRoutes.use('/:collectionId/items', itemRoutes);
+itemRoutes.use('/:itemId/likes', likeRoutes);
+itemRoutes.use('/:itemId/comments', commentRoutes);
 
 const PORT = process.env.PORT || 5000;
 
