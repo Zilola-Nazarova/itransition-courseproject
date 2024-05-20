@@ -22,7 +22,15 @@ const itemSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: [true, 'Author field can not be empty'],
       ref: 'User'
-    }
+    },
+    comments: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Comment'
+    }],
+    likes: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Like'
+    }]
   },
   {
     timestamps: true
