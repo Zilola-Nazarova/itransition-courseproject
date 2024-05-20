@@ -64,9 +64,11 @@ export const deleteComment = async (req, res) => {
       return res.status(404).json({ message: 'You can not perform actions on behalf of other users' });
     }
     const item = await Item.findById(itemId).exec();
-    item.comments.filter((id) => id !== commentId);
+    item.comments = item.comments.filter((id) => id.toString() !== commentId);
+    await item.save();
     const commenter = await User.findById(req.userId).exec();
-    commenter.comments.filter((id) => id !== commentId);
+    commenter.comments = commenter.comments.filter((id) => id.toString() !== commentId);
+    await commenter.save();
     const result = await comment.deleteOne();
     if (!result) return res.status(400).json({ message: 'Comment not found' });
     res.status(200).json({ message: `Comment with id ${commentId} has been deleted`, _id: commentId });

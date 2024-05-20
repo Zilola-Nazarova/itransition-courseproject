@@ -84,9 +84,11 @@ export const deleteItem = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(collectionId)) return res.status(404).json(`No collection with id ${collectionId}`);
     if (!mongoose.Types.ObjectId.isValid(itemId)) return res.status(404).json(`No item with id ${itemId}`);
     const collection = await Collection.findById(collectionId).exec();
-    collection.items.filter((id) => id !== itemId);
+    collection.items = collection.items.filter((id) => id.toString() !== itemId);
+    await collection.save();
     const author = await User.findById(userId).exec();
-    author.items.filter((id) => id !== itemId);
+    author.items = author.items.filter((id) => id.toString() !== itemId);
+    await author.save();
     const result = await Item.findOneAndDelete({ _id: itemId, coll: collectionId, author: userId });
     if (!result) return res.status(400).json({ message: 'Item not found' });
     res.status(200).json({ message: `Item with id ${itemId} has been deleted`, _id: itemId });

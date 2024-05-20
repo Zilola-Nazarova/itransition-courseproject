@@ -36,9 +36,11 @@ export const deleteLike = async (req, res) => {
   try {
     const { itemId, likeId } = req.params;
     const item = await Item.findById(itemId).exec();
-    item.likes.filter((id) => id !== likeId);
+    item.likes = item.likes.filter((id) => id.toString() !== likeId);
+    await item.save();
     const user = await User.findById(req.userId).exec();
-    user.likes.filter((id) => id !== likeId);
+    user.likes = user.likes.filter((id) => id.toString() !== likeId);
+    await user.save();
     const result = await Like.findByIdAndDelete(likeId);
     if (!result) return res.status(400).json({ message: 'Like not found' });
     res.status(200).json({ message: `Like with id ${likeId} has been deleted`, _id: likeId });
