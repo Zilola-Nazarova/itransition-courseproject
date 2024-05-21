@@ -7,10 +7,12 @@ const userSchema = mongoose.Schema(
   {
     username: {
       type: String,
+      unique: true,
       required: [true, 'Username field can not be empty']
     },
     email: {
       type: String,
+      unique: true,
       required: [true, 'Email field can not be empty']
     },
     password: {
