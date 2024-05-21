@@ -6,7 +6,11 @@ const tagSchema = mongoose.Schema(
       type: String,
       unique: true,
       required: true
-    }
+    },
+    items: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'ItemTag'
+    }]
   },
   {
     timestamps: true
