@@ -6,6 +6,7 @@ import itemsReducer from './items/itemsSlice';
 import authReducer from './auth/authSlice';
 import likesReducer from './likes/likesSlice';
 import commentsReducer from './comments/commentsSlice';
+import tagsReducer from './tags/tagsSlice';
 
 const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ const store = configureStore({
     items: itemsReducer,
     comments: commentsReducer,
     likes: likesReducer,
+    tags: tagsReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
