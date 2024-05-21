@@ -1,20 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
-import { useEffect, useState } from 'react';
-import AutoSuggest from 'react-autosuggest';
+import { useState } from 'react';
 import { postItem } from '../../redux/items/itemsSlice';
-import { getTags } from '../../redux/tags/tagsSlice';
+import TagInput from './TagInput';
 
 const NewItem = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getTags());
-  }, [dispatch]);
-  const options = useSelector((state) => state.tags.value);
-  const lowerCaseOptions = options.map((tag) => (
-    { id: tag._id, tagname: tag.tagname.toLowerCase() }
-  ));
   const { userId, collId } = useParams();
   const emptyItemObj = { title: '', text: '' };
   const [itemData, setItemData] = useState(emptyItemObj);
@@ -30,10 +22,7 @@ const NewItem = () => {
     dispatch(postItem({ userId, collId, newItem: { ...itemData, tags } }));
     clear();
   };
-  const [suggestions, setSuggestions] = useState([]);
-  const getSuggestions = (value) => lowerCaseOptions.filter(
-    (tag) => tag.tagname.includes(value.trim().toLowerCase()),
-  );
+
   const pushTag = (tag) => {
     setTags([...tags, tag]);
     setValue('');
@@ -65,34 +54,10 @@ const NewItem = () => {
             </li>
           ))}
         </ul>
-        <AutoSuggest
-          suggestions={suggestions}
-          onSuggestionsClearRequested={() => setSuggestions([])}
-          onSuggestionsFetchRequested={({ value }) => {
-            setValue(value);
-            setSuggestions(getSuggestions(value));
-          }}
-          onSuggestionSelected={
-            (_, { suggestionValue }) => {
-              pushTag(suggestionValue);
-            }
-          }
-          getSuggestionValue={(suggestion) => suggestion.tagname}
-          renderSuggestion={(suggestion) => <span>{suggestion.tagname}</span>}
-          inputProps={{
-            placeholder: 'Enter tags',
-            value,
-            onChange: (_, { newValue }) => {
-              setValue(newValue);
-            },
-            onKeyDown: (e) => {
-              if (e.key !== 'Enter') return;
-              if (!e.target.value.trim()) return;
-              e.preventDefault();
-              pushTag(e.target.value.trim());
-            },
-          }}
-          highlightFirstSuggestion
+        <TagInput
+          pushTag={pushTag}
+          value={value}
+          setValue={setValue}
         />
         <button type="button" onClick={() => pushTag(value)}>Add tag</button>
         <button type="submit">Submit</button>
