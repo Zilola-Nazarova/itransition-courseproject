@@ -30,6 +30,11 @@ const itemSchema = mongoose.Schema(
     likes: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Like'
+    }],
+    tags: [{
+      type: mongoose.Schema.Types.ObjectId,
+      required: [true, 'Need at least one tag'],
+      ref: 'ItemTag'
     }]
   },
   {

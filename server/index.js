@@ -8,6 +8,7 @@ import collectionRoutes from './routes/collection.js';
 import itemRoutes from './routes/item.js';
 import likeRoutes from './routes/like.js';
 import commentRoutes from './routes/comment.js';
+import tagRoutes from './routes/tag.js';
 import authRoutes from './routes/auth.js';
 
 const app = express();
@@ -23,6 +24,7 @@ userRoutes.use('/:userId/collections', collectionRoutes);
 collectionRoutes.use('/:collectionId/items', itemRoutes);
 itemRoutes.use('/:itemId/likes', likeRoutes);
 itemRoutes.use('/:itemId/comments', commentRoutes);
+app.use('/tags', tagRoutes);
 
 const PORT = process.env.PORT || 5000;
 
