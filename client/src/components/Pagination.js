@@ -1,14 +1,10 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { v4 as uuidv4 } from 'uuid';
+import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
-import Collection from './collection/Collection';
 
-const PaginatedCollections = () => {
+const Pagination = ({ items, itemsPerPage, renderItem }) => {
   const navigate = useNavigate();
-  const itemsPerPage = 5;
-  const { value: items } = useSelector((state) => state.collections);
   const [itemOffset, setItemOffset] = useState(0);
   const endOffset = itemOffset + itemsPerPage;
   console.log(`Loading items from ${itemOffset} to ${endOffset}`);
@@ -24,9 +20,10 @@ const PaginatedCollections = () => {
   };
   return (
     <>
-      {currentItems && currentItems.map((collection) => (
-        <Collection key={uuidv4()} collection={collection} />
-      ))}
+      {currentItems
+        && currentItems.map((item) => (
+          renderItem(item)
+        ))}
       <ReactPaginate
         className="pagination"
         pageClassName="page-item"
@@ -48,4 +45,10 @@ const PaginatedCollections = () => {
   );
 };
 
-export default PaginatedCollections;
+Pagination.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
+  itemsPerPage: PropTypes.number.isRequired,
+  renderItem: PropTypes.func.isRequired,
+};
+
+export default Pagination;
