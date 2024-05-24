@@ -77,14 +77,14 @@ const Item = ({ item }) => {
       <p>SINGLE ITEM</p>
       {onEdit ? updateForm : (
         <div>
-          <Link to={`${item._id}`}>
+          <Link to={`/users/${item.author}/collections/${item.coll}/items/${item._id}`}>
             <p>{_id}</p>
             <p>{title}</p>
             <p>{text}</p>
-            {tags.map((tag) => (
-              <Link to={`/tags/${tag._id}`} key={uuidv4()}>{tag.tagname}</Link>
-            ))}
           </Link>
+          {tags.map((tag) => (
+            <Link to={`/tags/${tag._id}`} key={uuidv4()}>{tag.tagname}</Link>
+          ))}
           <button type="button" onClick={() => setOnEdit(true)}>Edit</button>
         </div>
       )}
@@ -96,6 +96,8 @@ const Item = ({ item }) => {
 Item.propTypes = {
   item: PropTypes.shape({
     _id: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    coll: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     tags: PropTypes.arrayOf(PropTypes.shape({

@@ -34,7 +34,7 @@ const Collection = ({ collection }) => {
         </>
       ) : (
         <>
-          <Link to={`${collection._id}/items`}>
+          <Link to={`/users/${collection.author}/collections/${collection._id}/items`}>
             <p>{_id}</p>
             <p>{title}</p>
             <p>{text}</p>
@@ -52,6 +52,7 @@ const Collection = ({ collection }) => {
 Collection.propTypes = {
   collection: PropTypes.shape({
     _id: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
