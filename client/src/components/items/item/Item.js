@@ -48,7 +48,7 @@ const Item = ({ item }) => {
           value={itemData.title}
           onChange={(e) => setItemData({ ...itemData, title: e.target.value })}
         />
-        <input
+        <textarea
           required
           placeholder={text}
           value={itemData.text}
@@ -81,7 +81,9 @@ const Item = ({ item }) => {
             <p>{_id}</p>
             <p>{title}</p>
             <p>{text}</p>
-            {tags.map((tag) => <span key={uuidv4()}>{tag.tagname}</span>)}
+            {tags.map((tag) => (
+              <Link to={`/tags/${tag._id}`} key={uuidv4()}>{tag.tagname}</Link>
+            ))}
           </Link>
           <button type="button" onClick={() => setOnEdit(true)}>Edit</button>
         </div>
