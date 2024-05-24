@@ -3,9 +3,9 @@ import API from '../api';
 
 export const getCollectionItems = createAsyncThunk(
   'items/getCollectionItems',
-  async ({ userId, collId }, thunkAPI) => {
+  async ({ userId, collId, page }, thunkAPI) => {
     try {
-      const resp = await API.get(`users/${userId}/collections/${collId}/items`);
+      const resp = await API.get(`users/${userId}/collections/${collId}/items?page=${page}`);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -66,6 +66,8 @@ export const deleteItem = createAsyncThunk(
 const initialState = {
   item: null,
   value: [],
+  currentPage: 1,
+  numberOfPages: 1,
   isLoading: false,
   error: undefined,
 };
@@ -87,7 +89,9 @@ export const itemsSlice = createSlice({
       .addCase(getCollectionItems.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = false;
-        state.value = action.payload;
+        state.value = action.payload.data;
+        state.currentPage = action.payload.currentPage;
+        state.numberOfPages = action.payload.numberOfPages;
       })
       .addCase(getCollectionItems.rejected, (state, action) => {
         state.isLoading = false;

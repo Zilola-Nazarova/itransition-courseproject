@@ -3,9 +3,9 @@ import API from '../api';
 
 export const getUsers = createAsyncThunk(
   'users/getUsers',
-  async (_, thunkAPI) => {
+  async (page, thunkAPI) => {
     try {
-      const resp = await API.get('/users');
+      const resp = await API.get(`/users?page=${page}`);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -64,6 +64,8 @@ export const deleteUser = createAsyncThunk(
 const initialState = {
   user: null,
   value: [],
+  currentPage: 1,
+  numberOfPages: 1,
   isLoading: false,
   error: undefined,
 };
@@ -81,7 +83,9 @@ export const usersSlice = createSlice({
       .addCase(getUsers.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = false;
-        state.value = action.payload;
+        state.value = action.payload.data;
+        state.currentPage = action.payload.currentPage;
+        state.numberOfPages = action.payload.numberOfPages;
       })
       .addCase(getUsers.rejected, (state, action) => {
         state.isLoading = false;
