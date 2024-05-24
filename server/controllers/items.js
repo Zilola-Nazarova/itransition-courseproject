@@ -4,7 +4,6 @@ import User from '../models/user.js';
 import Collection from '../models/collection.js';
 import Tag from '../models/tag.js';
 import ItemTag from '../models/item_tag.js';
-const ObjectId = mongoose.Types.ObjectId;
 
 export const getItems = async (req, res) => {
   try {
