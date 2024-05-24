@@ -15,10 +15,18 @@ export const getCollections = async (req, res) => {
 export const getUserCollections = async (req, res) => {
   try {
     const { userId } = req.params;
+    const { page } = req.query;
+    const LIMIT = 3;
+    const startIndex = (Number(page) - 1) * LIMIT;
+    const total = await Collection.countDocuments({});
     if (!mongoose.Types.ObjectId.isValid(userId)) return res.status(404).json(`No user with id ${userId}`);
-    const collections = await Collection.find({ author: userId }).exec();
+    const collections = await Collection
+      .find({ author: userId })
+      .sort({ updated_at: -1 })
+      .limit(LIMIT)
+      .skip(startIndex).lean();
     if (!collections) return res.status(400).json({ message: 'Collections not found' });
-    res.status(200).json(collections);
+    res.status(200).json({ data: collections, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }

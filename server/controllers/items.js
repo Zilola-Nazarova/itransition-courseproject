@@ -4,6 +4,7 @@ import User from '../models/user.js';
 import Collection from '../models/collection.js';
 import Tag from '../models/tag.js';
 import ItemTag from '../models/item_tag.js';
+const ObjectId = mongoose.Types.ObjectId;
 
 export const getItems = async (req, res) => {
   try {
@@ -17,17 +18,24 @@ export const getItems = async (req, res) => {
 export const getCollectionItems = async (req, res) => {
   try {
     const { collectionId, userId } = req.params;
+    const { page } = req.query;
+    const LIMIT = 3;
+    const startIndex = (Number(page) - 1) * LIMIT;
+    const total = await Collection.countDocuments({});
     if (!mongoose.Types.ObjectId.isValid(collectionId)) return res.status(404).json(`No collection with id ${collectionId}`);
     if (!mongoose.Types.ObjectId.isValid(userId)) return res.status(404).json(`No user with id ${userId}`);
-    let items = await Item.find({ coll: collectionId, author: userId }).populate({
-      path: 'tags',
-      populate: {
-        path: 'tag'
-      }
-    }).lean();
+    let items = await Item
+      .find({ coll: collectionId, author: userId })
+      .sort({ updated_at: -1 }).limit(LIMIT).skip(startIndex)
+      .populate({
+        path: 'tags',
+        populate: {
+          path: 'tag'
+        }
+      }).lean();
     if (!items) return res.status(400).json({ message: 'Items not found' });
     items = items.map((item) => ({ ...item, tags: item.tags.map((itemtag) => itemtag.tag) }));
-    res.status(200).json(items);
+    res.status(200).json({ data: items, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
