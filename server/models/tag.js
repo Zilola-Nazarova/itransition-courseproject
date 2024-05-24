@@ -17,6 +17,8 @@ const tagSchema = mongoose.Schema(
   }
 );
 
+tagSchema.index({ tagname: 'text' });
+
 const Tag = mongoose.model('Tag', tagSchema);
 
 export default Tag;

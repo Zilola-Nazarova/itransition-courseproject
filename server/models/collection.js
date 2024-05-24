@@ -39,6 +39,8 @@ const collectionSchema = mongoose.Schema(
   }
 );
 
+collectionSchema.index({ title: 'text', text: 'text', category: 'text' });
+
 collectionSchema.plugin(AutoIncrement, {
   id: 'collection_seq',
   inc_field: 'seq_no',
