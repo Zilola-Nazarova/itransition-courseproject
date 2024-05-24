@@ -5,7 +5,7 @@ export const getItemsBySearch = createAsyncThunk(
   'search/getItemsBySearch',
   async (searchQuery, thunkAPI) => {
     try {
-      const resp = await API.get(`search?searchQuery=${searchQuery.search}`);
+      const resp = await API.get(`search?searchQuery=${searchQuery}`);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
