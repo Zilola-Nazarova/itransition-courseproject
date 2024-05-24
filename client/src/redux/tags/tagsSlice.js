@@ -13,8 +13,21 @@ export const getTags = createAsyncThunk(
   },
 );
 
+export const getTagItems = createAsyncThunk(
+  'tags/getTagItems',
+  async (tagId, thunkAPI) => {
+    try {
+      const resp = await API.get(`/tags/${tagId}`);
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  },
+);
+
 const initialState = {
-  value: [],
+  tagItems: null,
+  tagList: [],
   isLoading: false,
   error: undefined,
 };
@@ -25,6 +38,20 @@ export const tagsSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
+      .addCase(getTagItems.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(getTagItems.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = false;
+        state.tagItems = action.payload;
+      })
+      .addCase(getTagItems.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+        state.tagItems = null;
+      })
       .addCase(getTags.pending, (state) => {
         state.isLoading = true;
         state.error = false;
@@ -32,12 +59,12 @@ export const tagsSlice = createSlice({
       .addCase(getTags.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = false;
-        state.value = action.payload;
+        state.tagList = action.payload;
       })
       .addCase(getTags.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
-        state.value = null;
+        state.tagList = null;
       });
   },
 });
