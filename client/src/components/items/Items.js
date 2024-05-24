@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { useSelector } from 'react-redux';
 import Pagination from '../Pagination';
 import Item from './item/Item';
@@ -14,7 +15,7 @@ const Items = () => {
         <Pagination
           items={value}
           itemsPerPage={3}
-          renderItem={(item) => <Item item={item} />}
+          renderItem={(item) => <Item item={item} key={uuidv4()} />}
         />
       )}
       {value?.length === 0
