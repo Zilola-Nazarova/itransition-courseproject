@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useState } from 'react';
 import FileBase from 'react-file-base64';
@@ -7,6 +7,7 @@ import { postCollection } from '../../redux/collections/collectionsSlice';
 
 const NewCollection = () => {
   const dispatch = useDispatch();
+  const { value: categories, isLoading, error } = useSelector((state) => state.categories);
   const { userId } = useParams();
   const emptyCollectionObj = {
     title: '', text: '', category: '', image: '',
@@ -18,7 +19,6 @@ const NewCollection = () => {
     dispatch(postCollection({ userId, newCollection: collectionData }));
     clear();
   };
-  const categories = ['cat1', 'cat2', 'cat3', 'other'];
 
   return (
     <div className="form">
@@ -30,7 +30,7 @@ const NewCollection = () => {
           value={collectionData.title}
           onChange={(e) => setCollectionData({ ...collectionData, title: e.target.value })}
         />
-        <input
+        <textarea
           required
           placeholder="text"
           value={collectionData.text}
@@ -43,6 +43,8 @@ const NewCollection = () => {
           value={collectionData.category}
         >
           <option value="">Please select a category</option>
+          {isLoading && <option value="none" disabled hidden>Browsing collections</option>}
+          {error && <option value="none" disabled hidden>Could not browse categories. Please refresh the page.</option>}
           {categories.map((category) => (
             <option key={uuidv4()} value={category}>{category}</option>
           ))}

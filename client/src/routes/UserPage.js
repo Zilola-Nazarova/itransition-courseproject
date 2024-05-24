@@ -6,6 +6,7 @@ import Collections from '../components/collections/Collections';
 import { getUserCollections } from '../redux/collections/collectionsSlice';
 import { getUser } from '../redux/users/usersSlice';
 import NewCollection from '../components/collections/NewCollection';
+import { getCategories } from '../redux/categories/categoriesSlice';
 
 const UserPage = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const UserPage = () => {
   useEffect(() => {
     dispatch(getUser(userId));
     dispatch(getUserCollections(userId));
+    dispatch(getCategories());
   }, [dispatch, userId]);
 
   return (

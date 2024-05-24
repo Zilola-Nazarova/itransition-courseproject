@@ -10,6 +10,7 @@ import likeRoutes from './routes/like.js';
 import commentRoutes from './routes/comment.js';
 import tagRoutes from './routes/tag.js';
 import authRoutes from './routes/auth.js';
+import categoryRoutes from './routes/category.js';
 
 const app = express();
 dotenv.config();
@@ -25,6 +26,7 @@ collectionRoutes.use('/:collectionId/items', itemRoutes);
 itemRoutes.use('/:itemId/likes', likeRoutes);
 itemRoutes.use('/:itemId/comments', commentRoutes);
 app.use('/tags', tagRoutes);
+app.use('/categories', categoryRoutes);
 
 const PORT = process.env.PORT || 5000;
 

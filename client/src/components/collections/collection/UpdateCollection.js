@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import FileBase from 'react-file-base64';
 import { v4 as uuidv4 } from 'uuid';
+import { useSelector } from 'react-redux';
 
 const UpdateCollection = ({ collectionData, collection, handleChange }) => {
-  const categories = ['cat1', 'cat2', 'cat3', 'other'];
+  const { value: categories, isLoading, error } = useSelector((state) => state.categories);
 
   return (
     <>
@@ -13,7 +14,7 @@ const UpdateCollection = ({ collectionData, collection, handleChange }) => {
         value={collectionData.title}
         onChange={(e) => handleChange({ ...collectionData, title: e.target.value })}
       />
-      <input
+      <textarea
         required
         placeholder={collection.text}
         value={collectionData.text}
@@ -25,7 +26,9 @@ const UpdateCollection = ({ collectionData, collection, handleChange }) => {
         value={collectionData.category}
       >
         <option value="none" disabled hidden>Please select a category</option>
-        {categories.map((category) => (
+        {isLoading && <option value="none" disabled hidden>Browsing categories</option>}
+        {error && <option value="none" disabled hidden>Could not browse categories. Please refresh the page.</option>}
+        {categories?.map((category) => (
           <option key={uuidv4()} value={category}>{category}</option>
         ))}
       </select>
