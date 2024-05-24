@@ -3,9 +3,9 @@ import API from '../api';
 
 export const getItemsBySearch = createAsyncThunk(
   'search/getItemsBySearch',
-  async (searchQuery, thunkAPI) => {
+  async ({ searchQuery, page }, thunkAPI) => {
     try {
-      const resp = await API.get(`search?searchQuery=${searchQuery}`);
+      const resp = await API.get(`search?searchQuery=${searchQuery}&page=${page}`);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -15,6 +15,8 @@ export const getItemsBySearch = createAsyncThunk(
 
 const initialState = {
   searchResults: null,
+  currentPage: 1,
+  numberOfPages: 1,
   error: undefined,
   isLoading: false,
 };
@@ -32,7 +34,9 @@ export const searchSlice = createSlice({
       .addCase(getItemsBySearch.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = false;
-        state.searchResults = action.payload;
+        state.searchResults = action.payload.data;
+        state.currentPage = action.payload.currentPage;
+        state.numberOfPages = action.payload.numberOfPages;
       })
       .addCase(getItemsBySearch.rejected, (state, action) => {
         state.isLoading = false;

@@ -4,7 +4,9 @@ import Collection from '../models/collection.js';
 
 export const getItemsBySearch = async (req, res) => {
   try {
-    const { searchQuery } = req.query;
+    const { searchQuery, page } = req.query;
+    const LIMIT = 3;
+    const startIndex = (Number(page) - 1) * LIMIT;
     var promises = [];
     promises.push(Item.aggregate([
       { $match: { $text: { $search: searchQuery } } },
@@ -59,12 +61,12 @@ export const getItemsBySearch = async (req, res) => {
       { $sort: { score: 1 } },
     ]));
     Promise.all(promises).then((results) => {
-      const result = [...results[0], ...results[1], ...results[2]]
-      result.sort((a, b) => b.score - a.score);
-      res.status(200).json(result);
+      let result = [...results[0], ...results[1], ...results[2]];
+      const total = result.length;
+      result = result.sort((a, b) => b.score - a.score).slice(startIndex, startIndex + LIMIT);
+      res.status(200).json({ data: result, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
     });
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error);
     res.status(404).json({ message: error.message });
   }

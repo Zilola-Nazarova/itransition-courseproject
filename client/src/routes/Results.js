@@ -1,11 +1,25 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import { useSearchParams } from 'react-router-dom';
 import Item from '../components/items/item/Item';
 import Collection from '../components/collections/collection/Collection';
-import Pagination from '../components/Pagination';
+import Paginated from '../components/Paginated';
+import { getItemsBySearch } from '../redux/search/searchSlice';
 
 const Results = () => {
-  const { searchResults, error, isLoading } = useSelector((state) => state.search);
+  const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get('page') || '1';
+  const searchQuery = searchParams.get('searchQuery');
+  useEffect(() => {
+    if (page && searchQuery) {
+      dispatch(getItemsBySearch({ searchQuery, page }));
+    }
+  }, [dispatch, page, searchQuery]);
+  const {
+    searchResults, numberOfPages, isLoading, error,
+  } = useSelector((state) => state.search);
 
   return (
     <div id="items">
@@ -13,9 +27,10 @@ const Results = () => {
       {error && <p>{error}</p>}
       {isLoading && <p>Loading...</p>}
       {searchResults?.length > 0 && (
-        <Pagination
+        <Paginated
           items={searchResults}
-          itemsPerPage={3}
+          pageCount={numberOfPages}
+          page={page}
           renderItem={(item) => {
             let renderedItem;
             if (item.type === 'item') renderedItem = <Item item={item} key={uuidv4()} />;

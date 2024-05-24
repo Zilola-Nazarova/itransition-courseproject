@@ -1,12 +1,17 @@
 import { useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
 import Pagination from 'react-bootstrap/Pagination';
+import { useSearchParams } from 'react-router-dom';
 
 const Paginated = ({
   items, renderItem, page, pageCount,
 }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const handlePageClick = (event) => navigate(`?page=${event.target.textContent}`);
+  const handlePageClick = (event) => {
+    setSearchParams((params) => params.set('page', event.target.textContent));
+    navigate(`?${searchParams}`);
+  };
   const pages = [];
   for (let number = 1; number <= pageCount; number += 1) {
     pages.push(

@@ -1,16 +1,12 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getItemsBySearch } from '../redux/search/searchSlice';
 
 const Searchbar = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const searchItems = () => {
     if (search.trim()) {
-      dispatch(getItemsBySearch(search));
-      navigate(`/search?searchQuery=${search}`);
+      navigate(`/search?searchQuery=${search}&page=1`);
     } else {
       navigate('/');
     }
