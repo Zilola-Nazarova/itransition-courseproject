@@ -1,26 +1,22 @@
 import { v4 as uuidv4 } from 'uuid';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useParams } from 'react-router';
 import Paginated from '../Paginated';
 import Collection from './collection/Collection';
 import { getUserCollections } from '../../redux/collections/collectionsSlice';
 
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
-
 const Collections = () => {
-  const query = useQuery();
   const dispatch = useDispatch();
-  const page = query.get('page') || '1';
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get('page') || '1';
   const { userId } = useParams();
   useEffect(() => {
     if (page) {
       dispatch(getUserCollections({ userId, page }));
     }
-  }, [dispatch, page]);
+  }, [dispatch, page, userId]);
   const {
     value, numberOfPages, isLoading, error,
   } = useSelector((state) => state.collections);
