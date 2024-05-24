@@ -10,6 +10,7 @@ import HomePage from './routes/HomePage';
 import Layout from './routes/Layout';
 import NotFound from './routes/NotFound';
 import Auth from './components/auth/Auth';
+import Results from './routes/Results';
 import TagPage from './routes/TagPage';
 
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/" element={<Layout />}>
           <Route path="*" element={<NotFound />} />
           <Route index element={<HomePage />} />
+          <Route path="search" element={<Results />} />
           <Route path="tags/:tagId" element={<TagPage />} />
           <Route path="auth" element={user ? <Navigate to="/" /> : <Auth />} />
           <Route path="users">
