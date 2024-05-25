@@ -11,6 +11,7 @@ import commentRoutes from './routes/comment.js';
 import tagRoutes from './routes/tag.js';
 import authRoutes from './routes/auth.js';
 import categoryRoutes from './routes/category.js';
+import homeRoutes from './routes/home.js';
 import searchRoutes from './routes/search.js';
 import { checkParams } from './middleware/params.js';
 
@@ -29,6 +30,7 @@ itemRoutes.use('/:itemId/likes', checkParams, likeRoutes);
 itemRoutes.use('/:itemId/comments', checkParams, commentRoutes);
 app.use('/tags', tagRoutes);
 app.use('/categories', categoryRoutes);
+app.use('/home', homeRoutes);
 app.use('/search', searchRoutes);
 
 const PORT = process.env.PORT || 5000;

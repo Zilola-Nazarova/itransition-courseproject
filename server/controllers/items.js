@@ -21,20 +21,19 @@ export const getCollectionItems = async (req, res) => {
     const { page } = req.query;
     const LIMIT = 3;
     const startIndex = (Number(page) - 1) * LIMIT;
-    const total = await Collection.countDocuments({});
-    const items = await Item.aggregate([
+    let items = await Item.aggregate([
       {
         $match: {
           coll: ObjectId.createFromHexString(collectionId),
           author: ObjectId.createFromHexString(userId)
         }
       },
-      { $sort: { updated_at: -1 } },
-      { $limit: LIMIT },
-      { $skip: startIndex },
+      { $sort: { updatedAt: -1 } },
       { $lookup: { from: 'itemtags', localField: '_id', foreignField: 'item', as: 'tags' } },
       { $lookup: { from: 'tags', localField: 'tags.tag', foreignField: '_id', as: 'tags' } }
     ]);
+    const total = items.length;
+    items = items.slice(startIndex, startIndex + LIMIT);
     if (!items) return res.status(400).json({ message: 'Items not found' });
     res.status(200).json({
       data: items,
@@ -150,5 +149,21 @@ export const deleteItem = async (req, res) => {
     res.status(200).json({ message: `Item with id ${itemId} has been deleted`, _id: itemId });
   } catch (error) {
     res.status(409).json({ message: error.message });
+  }
+};
+
+export const getLatestItems = async (req, res) => {
+  try {
+    const result = await Item.aggregate([
+      { $lookup: { from: 'itemtags', localField: 'tags', foreignField: '_id', as: 'tags' } },
+      { $lookup: { from: 'tags', localField: 'tags.tag', foreignField: '_id', as: 'tags' } },
+      { $project: { title: 1, text: 1, tags: 1, author: 1, coll: 1 } },
+      { $sort: { createdAt: -1 } },
+      { $limit: 3 }
+    ]);
+    res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
   }
 };

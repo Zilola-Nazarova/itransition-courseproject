@@ -17,12 +17,11 @@ export const getUserCollections = async (req, res) => {
     const { page } = req.query;
     const LIMIT = 3;
     const startIndex = (Number(page) - 1) * LIMIT;
-    const total = await Collection.countDocuments({});
-    const collections = await Collection
+    let collections = await Collection
       .find({ author: userId })
-      .sort({ updated_at: -1 })
-      .limit(LIMIT)
-      .skip(startIndex).lean();
+      .sort({ updatedAt: -1 });
+    const total = collections.length;
+    collections = collections.slice(startIndex, startIndex + LIMIT);
     if (!collections) return res.status(400).json({ message: 'Collections not found' });
     res.status(200).json({ data: collections, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
   } catch (error) {
@@ -89,5 +88,19 @@ export const deleteCollection = async (req, res) => {
     res.status(200).json({ message: `Collection with id ${collectionId} has been deleted`, _id: collectionId });
   } catch (error) {
     res.status(409).json({ message: error.message });
+  }
+};
+
+export const getLargestCollections = async (req, res) => {
+  try {
+    const collections = await Collection.aggregate([
+      { $project: { title: 1, text: 1, category: 1, author: 1, itemCount: { $size: '$items' } } },
+      { $sort: { itemCount: -1 } },
+      { $limit: 3 }
+    ]);
+    res.status(200).json(collections);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
   }
 };

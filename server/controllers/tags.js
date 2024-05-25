@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import Tag from '../models/tag.js';
+import ItemTag from '../models/item_tag.js';
+
 const ObjectId = mongoose.Types.ObjectId;
 
 export const getTags = async (req, res) => {
@@ -15,12 +17,25 @@ export const getTags = async (req, res) => {
 export const getTagItems = async (req, res) => {
   try {
     const { tagId } = req.params;
-    const items = await Tag.aggregate([
-      { $lookup: { from: 'itemtags', localField: 'items', foreignField: '_id', as: 'items' } },
-      { $lookup: { from: 'items', localField: 'items.item', foreignField: '_id', as: 'items' } },
-      { $match: { _id: ObjectId.createFromHexString(tagId) } }
+    const { page } = req.query;
+    const LIMIT = 3;
+    const startIndex = (Number(page) - 1) * LIMIT;
+    const tag = await Tag.findById(tagId);
+    let items = await ItemTag.aggregate([
+      { $match: { tag: ObjectId.createFromHexString(tagId) } },
+      { $lookup: { from: 'items', localField: 'item', foreignField: '_id', as: 'item' } },
+      { $unwind: '$item' },
+      { $lookup: { from: 'itemtags', localField: 'item._id', foreignField: 'item', as: 'item.tags' } },
+      { $lookup: { from: 'tags', localField: 'item.tags.tag', foreignField: '_id', as: 'item.tags' } },
+      { $sort: { updatedAt: -1 } }
     ]);
-    res.status(200).json(items[0]);
+    const total = items.length;
+    items = items.map((item) => item.item).slice(startIndex, startIndex + LIMIT);
+    res.status(200).json({
+      data: { tag, items },
+      currentPage: Number(page),
+      numberOfPages: Math.ceil(total / LIMIT)
+    });
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: error.message });

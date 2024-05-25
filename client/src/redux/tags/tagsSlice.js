@@ -15,9 +15,9 @@ export const getTags = createAsyncThunk(
 
 export const getTagItems = createAsyncThunk(
   'tags/getTagItems',
-  async (tagId, thunkAPI) => {
+  async ({ tagId, page }, thunkAPI) => {
     try {
-      const resp = await API.get(`/tags/${tagId}`);
+      const resp = await API.get(`/tags/${tagId}?page=${page}`);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -28,6 +28,8 @@ export const getTagItems = createAsyncThunk(
 const initialState = {
   tagItems: null,
   tagList: [],
+  currentPage: 1,
+  numberOfPages: 1,
   isLoading: false,
   error: undefined,
 };
@@ -45,7 +47,9 @@ export const tagsSlice = createSlice({
       .addCase(getTagItems.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = false;
-        state.tagItems = action.payload;
+        state.tagItems = action.payload.data;
+        state.currentPage = action.payload.currentPage;
+        state.numberOfPages = action.payload.numberOfPages;
       })
       .addCase(getTagItems.rejected, (state, action) => {
         state.isLoading = false;
