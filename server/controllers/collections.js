@@ -91,3 +91,17 @@ export const deleteCollection = async (req, res) => {
     res.status(409).json({ message: error.message });
   }
 };
+
+export const getLargestCollections = async (req, res) => {
+  try {
+    const collections = await Collection.aggregate([
+      { $project: { title: 1, text: 1, category: 1, author: 1, itemCount: { $size: '$items' } } },
+      { $sort: { itemCount: -1 } },
+      { $limit: 3 }
+    ]);
+    res.status(200).json(collections);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+};

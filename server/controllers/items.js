@@ -152,3 +152,19 @@ export const deleteItem = async (req, res) => {
     res.status(409).json({ message: error.message });
   }
 };
+
+export const getLatestItems = async (req, res) => {
+  try {
+    const result = await Item.aggregate([
+      { $lookup: { from: 'itemtags', localField: 'tags', foreignField: '_id', as: 'tags' } },
+      { $lookup: { from: 'tags', localField: 'tags.tag', foreignField: '_id', as: 'tags' } },
+      { $project: { title: 1, text: 1, tags: 1, author: 1, coll: 1 } },
+      { $sort: { created_at: -1 } },
+      { $limit: 3 }
+    ]);
+    res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+};
