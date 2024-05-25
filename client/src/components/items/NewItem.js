@@ -40,7 +40,7 @@ const NewItem = () => {
           value={itemData.title}
           onChange={(e) => setItemData({ ...itemData, title: e.target.value })}
         />
-        <input
+        <textarea
           required
           placeholder="text"
           value={itemData.text}

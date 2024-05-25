@@ -4,6 +4,7 @@ import User from '../models/user.js';
 import Collection from '../models/collection.js';
 import Tag from '../models/tag.js';
 import ItemTag from '../models/item_tag.js';
+const ObjectId = mongoose.Types.ObjectId;
 
 export const getItems = async (req, res) => {
   try {
@@ -17,17 +18,29 @@ export const getItems = async (req, res) => {
 export const getCollectionItems = async (req, res) => {
   try {
     const { collectionId, userId } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(collectionId)) return res.status(404).json(`No collection with id ${collectionId}`);
-    if (!mongoose.Types.ObjectId.isValid(userId)) return res.status(404).json(`No user with id ${userId}`);
-    let items = await Item.find({ coll: collectionId, author: userId }).populate({
-      path: 'tags',
-      populate: {
-        path: 'tag'
-      }
-    }).lean();
+    const { page } = req.query;
+    const LIMIT = 3;
+    const startIndex = (Number(page) - 1) * LIMIT;
+    const total = await Collection.countDocuments({});
+    const items = await Item.aggregate([
+      {
+        $match: {
+          coll: ObjectId.createFromHexString(collectionId),
+          author: ObjectId.createFromHexString(userId)
+        }
+      },
+      { $sort: { updated_at: -1 } },
+      { $limit: LIMIT },
+      { $skip: startIndex },
+      { $lookup: { from: 'itemtags', localField: '_id', foreignField: 'item', as: 'tags' } },
+      { $lookup: { from: 'tags', localField: 'tags.tag', foreignField: '_id', as: 'tags' } }
+    ]);
     if (!items) return res.status(400).json({ message: 'Items not found' });
-    items = items.map((item) => ({ ...item, tags: item.tags.map((itemtag) => itemtag.tag) }));
-    res.status(200).json(items);
+    res.status(200).json({
+      data: items,
+      currentPage: Number(page),
+      numberOfPages: Math.ceil(total / LIMIT)
+    });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -36,12 +49,11 @@ export const getCollectionItems = async (req, res) => {
 export const getItem = async (req, res) => {
   try {
     const { userId, collectionId, itemId } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(userId)) return res.status(404).json(`No item with id ${userId}`);
-    if (!mongoose.Types.ObjectId.isValid(collectionId)) return res.status(404).json(`No item with id ${collectionId}`);
-    if (!mongoose.Types.ObjectId.isValid(itemId)) return res.status(404).json(`No item with id ${itemId}`);
     const itemTags = await ItemTag.find({ item: itemId }).populate('tag');
     const tags = itemTags.map((itemtag) => itemtag.tag);
-    const item = await Item.findOne({ _id: itemId, coll: collectionId, author: userId }).lean();
+    const item = await Item.findOne(
+      { _id: itemId, coll: collectionId, author: userId }
+    ).lean();
     if (!item) return res.status(400).json({ message: 'Item not found' });
     res.status(200).json({ ...item, tags });
   } catch (error) {
@@ -53,7 +65,9 @@ export const createItem = async (req, res) => {
   try {
     const { collectionId, userId } = req.params;
     const { title, text, tags } = req.body;
-    if (!title || !text || !tags || tags.length === 0) return res.status(400).json({ message: 'All fields are required' });
+    if (!title || !text || !tags || tags.length === 0) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
     const collection = await Collection.findOne({ _id: collectionId, author: userId });
     if (!collection) return res.status(400).json({ message: 'Collection not found' });
     const author = await User.findById(userId);
@@ -88,9 +102,9 @@ export const updateItem = async (req, res) => {
     let tag;
     const { itemId, collectionId, userId } = req.params;
     const { title, text, tags } = req.body;
-    if (!title || !text || !tags || tags.length === 0) return res.status(400).json({ message: 'All fields are required' });
-    if (!mongoose.Types.ObjectId.isValid(itemId)) return res.status(404).json(`No item with id ${itemId}`);
-    if (!mongoose.Types.ObjectId.isValid(collectionId)) return res.status(404).json(`No collection with id ${collectionId}`);
+    if (!title || !text || !tags || tags.length === 0) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
     await ItemTag.deleteMany({ item: itemId });
     const newTags = [];
     for (const tagname of tags) {
@@ -118,8 +132,6 @@ export const updateItem = async (req, res) => {
 export const deleteItem = async (req, res) => {
   try {
     const { userId, collectionId, itemId } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(collectionId)) return res.status(404).json(`No collection with id ${collectionId}`);
-    if (!mongoose.Types.ObjectId.isValid(itemId)) return res.status(404).json(`No item with id ${itemId}`);
     const collection = await Collection.findById(collectionId).exec();
     collection.items = collection.items.filter((id) => id.toString() !== itemId);
     await collection.save();

@@ -42,6 +42,8 @@ const itemSchema = mongoose.Schema(
   }
 );
 
+itemSchema.index({ title: 'text', text: 'text' });
+
 itemSchema.plugin(AutoIncrement, {
   id: 'item_seq',
   inc_field: 'seq_no',

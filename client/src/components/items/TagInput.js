@@ -9,8 +9,8 @@ const TagInput = ({ pushTag, value, setValue }) => {
   useEffect(() => {
     dispatch(getTags());
   }, [dispatch]);
-  const options = useSelector((state) => state.tags.value);
-  const lowerCaseOptions = options.map((tag) => (
+  const options = useSelector((state) => state.tags.tagList);
+  const lowerCaseOptions = options?.map((tag) => (
     { id: tag._id, tagname: tag.tagname.toLowerCase() }
   ));
   const [suggestions, setSuggestions] = useState([]);

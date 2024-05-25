@@ -2,7 +2,15 @@ import mongoose from 'mongoose';
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const AutoIncrement = require('mongoose-sequence')(mongoose);
-
+export const categories = [
+  'Movies',
+  'Songs',
+  'Books',
+  'Quotes',
+  'TV Shows',
+  'Arts',
+  'Other'
+];
 const collectionSchema = mongoose.Schema(
   {
     title: {
@@ -16,13 +24,14 @@ const collectionSchema = mongoose.Schema(
     category: {
       type: String,
       enum: {
-        values: ['cat1', 'cat2', 'cat3', 'other'],
+        values: categories,
         message: 'Provide one of allowed categories'
       },
       required: [true, 'Category field can not be empty']
     },
     image: {
-      type: String
+      type: String,
+      default: null
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
@@ -38,6 +47,8 @@ const collectionSchema = mongoose.Schema(
     timestamps: true
   }
 );
+
+collectionSchema.index({ title: 'text', text: 'text', category: 'text' });
 
 collectionSchema.plugin(AutoIncrement, {
   id: 'collection_seq',

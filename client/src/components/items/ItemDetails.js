@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import { Link } from 'react-router-dom';
 
 const ItemDetails = () => {
   const { item, isLoading, error } = useSelector((state) => state.items);
@@ -14,7 +15,11 @@ const ItemDetails = () => {
           <h4>{item._id}</h4>
           <h4>{item.title}</h4>
           <h4>{item.text}</h4>
-          {item.tags.map((tag) => <span key={uuidv4()}>{tag.tagname}</span>)}
+          {item.tags.map((tag) => (
+            <Link to={`/tags/${tag._id}`} key={uuidv4()}>
+              {tag.tagname}
+            </Link>
+          ))}
         </>
       ) : (
         <p>
