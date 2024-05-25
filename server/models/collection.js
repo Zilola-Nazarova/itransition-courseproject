@@ -30,7 +30,8 @@ const collectionSchema = mongoose.Schema(
       required: [true, 'Category field can not be empty']
     },
     image: {
-      type: String
+      type: String,
+      default: null
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,

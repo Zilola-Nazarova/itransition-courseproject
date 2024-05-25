@@ -12,6 +12,7 @@ import tagRoutes from './routes/tag.js';
 import authRoutes from './routes/auth.js';
 import categoryRoutes from './routes/category.js';
 import searchRoutes from './routes/search.js';
+import { checkParams } from './middleware/params.js';
 
 const app = express();
 dotenv.config();
@@ -22,10 +23,10 @@ app.use(cors());
 
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
-userRoutes.use('/:userId/collections', collectionRoutes);
-collectionRoutes.use('/:collectionId/items', itemRoutes);
-itemRoutes.use('/:itemId/likes', likeRoutes);
-itemRoutes.use('/:itemId/comments', commentRoutes);
+userRoutes.use('/:userId/collections', checkParams, collectionRoutes);
+collectionRoutes.use('/:collectionId/items', checkParams, itemRoutes);
+itemRoutes.use('/:itemId/likes', checkParams, likeRoutes);
+itemRoutes.use('/:itemId/comments', checkParams, commentRoutes);
 app.use('/tags', tagRoutes);
 app.use('/categories', categoryRoutes);
 app.use('/search', searchRoutes);
