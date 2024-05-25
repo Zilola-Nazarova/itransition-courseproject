@@ -8,7 +8,6 @@ const searchItems = async (searchQuery) => (
     { $lookup: { from: 'itemtags', localField: 'tags', foreignField: '_id', as: 'tags' } },
     { $lookup: { from: 'tags', localField: 'tags.tag', foreignField: '_id', as: 'tags' } },
     { $project: { type: 'item', title: 1, text: 1, tags: 1, author: 1, coll: 1, score: { $meta: 'textScore' } } },
-    { $sort: { score: 1 } }
   ])
 );
 
@@ -17,7 +16,6 @@ const searchCollections = async (searchQuery) => (
     { $match: { $text: { $search: searchQuery } } },
     { $project: { type: 'collection', title: 1, text: 1, category: 1, author: 1, items: 1, itemCount: { $size: '$items' }, score: { $meta: 'textScore' } } },
     { $lookup: { from: 'items', localField: 'items', foreignField: '_id', as: 'items' } },
-    { $sort: { score: 1 } }
   ])
 );
 
@@ -29,7 +27,6 @@ const searchComments = async (searchQuery) => (
     { $lookup: { from: 'itemtags', localField: 'item._id', foreignField: 'item', as: 'item.tags' } },
     { $lookup: { from: 'tags', localField: 'item.tags.tag', foreignField: '_id', as: 'item.tags' } },
     { $project: { type: 'comment', text: 1, author: 1, item: 2, score: { $meta: 'textScore' } } },
-    { $sort: { score: 1 } }
   ])
 );
 

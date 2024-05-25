@@ -27,6 +27,7 @@ export const getTagItems = async (req, res) => {
       { $unwind: '$item' },
       { $lookup: { from: 'itemtags', localField: 'item._id', foreignField: 'item', as: 'item.tags' } },
       { $lookup: { from: 'tags', localField: 'item.tags.tag', foreignField: '_id', as: 'item.tags' } },
+      { $sort: { updatedAt: -1 } }
     ]);
     const total = items.length;
     items = items.map((item) => item.item).slice(startIndex, startIndex + LIMIT);;

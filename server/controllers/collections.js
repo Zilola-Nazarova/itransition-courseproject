@@ -17,12 +17,11 @@ export const getUserCollections = async (req, res) => {
     const { page } = req.query;
     const LIMIT = 3;
     const startIndex = (Number(page) - 1) * LIMIT;
-    const total = await Collection.countDocuments({});
-    const collections = await Collection
+    let collections = await Collection
       .find({ author: userId })
-      .sort({ updated_at: -1 })
-      .limit(LIMIT)
-      .skip(startIndex).lean();
+      .sort({ updatedAt: -1 });
+    const total = collections.length;
+    collections = collections.slice(startIndex, startIndex + LIMIT);
     if (!collections) return res.status(400).json({ message: 'Collections not found' });
     res.status(200).json({ data: collections, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
   } catch (error) {
