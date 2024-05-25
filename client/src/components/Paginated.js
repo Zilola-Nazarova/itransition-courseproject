@@ -41,7 +41,6 @@ Paginated.propTypes = {
     email: PropTypes.string,
     title: PropTypes.string,
     text: PropTypes.string,
-    tags: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
   })).isRequired,
   renderItem: PropTypes.func.isRequired,
   page: PropTypes.string.isRequired,
