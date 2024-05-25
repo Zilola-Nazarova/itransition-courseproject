@@ -30,7 +30,7 @@ export const getTagItems = async (req, res) => {
       { $sort: { updatedAt: -1 } }
     ]);
     const total = items.length;
-    items = items.map((item) => item.item).slice(startIndex, startIndex + LIMIT);;
+    items = items.map((item) => item.item).slice(startIndex, startIndex + LIMIT);
     res.status(200).json({
       data: { tag, items },
       currentPage: Number(page),
