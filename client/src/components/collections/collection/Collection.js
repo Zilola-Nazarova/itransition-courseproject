@@ -11,12 +11,18 @@ const Collection = ({ collection }) => {
   const { userId } = useParams();
   const [onEdit, setOnEdit] = useState(false);
   const {
-    _id, title, text, category, image,
+    _id, title, text, category, imageUrl,
   } = collection;
-  const [collectionData, setCollectionData] = useState(collection);
+  const [collectionData, setCollectionData] = useState({
+    _id, title, text, category, imageUrl,
+  });
   const handleSave = (e) => {
     e.preventDefault();
-    dispatch(updateCollection({ userId, collId: _id, updatedCollection: collectionData }));
+    const formData = new FormData();
+    Object.entries(collectionData).map((entry) => (
+      formData.append(entry[0], entry[1])
+    ));
+    dispatch(updateCollection({ userId, collId: _id, updatedCollection: formData }));
     setOnEdit(false);
   };
 
@@ -39,7 +45,7 @@ const Collection = ({ collection }) => {
             <p>{title}</p>
             <p>{text}</p>
             <p>{category}</p>
-            {image ? <img src={image} alt={title} /> : <p>No image provided</p>}
+            {imageUrl ? <img src={imageUrl} alt={title} /> : <p>No image provided</p>}
           </Link>
           <button type="button" onClick={() => setOnEdit(true)}>Edit</button>
         </>
@@ -56,7 +62,7 @@ Collection.propTypes = {
     title: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
+    imageUrl: PropTypes.string,
   }).isRequired,
 };
 

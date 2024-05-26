@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useState } from 'react';
-import FileBase from 'react-file-base64';
 import { v4 as uuidv4 } from 'uuid';
 import { postCollection } from '../../redux/collections/collectionsSlice';
 
@@ -16,7 +15,11 @@ const NewCollection = () => {
   const clear = () => setCollectionData(emptyCollectionObj);
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postCollection({ userId, newCollection: collectionData }));
+    const formData = new FormData();
+    Object.entries(collectionData).map((entry) => (
+      formData.append(entry[0], entry[1])
+    ));
+    dispatch(postCollection({ userId, newCollection: formData }));
     clear();
   };
 
@@ -49,13 +52,10 @@ const NewCollection = () => {
             <option key={uuidv4()} value={category}>{category}</option>
           ))}
         </select>
-        <div>
-          <FileBase
-            type="file"
-            multiple={false}
-            onDone={({ base64 }) => setCollectionData({ ...collectionData, image: base64 })}
-          />
-        </div>
+        <input
+          type="file"
+          onChange={(e) => setCollectionData({ ...collectionData, image: e.target.files[0] })}
+        />
         <button type="submit">Submit</button>
         <button type="button" onClick={clear}>Clear</button>
       </form>
