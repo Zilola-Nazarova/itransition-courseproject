@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import FileBase from 'react-file-base64';
 import { v4 as uuidv4 } from 'uuid';
 import { useSelector } from 'react-redux';
 
@@ -34,13 +33,11 @@ const UpdateCollection = ({ collectionData, collection, handleChange }) => {
       </select>
       <div>
         {collection.image
-          ? <img src={collection.image} alt={collection.title} />
+          ? <img src={collection.imageUrl} alt={collection.title} />
           : <p>No image provided</p>}
-        <FileBase
+        <input
           type="file"
-          multiple={false}
-          value={collectionData.image}
-          onDone={({ base64 }) => handleChange({ ...collectionData, image: base64 })}
+          onChange={(e) => handleChange({ ...collectionData, image: e.target.files[0] })}
         />
       </div>
     </>
@@ -53,6 +50,7 @@ UpdateCollection.propTypes = {
     text: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
+    imageUrl: PropTypes.string.isRequired,
   }).isRequired,
   collectionData: PropTypes.shape({
     title: PropTypes.string.isRequired,

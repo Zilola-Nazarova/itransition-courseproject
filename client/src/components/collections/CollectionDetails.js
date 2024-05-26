@@ -14,8 +14,8 @@ const CollectionDetails = () => {
           <h4>{collection.title}</h4>
           <h4>{collection.text}</h4>
           <h4>{collection.category}</h4>
-          {collection.image
-            ? <img src={collection.image} alt={collection.title} />
+          {collection.imageUrl
+            ? <img src={collection.imageUrl} alt={collection.title} />
             : <p>No image provided</p>}
         </>
       ) : (
