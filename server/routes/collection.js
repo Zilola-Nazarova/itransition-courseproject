@@ -6,7 +6,7 @@ import {
 } from '../controllers/collections.js';
 
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 const router = express.Router({ mergeParams: true });
 
 router.get('/', getUserCollections);

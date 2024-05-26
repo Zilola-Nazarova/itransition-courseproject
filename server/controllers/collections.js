@@ -3,7 +3,7 @@ import User from '../models/user.js';
 import Item from '../models/item.js';
 import crypto from 'crypto';
 import sharp from 'sharp';
-import { uploadFile, deleteFile, getObjectSignedUrl } from '../middleware/s3.js'
+import { uploadFile, deleteFile, getObjectSignedUrl } from '../middleware/s3.js';
 
 const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
 
@@ -11,7 +11,7 @@ export const getCollections = async (req, res) => {
   try {
     const collections = await Collection.find().lean();
     if (!collections) return res.status(400).json({ message: 'Collections not found' });
-    for (let collection of collections) {
+    for (const collection of collections) {
       if (collection.image) {
         collection.imageUrl = await getObjectSignedUrl(collection.image);
       }
@@ -32,7 +32,7 @@ export const getUserCollections = async (req, res) => {
     if (!collections) return res.status(400).json({ message: 'Collections not found' });
     const total = collections.length;
     collections = collections.slice(startIndex, startIndex + LIMIT);
-    for (let collection of collections) {
+    for (const collection of collections) {
       if (collection.image) {
         collection.imageUrl = await getObjectSignedUrl(collection.image);
       }
