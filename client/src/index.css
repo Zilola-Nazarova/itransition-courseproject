@@ -6,8 +6,8 @@ nav {
   border-top: 2px solid darkslategray;
 }
 
-#form {
-  background-color: lightslategrey;
+.card {
+  max-width: 50rem;
 }
 
 .user,
@@ -102,10 +102,6 @@ button {
   display: block;
   position: relative;
   z-index: 5;
-}
-
-a {
-  text-decoration: none;
 }
 
 .tags {

@@ -1,12 +1,14 @@
+import Container from 'react-bootstrap/esm/Container';
+
 import { Outlet } from 'react-router-dom';
 import Header from '../components/Header';
 
 const Layout = () => (
   <>
     <Header />
-    <div>
+    <Container fluid className="bg-dark p-5">
       <Outlet />
-    </div>
+    </Container>
   </>
 );
 
