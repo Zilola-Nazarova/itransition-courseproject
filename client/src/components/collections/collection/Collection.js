@@ -1,10 +1,12 @@
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import UpdateCollection from './UpdateCollection';
 import { updateCollection, deleteCollection } from '../../../redux/collections/collectionsSlice';
+import EditDelete from '../../EditDelete';
 
 const Collection = ({ collection }) => {
   const dispatch = useDispatch();
@@ -27,8 +29,7 @@ const Collection = ({ collection }) => {
   };
 
   return (
-    <div className="collection">
-      <p>SINGLE COLLECTION</p>
+    <Row className="collection position-relative">
       {onEdit ? (
         <>
           <UpdateCollection
@@ -40,18 +41,29 @@ const Collection = ({ collection }) => {
         </>
       ) : (
         <>
-          <Link to={`/users/${collection.author}/collections/${collection._id}/items`}>
-            <p>{_id}</p>
-            <p>{title}</p>
-            <p>{text}</p>
-            <p>{category}</p>
+          <a
+            href={`/users/${collection.author}/collections/${collection._id}/items`}
+            className="stretched-link"
+            aria-label="Open Collection"
+          />
+          <Col sm={12} md={2}>
+            <h3>
+              {title}
+              <br />
+              <small className="text-muted">{category}</small>
+            </h3>
+          </Col>
+          <Col sm={12} md={6}>{text}</Col>
+          <Col sm={12} md={2}>
             {imageUrl ? <img src={imageUrl} alt={title} /> : <p>No image provided</p>}
-          </Link>
-          <button type="button" onClick={() => setOnEdit(true)}>Edit</button>
+          </Col>
+          <EditDelete
+            edit={() => setOnEdit(true)}
+            del={() => dispatch(deleteCollection({ userId, collId: _id }))}
+          />
         </>
       )}
-      <button type="button" onClick={() => dispatch(deleteCollection({ userId, collId: _id }))}>Delete</button>
-    </div>
+    </Row>
   );
 };
 

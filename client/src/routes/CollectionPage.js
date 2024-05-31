@@ -1,3 +1,4 @@
+import Container from 'react-bootstrap/Container';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
@@ -17,9 +18,15 @@ const CollectionPage = () => {
   return (
     <>
       <h2>COLLECTION ITEMS PAGE</h2>
-      <CollectionDetails />
-      <Items />
-      <NewItem />
+      <Container id="details" className="position-relative">
+        <CollectionDetails />
+      </Container>
+      <Container id="form">
+        <NewItem />
+      </Container>
+      <Container id="items">
+        <Items />
+      </Container>
     </>
   );
 };

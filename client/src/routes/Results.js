@@ -48,7 +48,7 @@ const Results = () => {
         />
       )}
       {searchResults?.length === 0
-        && <p>Oops! Seems you don&apos;t have any items. Want to create one?</p>}
+        && <p>Nothing matched your search!</p>}
     </div>
   );
 };

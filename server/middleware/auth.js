@@ -32,10 +32,20 @@ export const auth = async (req, res, next) => {
 
 export const ownerCheck = async (req, res, next) => {
   try {
-    const currentUser = req.userId;
+    const currentUser = await User.findById(req.userId);
     const { userId } = req.params;
     if (!mongoose.Types.ObjectId.isValid(userId)) return res.status(404).json(`No user with id ${userId}`);
-    if (currentUser !== userId) return res.status(404).json({ message: 'You can not perform actions on behalf of other users' });
+    if (req.userId !== userId && currentUser.role === 'User') return res.status(404).json({ message: 'You can not perform actions on behalf of other users' });
+    next();
+  } catch (error) {
+    res.status(401).json({ message: 'Authorization failed' });
+  }
+};
+
+export const adminCheck = async (req, res, next) => {
+  try {
+    const currentUser = await User.findById(req.userId);
+    if (currentUser.role === 'User') return res.status(404).json({ message: 'You don not have access rights' });
     next();
   } catch (error) {
     console.log(error);

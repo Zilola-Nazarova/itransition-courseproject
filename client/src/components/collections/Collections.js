@@ -22,8 +22,8 @@ const Collections = () => {
   } = useSelector((state) => state.collections);
 
   return (
-    <div id="collections">
-      <h3>COLLECTIONS COMPONENT</h3>
+    <>
+      <h3>COLLECTIONS</h3>
       {error && <p>{error}</p>}
       {isLoading && <p>Loading...</p>}
       {value?.length > 0 && (
@@ -36,7 +36,7 @@ const Collections = () => {
       )}
       {value?.length === 0
         && <p>Oops! Seems you don&apos;t have any collections. Want to create one?</p>}
-    </div>
+    </>
   );
 };
 

@@ -24,7 +24,7 @@ const Users = () => {
   } = useSelector((state) => state.users);
 
   return (
-    <div id="users">
+    <>
       <h3>USERS COMPONENT</h3>
       {error && <p>{error}</p>}
       {isLoading && <p>Loading...</p>}
@@ -38,7 +38,7 @@ const Users = () => {
       )}
       {value?.length === 0
         && <p>Oops! Seems you there are no users registered. Want to create one?</p>}
-    </div>
+    </>
   );
 };
 

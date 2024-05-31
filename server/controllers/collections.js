@@ -46,7 +46,7 @@ export const getUserCollections = async (req, res) => {
 export const getCollection = async (req, res) => {
   try {
     const { userId, collectionId } = req.params;
-    const collection = await Collection.findOne({ _id: collectionId, author: userId }).exec();
+    const collection = await Collection.findOne({ _id: collectionId, author: userId }).lean();
     if (!collection) return res.status(400).json({ message: 'Collection not found' });
     if (collection.image) {
       collection.imageUrl = await getObjectSignedUrl(collection.image);

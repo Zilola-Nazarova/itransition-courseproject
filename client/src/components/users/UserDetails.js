@@ -1,22 +1,18 @@
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const UserDetails = () => {
   const { user, isLoading, error } = useSelector((state) => state.users);
 
   return (
-    <div id="details">
-      <h3>USER DETAILS</h3>
+    <>
       {error && <p>{error}</p>}
       {isLoading && <p>Loading...</p>}
       {user ? (
-        <>
-          <h4>{user._id}</h4>
-          <h4>{user.username}</h4>
+        <Link to={`/users/${user._id}/collections`}>
+          <h3>{user.username}</h3>
           <h4>{user.email}</h4>
-          <h4>{user.password}</h4>
-          <h4>{user.role}</h4>
-          <h4>{user.active}</h4>
-        </>
+        </Link>
       ) : (
         <p>
           Oops! Seems this user doesn&apos;t exist.
@@ -24,7 +20,7 @@ const UserDetails = () => {
           Go back to Users Page.
         </p>
       )}
-    </div>
+    </>
   );
 };
 

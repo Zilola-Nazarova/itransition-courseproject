@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { postUser } from '../../redux/users/usersSlice';
 import Radio from './Radio';
+import CreateClear from '../CreateClear';
 
 const NewUser = () => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const NewUser = () => {
   const active = [true, false];
 
   return (
-    <div className="form">
+    <>
       <h3>CREATE USER</h3>
       <form onSubmit={handleSubmit}>
         <input
@@ -60,10 +61,9 @@ const NewUser = () => {
           current={userData.active}
           handleChange={(e, bool) => setUserData({ ...userData, active: bool })}
         />
-        <button type="submit">Submit</button>
-        <button type="button" onClick={clear}>Clear</button>
+        <CreateClear clear={clear} />
       </form>
-    </div>
+    </>
   );
 };
 
