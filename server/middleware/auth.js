@@ -35,11 +35,9 @@ export const ownerCheck = async (req, res, next) => {
     const currentUser = await User.findById(req.userId);
     const { userId } = req.params;
     if (!mongoose.Types.ObjectId.isValid(userId)) return res.status(404).json(`No user with id ${userId}`);
-    const user = await User.findById(req.userId);
-    if (currentUser._id !== userId && user.role === 'User') return res.status(404).json({ message: 'You can not perform actions on behalf of other users' });
+    if (req.userId !== userId && currentUser.role === 'User') return res.status(404).json({ message: 'You can not perform actions on behalf of other users' });
     next();
   } catch (error) {
-    console.log(error);
     res.status(401).json({ message: 'Authorization failed' });
   }
 };

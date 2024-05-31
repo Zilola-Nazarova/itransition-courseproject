@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import User from '../components/users/user/User';
+import UserDetails from '../components/users/UserDetails';
 import { getUser } from '../redux/users/usersSlice';
 import { getCategories } from '../redux/categories/categoriesSlice';
 
@@ -18,7 +18,7 @@ const ProfilePage = () => {
     <>
       <section>
         <h2>MY PROFILE</h2>
-        <User user={user.user} />
+        <UserDetails user={user.user} />
       </section>
       <section>
         <Link to={`/users/${user.user._id}/collections`}>

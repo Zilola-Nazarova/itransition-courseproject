@@ -1,3 +1,4 @@
+import Container from 'react-bootstrap/Container';
 import { useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
 import Pagination from 'react-bootstrap/Pagination';
@@ -26,7 +27,9 @@ const Paginated = ({
   }
   return (
     <>
-      {items && items.map((item) => renderItem(item))}
+      <Container fluid="md">
+        {items && items.map((item) => renderItem(item))}
+      </Container>
       <div>
         <Pagination>{pages}</Pagination>
       </div>

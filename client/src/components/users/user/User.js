@@ -1,9 +1,11 @@
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { updateUser, deleteUser } from '../../../redux/users/usersSlice';
 import UpdateUser from './UpdateUser';
+import EditDelete from '../../EditDelete';
 
 const User = ({ user }) => {
   const dispatch = useDispatch();
@@ -19,7 +21,7 @@ const User = ({ user }) => {
   };
 
   return (
-    <div className="user">
+    <Row className="user">
       <p>SINGLE USER</p>
       {onEdit ? (
         <>
@@ -32,19 +34,24 @@ const User = ({ user }) => {
         </>
       ) : (
         <>
-          <Link to={`${user._id}/collections`}>
-            <p>{_id}</p>
-            <p>{username}</p>
-            <p>{email}</p>
-            <p>{password}</p>
-            <p>{role}</p>
-            <p>{`${active}`}</p>
-          </Link>
-          <button type="button" onClick={() => setOnEdit(true)}>Edit</button>
+          <a
+            href={`${user._id}/collections`}
+            className="stretched-link"
+            aria-label="Open Collection"
+          />
+          <Col>{_id}</Col>
+          <Col>{username}</Col>
+          <Col>{email}</Col>
+          <Col>{password}</Col>
+          <Col>{role}</Col>
+          <Col>{`${active}`}</Col>
+          <EditDelete
+            edit={() => setOnEdit(true)}
+            del={() => dispatch(deleteUser(_id))}
+          />
         </>
       )}
-      <button type="button" onClick={() => dispatch(deleteUser(_id))}>Delete</button>
-    </div>
+    </Row>
   );
 };
 

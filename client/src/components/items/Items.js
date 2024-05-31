@@ -1,3 +1,4 @@
+import Container from 'react-bootstrap/Container';
 import { v4 as uuidv4 } from 'uuid';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -22,8 +23,8 @@ const Items = () => {
   } = useSelector((state) => state.items);
 
   return (
-    <div id="items">
-      <h3>ITEMS COMPONENT</h3>
+    <Container id="items">
+      <h3>ITEMS</h3>
       {error && <p>{error}</p>}
       {isLoading && <p>Loading...</p>}
       {value?.length > 0 && (
@@ -36,7 +37,7 @@ const Items = () => {
       )}
       {value?.length === 0
         && <p>Oops! Seems you don&apos;t have any items. Want to create one?</p>}
-    </div>
+    </Container>
   );
 };
 

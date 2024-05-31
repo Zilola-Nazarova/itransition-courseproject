@@ -1,3 +1,5 @@
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
@@ -7,6 +9,7 @@ import PropTypes from 'prop-types';
 import { updateItem, deleteItem } from '../../../redux/items/itemsSlice';
 import ClickOutside from '../../../helpers/ClickOutside';
 import TagInput from '../TagInput';
+import EditDelete from '../../EditDelete';
 
 const Item = ({ item }) => {
   const dispatch = useDispatch();
@@ -73,23 +76,30 @@ const Item = ({ item }) => {
   );
 
   return (
-    <div className="item">
-      <p>SINGLE ITEM</p>
+    <Row className="item">
       {onEdit ? updateForm : (
-        <div>
-          <Link to={`/users/${item.author}/collections/${item.coll}/items/${item._id}`}>
-            <p>{_id}</p>
-            <p>{title}</p>
-            <p>{text}</p>
-          </Link>
-          {tags.map((tag) => (
-            <Link to={`/tags/${tag._id}`} key={uuidv4()}>{tag.tagname}</Link>
-          ))}
-          <button type="button" onClick={() => setOnEdit(true)}>Edit</button>
-        </div>
+        <>
+          <a
+            href={`/users/${item.author}/collections/${item.coll}/items/${item._id}`}
+            className="stretched-link"
+            aria-label="Open Collection"
+          />
+          <Col sm={12} md={2}><h3>{title}</h3></Col>
+          <Col sm={12} md={6}><p>{text}</p></Col>
+          <Col>
+            {tags.map((tag) => (
+              <Link to={`/tags/${tag._id}`} key={uuidv4()}>
+                {`#${tag.tagname} `}
+              </Link>
+            ))}
+          </Col>
+          <EditDelete
+            edit={() => setOnEdit(true)}
+            del={() => dispatch(deleteItem({ userId, collId, itemId: _id }))}
+          />
+        </>
       )}
-      <button type="button" onClick={() => dispatch(deleteItem({ userId, collId, itemId: _id }))}>Delete</button>
-    </div>
+    </Row>
   );
 };
 
