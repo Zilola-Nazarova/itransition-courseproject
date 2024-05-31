@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { postCollection } from '../../redux/collections/collectionsSlice';
+import CreateClear from '../CreateClear';
 
 const NewCollection = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const NewCollection = () => {
   };
 
   return (
-    <div className="form">
+    <>
       <h3>CREATE COLLECTION</h3>
       <form onSubmit={handleSubmit}>
         <input
@@ -56,10 +57,9 @@ const NewCollection = () => {
           type="file"
           onChange={(e) => setCollectionData({ ...collectionData, image: e.target.files[0] })}
         />
-        <button type="submit">Submit</button>
-        <button type="button" onClick={clear}>Clear</button>
+        <CreateClear clear={clear} />
       </form>
-    </div>
+    </>
   );
 };
 

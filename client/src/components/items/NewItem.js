@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 import { useState } from 'react';
 import { postItem } from '../../redux/items/itemsSlice';
 import TagInput from './TagInput';
+import CreateClear from '../CreateClear';
 
 const NewItem = () => {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const NewItem = () => {
     setTags(tags.filter((tag) => tag !== toDelete));
   };
   return (
-    <div className="form">
+    <>
       <h3>CREATE ITEM</h3>
       <form onSubmit={handleSubmit}>
         <input
@@ -60,10 +61,9 @@ const NewItem = () => {
           setValue={setValue}
         />
         <button type="button" onClick={() => pushTag(value)}>Add tag</button>
-        <button type="submit">Submit</button>
-        <button type="button" onClick={clear}>Clear</button>
+        <CreateClear clear={clear} />
       </form>
-    </div>
+    </>
   );
 };
 
