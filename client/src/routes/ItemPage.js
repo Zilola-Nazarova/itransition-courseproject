@@ -1,3 +1,4 @@
+import Container from 'react-bootstrap/Container';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
@@ -20,9 +21,15 @@ const ItemPage = () => {
 
   return (
     <>
-      <ItemDetails />
-      <Likes />
-      <Comments />
+      <Container id="details" className="position-relative">
+        <ItemDetails />
+      </Container>
+      <Container id="comments">
+        <Comments />
+      </Container>
+      <Container id="likes">
+        <Likes />
+      </Container>
     </>
   );
 };
