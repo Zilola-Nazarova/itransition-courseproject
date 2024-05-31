@@ -21,7 +21,7 @@ const User = ({ user }) => {
   };
 
   return (
-    <Row className="user">
+    <Row className="user position-relative">
       <p>SINGLE USER</p>
       {onEdit ? (
         <>

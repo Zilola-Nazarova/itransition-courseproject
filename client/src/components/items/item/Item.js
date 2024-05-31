@@ -76,7 +76,7 @@ const Item = ({ item }) => {
   );
 
   return (
-    <Row className="item">
+    <Row className="item position-relative">
       {onEdit ? updateForm : (
         <>
           <a
@@ -86,7 +86,7 @@ const Item = ({ item }) => {
           />
           <Col sm={12} md={2}><h3>{title}</h3></Col>
           <Col sm={12} md={6}><p>{text}</p></Col>
-          <Col>
+          <Col className="tags">
             {tags.map((tag) => (
               <Link to={`/tags/${tag._id}`} key={uuidv4()}>
                 {`#${tag.tagname} `}
