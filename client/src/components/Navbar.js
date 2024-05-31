@@ -26,13 +26,16 @@ const Navbar = () => {
       <div>
         {user
           ? <Profile currentUser={user.user} signout={signout} />
-          : <Link to="auth">Login</Link>}
+          : <Link to="/auth">Login</Link>}
       </div>
       <ul>
-        <li><Link to="users">Users</Link></li>
-        <li><Link to="collections">Collections</Link></li>
-        <li><Link to="items">Items</Link></li>
+        <li><Link to="/users">Users</Link></li>
+        <li><Link to="/collections">Collections</Link></li>
+        <li><Link to="/items">Items</Link></li>
       </ul>
+      <div>
+        {user?.user.role === 'Admin' && <Link to="/users">Admin</Link>}
+      </div>
     </nav>
   );
 };

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const Profile = ({ currentUser, signout }) => {
   const initials = currentUser.username
@@ -8,7 +9,7 @@ const Profile = ({ currentUser, signout }) => {
     ? currentUser.username
     : currentUser.family_name + currentUser.given_name;
   return (
-    <>
+    <Link to={`/${currentUser.username}`}>
       <span>My Profile</span>
       {currentUser.picture
         ? (
@@ -26,7 +27,7 @@ const Profile = ({ currentUser, signout }) => {
       >
         Sign Out
       </button>
-    </>
+    </Link>
   );
 };
 
