@@ -1,3 +1,10 @@
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/esm/Col';
+import Row from 'react-bootstrap/esm/Row';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Accordion from 'react-bootstrap/Accordion';
+import CloseButton from 'react-bootstrap/CloseButton';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
@@ -23,7 +30,6 @@ const NewItem = () => {
     dispatch(postItem({ userId, collId, newItem: { ...itemData, tags } }));
     clear();
   };
-
   const pushTag = (tag) => {
     setTags([...tags, tag]);
     setValue('');
@@ -31,39 +37,73 @@ const NewItem = () => {
   const excludeTag = (toDelete) => {
     setTags(tags.filter((tag) => tag !== toDelete));
   };
+  const handleChange = (e) => {
+    setItemData({ ...itemData, [e.target.name]: e.target.value });
+  };
+
   return (
-    <>
-      <h3>CREATE ITEM</h3>
-      <form onSubmit={handleSubmit}>
-        <input
-          required
-          placeholder="title"
-          value={itemData.title}
-          onChange={(e) => setItemData({ ...itemData, title: e.target.value })}
-        />
-        <textarea
-          required
-          placeholder="text"
-          value={itemData.text}
-          onChange={(e) => setItemData({ ...itemData, text: e.target.value })}
-        />
-        <ul>
-          {tags.map((tag) => (
-            <li key={uuidv4()}>
-              {tag}
-              <button type="button" onClick={() => excludeTag(tag)}>X</button>
-            </li>
-          ))}
-        </ul>
-        <TagInput
-          pushTag={pushTag}
-          value={value}
-          setValue={setValue}
-        />
-        <button type="button" onClick={() => pushTag(value)}>Add tag</button>
-        <CreateClear clear={clear} />
-      </form>
-    </>
+    <Accordion data-bs-theme="dark">
+      <Accordion.Item eventKey="0">
+        <Accordion.Header>CREATE ITEM</Accordion.Header>
+        <Accordion.Body>
+          <Form
+            className="text-start m-auto d-grid gap-3"
+            onSubmit={handleSubmit}
+          >
+            <Form.Group>
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                required
+                placeholder="Name the Item"
+                value={itemData.title}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                required
+                placeholder="Describe the Item"
+                value={itemData.text}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <ListGroup horizontal="md">
+              {tags.map((tag) => (
+                <ListGroup.Item key={uuidv4()}>
+                  {tag}
+                  <CloseButton
+                    onClick={() => excludeTag(tag)}
+                    aria-label="Hide"
+                  />
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+            <Row>
+              <Col xs={8}>
+                <TagInput
+                  pushTag={pushTag}
+                  value={value}
+                  setValue={setValue}
+                />
+              </Col>
+              <Col xs={4}>
+                <Button
+                  className="btn-wide"
+                  type="button"
+                  onClick={() => pushTag(value)}
+                >
+                  Add tag
+                </Button>
+              </Col>
+            </Row>
+            <CreateClear clear={clear} />
+          </Form>
+        </Accordion.Body>
+      </Accordion.Item>
+    </Accordion>
   );
 };
 

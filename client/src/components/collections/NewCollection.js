@@ -1,3 +1,5 @@
+import Form from 'react-bootstrap/Form';
+import Accordion from 'react-bootstrap/Accordion';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useState } from 'react';
@@ -23,42 +25,65 @@ const NewCollection = () => {
     dispatch(postCollection({ userId, newCollection: formData }));
     clear();
   };
+  const handleChange = (e) => {
+    setCollectionData({ ...collectionData, [e.target.name]: e.target.value });
+  };
 
   return (
     <>
-      <h3>CREATE COLLECTION</h3>
-      <form onSubmit={handleSubmit}>
-        <input
-          required
-          placeholder="title"
-          value={collectionData.title}
-          onChange={(e) => setCollectionData({ ...collectionData, title: e.target.value })}
-        />
-        <textarea
-          required
-          placeholder="text"
-          value={collectionData.text}
-          onChange={(e) => setCollectionData({ ...collectionData, text: e.target.value })}
-        />
-        <select
-          required
-          placeholder="category"
-          onChange={(e) => setCollectionData({ ...collectionData, category: e.target.value })}
-          value={collectionData.category}
-        >
-          <option value="">Please select a category</option>
-          {isLoading && <option value="none" disabled hidden>Browsing collections</option>}
-          {error && <option value="none" disabled hidden>Could not browse categories. Please refresh the page.</option>}
-          {categories.map((category) => (
-            <option key={uuidv4()} value={category}>{category}</option>
-          ))}
-        </select>
-        <input
-          type="file"
-          onChange={(e) => setCollectionData({ ...collectionData, image: e.target.files[0] })}
-        />
-        <CreateClear clear={clear} />
-      </form>
+      <Accordion data-bs-theme="dark">
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>CREATE COLLECTION</Accordion.Header>
+          <Accordion.Body>
+            <Form
+              className="text-start m-auto d-grid gap-3"
+              onSubmit={handleSubmit}
+            >
+              <Form.Group>
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  required
+                  placeholder="Name the Collection"
+                  value={collectionData.title}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  required
+                  placeholder="Describe the Collection"
+                  value={collectionData.text}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              <Form.Select
+                required
+                onChange={(e) => setCollectionData({ ...collectionData, category: e.target.value })}
+                value={collectionData.category}
+              >
+                <option>Select a category</option>
+                {isLoading && <option value="none" disabled hidden>Browsing collections</option>}
+                {error && <option value="none" disabled hidden>Could not browse categories. Please refresh the page.</option>}
+                {categories.map((category) => (
+                  <option key={uuidv4()} value={category}>{category}</option>
+                ))}
+              </Form.Select>
+              <Form.Group>
+                <Form.Control
+                  type="file"
+                  onChange={
+                    (e) => setCollectionData({ ...collectionData, image: e.target.files[0] })
+                  }
+                />
+              </Form.Group>
+              <CreateClear clear={clear} />
+            </Form>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
     </>
   );
 };
