@@ -1,38 +1,27 @@
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import Card from 'react-bootstrap/Card';
 
 const CollectionDetails = () => {
   const { collection, isLoading, error } = useSelector((state) => state.collections);
-  const { userId } = useParams();
 
   return (
     <>
       {error && <p>{error}</p>}
       {isLoading && <p>Loading...</p>}
       {collection ? (
-        <Row>
+        <Card border="success" data-bs-theme="dark">
           {collection.imageUrl
-            ? (
-              <Col>
-                <img className="big-img" src={collection.imageUrl} alt={collection.title} />
-              </Col>
-            ) : <p>No image provided</p>}
-          <Col sm={12} md={8}>
-            <h3>
-              {collection.title}
-              <br />
-              <small className="text-muted">{collection.category}</small>
-            </h3>
-            <p>{collection.text}</p>
-          </Col>
-          <a
-            href={`/users/${userId}/collections/${collection._id}/items`}
-            className="stretched-link"
-            aria-label="Open Collection"
-          />
-        </Row>
+            && <Card.Img variant="top" src={collection.imageUrl} />}
+          <Card.Body>
+            <Card.Title>{collection.title}</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">
+              {collection.category}
+            </Card.Subtitle>
+            <Card.Text className="mb-2 text-muted">
+              {collection.text}
+            </Card.Text>
+          </Card.Body>
+        </Card>
       ) : (
         <p>
           Oops! Seems this collection doesn&apos;t exist.
