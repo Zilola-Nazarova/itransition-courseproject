@@ -18,13 +18,13 @@ const CollectionPage = () => {
 
   return (
     <>
-      <h2>COLLECTION ITEMS PAGE</h2>
+      <h2 className="text-light mb-4">COLLECTION ITEMS PAGE</h2>
       <Row>
-        <Col xs={12} lg={4}>
+        <Col xs={12} lg={4} className="mb-4 d-grid gap-4">
           <CollectionDetails />
           <NewItem />
         </Col>
-        <Col>
+        <Col className="mb-2">
           <Items />
         </Col>
       </Row>

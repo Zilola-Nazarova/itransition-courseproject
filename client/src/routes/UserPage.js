@@ -20,13 +20,13 @@ const UserPage = () => {
 
   return (
     <>
-      <h2>USER COLLECTIONS PAGE</h2>
+      <h2 className="text-light mb-4">USER COLLECTIONS PAGE</h2>
       <Row>
-        <Col xs={12} lg={4}>
+        <Col xs={12} lg={4} className="mb-4 d-grid gap-4">
           <UserDetails />
           <NewCollection />
         </Col>
-        <Col>
+        <Col className="mb-2">
           <Collections />
         </Col>
       </Row>

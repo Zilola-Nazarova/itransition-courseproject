@@ -24,11 +24,11 @@ const ItemPage = () => {
       <Container id="details" className="position-relative">
         <ItemDetails />
       </Container>
-      <Container id="comments">
-        <Comments />
-      </Container>
       <Container id="likes">
         <Likes />
+      </Container>
+      <Container id="comments">
+        <Comments />
       </Container>
     </>
   );
