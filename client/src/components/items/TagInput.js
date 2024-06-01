@@ -16,7 +16,7 @@ const TagInput = ({ pushTag, value, setValue }) => {
   const [suggestions, setSuggestions] = useState([]);
   const getSuggestions = (value) => lowerCaseOptions.filter(
     (tag) => tag.tagname.includes(value.trim().toLowerCase()),
-  );
+  ).slice(0, 5);
 
   return (
     <AutoSuggest
@@ -34,7 +34,7 @@ const TagInput = ({ pushTag, value, setValue }) => {
       getSuggestionValue={(suggestion) => suggestion.tagname}
       renderSuggestion={(suggestion) => <span>{suggestion.tagname}</span>}
       inputProps={{
-        placeholder: 'Enter tags',
+        placeholder: 'Add tags',
         value,
         onChange: (_, { newValue }) => {
           setValue(newValue);
