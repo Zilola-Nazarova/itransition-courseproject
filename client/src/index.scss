@@ -1,0 +1,94 @@
+@import "bootstrap";
+
+.card {
+  max-width: 50rem;
+}
+
+.user,
+.collection,
+.item {
+  border-top: 2px solid rgba(47, 79, 79, 0.459);
+}
+
+#users,
+#collections,
+#items {
+  background-color: rgba(210, 180, 140, 0.466);
+}
+
+#details {
+  background-color: rosybrown;
+}
+
+.accordion {
+  --bs-accordion-border-color: #198754;
+	--bs-accordion-btn-color: #198754;
+	--bs-accordion-btn-bg: none;
+	--bs-accordion-active-color: dark;
+	--bs-accordion-active-bg: #198754;
+  --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem #19875438;
+}
+
+.react-autosuggest__container {
+  position: relative;
+}
+
+.react-autosuggest__input {
+  @extend .form-control;
+}
+
+.react-autosuggest__input--open {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.react-autosuggest__suggestions-container--open {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  display: block;
+  position: absolute;
+  width: 100%;
+  border: 1px solid $gray-600;
+  background-color: $dark;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  z-index: 2;
+}
+
+.react-autosuggest__suggestions-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.react-autosuggest__suggestion {
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
+.react-autosuggest__suggestion--highlighted {
+  background-color: $gray-600;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.big-img {
+  max-width: 200px;
+}
+
+button {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-wide {
+  width: 100%;
+}
+
+.tags {
+  position: relative;
+  z-index: 1;
+}
