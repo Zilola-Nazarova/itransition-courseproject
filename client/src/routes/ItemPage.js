@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
 import ItemDetails from '../components/items/ItemDetails';
-import Likes from '../components/likes/Likes';
+import Actions from '../components/items/Actions';
 import Comments from '../components/comments/Comments';
 import { getItem } from '../redux/items/itemsSlice';
 import { getComments } from '../redux/comments/commentsSlice';
@@ -25,7 +25,7 @@ const ItemPage = () => {
         <ItemDetails />
       </Container>
       <Container id="likes">
-        <Likes />
+        <Actions />
       </Container>
       <Container id="comments">
         <Comments />
