@@ -10,6 +10,14 @@ const CollectionDetails = () => {
       {isLoading && <p>Loading...</p>}
       {collection ? (
         <Card border="success" data-bs-theme="dark">
+          <Card.Header className="d-flex">
+            <strong className="me-auto">Collection</strong>
+            <strong className="text-muted">
+              By
+              {' '}
+              <a className="text-muted" href={`/users/${collection.author._id}/collections`}>{collection.author.username}</a>
+            </strong>
+          </Card.Header>
           {collection.imageUrl
             && <Card.Img variant="top" src={collection.imageUrl} />}
           <Card.Body>

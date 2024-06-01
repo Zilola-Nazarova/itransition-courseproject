@@ -12,6 +12,14 @@ const ItemDetails = () => {
       {isLoading && <p>Loading...</p>}
       {item ? (
         <Card border="success" data-bs-theme="dark">
+          <Card.Header className="d-flex">
+            <strong className="me-auto">Item</strong>
+            <strong className="text-muted">
+              By
+              {' '}
+              <a className="text-muted" href={`users/${item.author._id}/collections`}>{item.author.username}</a>
+            </strong>
+          </Card.Header>
           <Card.Body>
             <Card.Title>{item.title}</Card.Title>
             <Card.Text className="mb-2 text-muted">
