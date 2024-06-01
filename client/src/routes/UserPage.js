@@ -1,4 +1,5 @@
-import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
@@ -20,15 +21,15 @@ const UserPage = () => {
   return (
     <>
       <h2>USER COLLECTIONS PAGE</h2>
-      <Container id="details" className="position-relative">
-        <UserDetails />
-      </Container>
-      <Container id="form">
-        <NewCollection />
-      </Container>
-      <Container id="collections">
-        <Collections />
-      </Container>
+      <Row>
+        <Col xs={12} lg={4}>
+          <UserDetails />
+          <NewCollection />
+        </Col>
+        <Col>
+          <Collections />
+        </Col>
+      </Row>
     </>
   );
 };

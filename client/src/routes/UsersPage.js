@@ -1,16 +1,19 @@
-import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Users from '../components/users/Users';
 import NewUser from '../components/users/NewUser';
 
 const UsersPage = () => (
   <>
     <h2>USERS PAGE</h2>
-    <Container id="form">
-      <NewUser />
-    </Container>
-    <Container id="collections">
-      <Users />
-    </Container>
+    <Row>
+      <Col xs={12} lg={4}>
+        <NewUser />
+      </Col>
+      <Col>
+        <Users />
+      </Col>
+    </Row>
   </>
 );
 
