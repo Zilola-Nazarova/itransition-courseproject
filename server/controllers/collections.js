@@ -131,10 +131,17 @@ export const deleteCollection = async (req, res) => {
 export const getLargestCollections = async (req, res) => {
   try {
     const collections = await Collection.aggregate([
-      { $project: { title: 1, text: 1, category: 1, author: 1, itemCount: { $size: '$items' } } },
+      { $lookup: { from: 'users', localField: 'author', foreignField: '_id', as: 'author' } },
+      { $unwind: '$author' },
+      { $project: { title: 1, text: 1, image: 1, category: 1, author: { _id: 1, username: 1 }, itemCount: { $size: '$items' } } },
       { $sort: { itemCount: -1 } },
-      { $limit: 3 }
+      { $limit: 5 }
     ]);
+    for (const collection of collections) {
+      if (collection.image) {
+        collection.imageUrl = await getObjectSignedUrl(collection.image);
+      }
+    }
     res.status(200).json(collections);
   } catch (error) {
     console.log(error);

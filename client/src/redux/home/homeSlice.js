@@ -13,8 +13,8 @@ export const getLargestCollections = createAsyncThunk(
   },
 );
 
-export const getLatestItems = createAsyncThunk(
-  'home/getLatestItems',
+export const getRecentItems = createAsyncThunk(
+  'home/getRecentItems',
   async (_, thunkAPI) => {
     try {
       const resp = await API.get('/home/latest');
@@ -25,8 +25,8 @@ export const getLatestItems = createAsyncThunk(
   },
 );
 
-export const getTagsCloud = createAsyncThunk(
-  'home/getTagsCloud',
+export const getPopularTags = createAsyncThunk(
+  'home/getPopularTags',
   async (_, thunkAPI) => {
     try {
       const resp = await API.get('/home/tags');
@@ -39,8 +39,8 @@ export const getTagsCloud = createAsyncThunk(
 
 const initialState = {
   largestCollections: [],
-  latestItems: [],
-  tagsCloud: [],
+  recentItems: [],
+  popularTags: [],
   error: undefined,
   isLoading: false,
 };
@@ -65,33 +65,33 @@ export const homeSlice = createSlice({
         state.error = action.payload;
         state.largestCollections = null;
       })
-      .addCase(getLatestItems.pending, (state) => {
+      .addCase(getRecentItems.pending, (state) => {
         state.isLoading = true;
         state.error = false;
       })
-      .addCase(getLatestItems.fulfilled, (state, action) => {
+      .addCase(getRecentItems.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = false;
-        state.latestItems = action.payload;
+        state.recentItems = action.payload;
       })
-      .addCase(getLatestItems.rejected, (state, action) => {
+      .addCase(getRecentItems.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
-        state.latestItems = action.null;
+        state.recentItems = action.null;
       })
-      .addCase(getTagsCloud.pending, (state) => {
+      .addCase(getPopularTags.pending, (state) => {
         state.isLoading = true;
         state.error = false;
       })
-      .addCase(getTagsCloud.fulfilled, (state, action) => {
+      .addCase(getPopularTags.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = false;
-        state.tagsCloud = action.payload;
+        state.popularTags = action.payload;
       })
-      .addCase(getTagsCloud.rejected, (state, action) => {
+      .addCase(getPopularTags.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
-        state.tagsCloud = null;
+        state.popularTags = null;
       });
   },
 });

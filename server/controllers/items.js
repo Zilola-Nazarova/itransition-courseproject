@@ -56,6 +56,7 @@ export const getItem = async (req, res) => {
     if (!item) return res.status(400).json({ message: 'Item not found' });
     res.status(200).json({ ...item, tags });
   } catch (error) {
+    console.log(error)
     res.status(404).json({ message: error.message });
   }
 };
@@ -157,9 +158,13 @@ export const getLatestItems = async (req, res) => {
     const result = await Item.aggregate([
       { $lookup: { from: 'itemtags', localField: 'tags', foreignField: '_id', as: 'tags' } },
       { $lookup: { from: 'tags', localField: 'tags.tag', foreignField: '_id', as: 'tags' } },
-      { $project: { title: 1, text: 1, tags: 1, author: 1, coll: 1 } },
+      { $lookup: { from: 'users', localField: 'author', foreignField: '_id', as: 'author' } },
+      { $lookup: { from: 'collections', localField: 'coll', foreignField: '_id', as: 'coll' } },
+      { $unwind: '$author' },
+      { $unwind: '$coll' },
+      { $project: { title: 1, text: 1, tags: 1, author: { _id: 1, username: 1 }, coll: { _id: 1, title: 1 } } },
       { $sort: { createdAt: -1 } },
-      { $limit: 3 }
+      { $limit: 10 }
     ]);
     res.status(200).json(result);
   } catch (error) {
