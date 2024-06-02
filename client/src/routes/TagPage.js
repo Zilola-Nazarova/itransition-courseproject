@@ -1,6 +1,8 @@
+import Container from 'react-bootstrap/Container';
+import Spinner from 'react-bootstrap/Spinner';
+import Alert from 'react-bootstrap/Alert';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
-// import { Link } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,13 +25,26 @@ const TagPage = () => {
   } = useSelector((state) => state.tags);
 
   return (
-    <>
-      <h2>TAG ITEMS PAGE</h2>
-      {error && <p>{error}</p>}
-      {isLoading && <p>Loading...</p>}
+    <Container
+      fluid
+      data-bs-theme="dark"
+      className="p-4 green-bg width-limit"
+    >
+      {error && (
+        <Alert variant="danger">
+          {error}
+        </Alert>
+      )}
+      {isLoading && (
+        <Spinner animation="border" role="status" variant="success">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      )}
       {tagItems?.items?.length > 0 && (
         <>
-          <h3>{`#${tagItems?.tag.tagname}`}</h3>
+          <h2 className="text-center text-light pb-2">
+            {`ITEMS IN #${tagItems.tag.tagname}`}
+          </h2>
           <Paginated
             pageCount={numberOfPages}
             page={page}
@@ -40,7 +55,7 @@ const TagPage = () => {
       )}
       {tagItems?.items?.length === 0
         && <p>Oops! Seems there are no items with this tag.</p>}
-    </>
+    </Container>
   );
 };
 

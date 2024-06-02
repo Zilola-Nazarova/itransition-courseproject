@@ -9,7 +9,7 @@ const LargestCollections = () => {
   return (
     <Container
       id="largest-collections"
-      className="p-3 bg d-flex flex-column gap-3"
+      className="p-3 green-bg d-flex flex-column gap-3"
       data-bs-theme="dark"
     >
       <h2 className="text-light text-center">

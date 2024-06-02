@@ -1,16 +1,40 @@
 @import "bootstrap";
 
-.bg {
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.outlet {
+  flex: 1;
+}
+
+.green-bg {
  background-color: rgb(49, 58, 49);
  border-radius: 0.6rem;
 }
 
-.card {
-  max-width: 60rem;
+.auth {
+  max-width: 45rem;
 }
+
+// .card {
+//   max-width: 60rem;
+// }
 
 .home-container {
   max-width: 1700px;
+}
+
+.width-limit {
+  max-width: 1200px;
+}
+
+button,
+.tag {
+  position: relative;
+  z-index: 1;
 }
 
 .text-link,
@@ -32,9 +56,17 @@
   }
 }
 
+.odd-col {
+  backdrop-filter: brightness(120%);
+}
+
+.border-b:not(:last-child) {
+  border-bottom: 1px solid $gray-600;
+}
+
 .item-link:hover {
   cursor: pointer;
-  background-color: $gray-800;
+  filter: brightness(120%);
 }
 
 .accordion {
@@ -96,16 +128,6 @@ img {
   max-width: 200px;
 }
 
-button {
-  position: relative;
-  z-index: 1;
-}
-
 .btn-wide {
   width: 100%;
-}
-
-.tags {
-  position: relative;
-  z-index: 1;
 }

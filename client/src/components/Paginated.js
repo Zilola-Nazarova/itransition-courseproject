@@ -1,4 +1,4 @@
-import Container from 'react-bootstrap/Container';
+import ListGroup from 'react-bootstrap/ListGroup';
 import { useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
 import Pagination from 'react-bootstrap/Pagination';
@@ -27,12 +27,10 @@ const Paginated = ({
   }
   return (
     <>
-      <Container fluid="md">
+      <ListGroup>
         {items && items.map((item) => renderItem(item))}
-      </Container>
-      <div>
-        <Pagination>{pages}</Pagination>
-      </div>
+      </ListGroup>
+      <Pagination>{pages}</Pagination>
     </>
   );
 };
