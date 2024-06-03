@@ -4,7 +4,9 @@ import AutoSuggest from 'react-autosuggest';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTags } from '../../redux/tags/tagsSlice';
 
-const TagInput = ({ pushTag, value, setValue }) => {
+const TagInput = ({
+  pushTag, value, setValue, setTagError,
+}) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getTags());
@@ -17,7 +19,15 @@ const TagInput = ({ pushTag, value, setValue }) => {
   const getSuggestions = (value) => lowerCaseOptions.filter(
     (tag) => tag.tagname.includes(value.trim().toLowerCase()),
   ).slice(0, 5);
-
+  const handleTagChange = (val) => {
+    const regex = /^\w+$/;
+    if (regex.test(val)) {
+      setValue(val);
+      setTagError(false);
+    } else {
+      setTagError(true);
+    }
+  };
   return (
     <AutoSuggest
       suggestions={suggestions}
@@ -37,7 +47,7 @@ const TagInput = ({ pushTag, value, setValue }) => {
         placeholder: 'Add tags',
         value,
         onChange: (_, { newValue }) => {
-          setValue(newValue);
+          handleTagChange(newValue);
         },
         onKeyDown: (e) => {
           if (e.key !== 'Enter') return;
@@ -52,6 +62,7 @@ const TagInput = ({ pushTag, value, setValue }) => {
 };
 
 TagInput.propTypes = {
+  setTagError: PropTypes.func.isRequired,
   pushTag: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
   setValue: PropTypes.func.isRequired,
