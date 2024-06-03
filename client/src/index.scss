@@ -60,6 +60,10 @@
   padding: 0.8rem;
 }
 
+.edit-delete button {
+  width: 20%;
+}
+
 .profile-card:hover {
   outline: $success 1px solid;
 }

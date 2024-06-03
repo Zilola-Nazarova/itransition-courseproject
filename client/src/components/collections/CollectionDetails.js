@@ -51,14 +51,12 @@ const CollectionDetails = () => {
               {collection.text}
             </Card.Text>
           </Card.Body>
-          <Card.Footer>
-            {(user?.user._id === collection.author._id || user?.user.role === 'Admin') && (
-              <EditDelete
-                edit={() => setOnEdit(true)}
-                del={() => dispatch(deleteCollection({ userId, collId: collection._id }))}
-              />
-            )}
-          </Card.Footer>
+          {(user?.user._id === collection.author._id || user?.user.role === 'Admin') && (
+            <EditDelete
+              edit={() => setOnEdit(true)}
+              del={() => dispatch(deleteCollection({ userId, collId: collection._id }))}
+            />
+          )}
         </Card>
       ) : (
         <p>

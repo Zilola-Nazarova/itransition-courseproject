@@ -1,23 +1,24 @@
+import Card from 'react-bootstrap/Card';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
+import { FaTrash } from 'react-icons/fa';
 
 const EditDelete = ({ edit, del }) => (
-  <Col sm={12} md={2}>
+  <Card.Footer className="edit-delete d-flex justify-content-center gap-3">
     <Button
       onClick={() => edit()}
-      variant="warning"
+      variant="secondary"
     >
       Edit
     </Button>
-    <br />
     <Button
+      className="d-flex justify-content-center align-items-center"
       onClick={() => del()}
       variant="danger"
     >
-      Delete
+      <FaTrash size={14} />
     </Button>
-  </Col>
+  </Card.Footer>
 );
 
 EditDelete.propTypes = {

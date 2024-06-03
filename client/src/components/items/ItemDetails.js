@@ -62,14 +62,12 @@ const ItemDetails = () => {
               </ListGroup.Item>
             ))}
           </ListGroup>
-          <Card.Footer>
-            {(user?.user._id === item.author._id || user?.user.role === 'Admin') && (
-              <EditDelete
-                edit={() => setOnEdit(true)}
-                del={() => dispatch(deleteItem({ userId, collId, itemId: item._id }))}
-              />
-            )}
-          </Card.Footer>
+          {(user?.user._id === item.author._id || user?.user.role === 'Admin') && (
+            <EditDelete
+              edit={() => setOnEdit(true)}
+              del={() => dispatch(deleteItem({ userId, collId, itemId: item._id }))}
+            />
+          )}
         </Card>
       ) : (
         <p>
