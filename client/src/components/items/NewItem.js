@@ -2,6 +2,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
+import Alert from 'react-bootstrap/Alert';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Accordion from 'react-bootstrap/Accordion';
 import CloseButton from 'react-bootstrap/CloseButton';
@@ -19,10 +20,11 @@ const NewItem = () => {
   const emptyItemObj = { title: '', text: '' };
   const [itemData, setItemData] = useState(emptyItemObj);
   const [tags, setTags] = useState([]);
-  const [value, setValue] = useState('');
+  const [tagError, setTagError] = useState(false);
+  const [tagValue, setTagValue] = useState('');
   const clear = () => {
     setItemData(emptyItemObj);
-    setValue('');
+    setTagValue('');
     setTags([]);
   };
   const handleSubmit = (e) => {
@@ -32,7 +34,7 @@ const NewItem = () => {
   };
   const pushTag = (tag) => {
     setTags([...tags, tag]);
-    setValue('');
+    setTagValue('');
   };
   const excludeTag = (toDelete) => {
     setTags(tags.filter((tag) => tag !== toDelete));
@@ -81,19 +83,26 @@ const NewItem = () => {
                 </ListGroup.Item>
               ))}
             </ListGroup>
+            {tagError && (
+              <Alert variant="danger">
+                Only letters, numbers and _ are allowed.
+              </Alert>
+            )}
             <Row>
               <Col xs={8}>
                 <TagInput
                   pushTag={pushTag}
-                  value={value}
-                  setValue={setValue}
+                  value={tagValue}
+                  setTagError={setTagError}
+                  setTagValue={setTagValue}
                 />
               </Col>
               <Col xs={4}>
                 <Button
+                  disabled={tagError}
                   className="btn-wide"
                   type="button"
-                  onClick={() => pushTag(value)}
+                  onClick={() => pushTag(tagValue)}
                 >
                   Add tag
                 </Button>
