@@ -36,6 +36,34 @@
   max-width: 1700px;
 }
 
+.initials {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  color: $light;
+  font-size: 1rem;
+  border-radius: 50%;
+  background-color: $success;
+}
+
+.searchbar {
+  width: 14rem;
+}
+
+.profile-card {
+  text-decoration: none;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  border-radius: 0.4rem;
+  padding: 0.8rem;
+}
+
+.profile-card:hover {
+  outline: $success 1px solid;
+}
+
 .width-limit {
   max-width: 1200px;
 }

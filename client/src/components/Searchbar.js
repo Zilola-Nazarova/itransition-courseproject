@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 
 const Searchbar = () => {
   const navigate = useNavigate();
@@ -22,27 +20,21 @@ const Searchbar = () => {
     }
   };
   return (
-    <Form className="d-flex">
-      <Row>
-        <Col xs="auto">
-          <Form.Control
-            type="search"
-            placeholder="Search"
-            className="me-2"
-            aria-label="Search"
-            onKeyDown={handleKeyDown}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </Col>
-        <Col xs="auto">
-          <Button
-            variant="success"
-            onClick={searchItems}
-          >
-            Search
-          </Button>
-        </Col>
-      </Row>
+    <Form className="d-flex align-items-center gap-3">
+      <Form.Control
+        className="searchbar"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+        onKeyDown={handleKeyDown}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      <Button
+        variant="success"
+        onClick={searchItems}
+      >
+        Search
+      </Button>
     </Form>
   );
 };

@@ -30,7 +30,8 @@ const Header = () => {
         <Navbar.Brand href="/">COLLECTIONS OF THINGS</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto my-2 my-lg-0">
+          <Searchbar className="me-auto my-2 my-lg-0" />
+          <Nav className="justify-content-end flex-grow-1">
             {user
               ? (
                 <Nav.Link href={`${user.user.username}`}>
@@ -39,7 +40,6 @@ const Header = () => {
               ) : <Nav.Link href="/auth">Login</Nav.Link>}
             {user?.user.role === 'Admin' && <Nav.Link href="/users">Admin</Nav.Link>}
           </Nav>
-          <Searchbar />
         </Navbar.Collapse>
       </Container>
     </Navbar>

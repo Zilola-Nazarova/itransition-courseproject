@@ -1,5 +1,6 @@
-import PropTypes from 'prop-types';
+import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const Profile = ({ currentUser, signout }) => {
   const initials = currentUser.username
@@ -9,25 +10,34 @@ const Profile = ({ currentUser, signout }) => {
     ? currentUser.username
     : currentUser.family_name + currentUser.given_name;
   return (
-    <Link to={`/${currentUser.username}`}>
-      <span>My Profile</span>
-      {currentUser.picture
-        ? (
-          <img
-            src={currentUser.picture}
-            alt={currentUser.name}
-          />
-        ) : (
-          <span>{ initials }</span>
-        )}
-      {fullName}
-      <button
-        type="button"
+    <div className="d-flex align-items-center gap-3">
+      <Link
+        to={`/${currentUser.username}`}
+        className="profile-card"
+      >
+        {currentUser.picture
+          ? (
+            <img
+              src={currentUser.picture}
+              alt={currentUser.name}
+            />
+          ) : (
+            <div className="initials">
+              <strong>{ initials }</strong>
+            </div>
+          )}
+        <span className="text-center">
+          {fullName}
+        </span>
+      </Link>
+      <Button
+        className="inline"
+        variant="success"
         onClick={signout}
       >
         Sign Out
-      </button>
-    </Link>
+      </Button>
+    </div>
   );
 };
 
