@@ -1,7 +1,6 @@
 import Alert from 'react-bootstrap/Alert';
 import Stack from 'react-bootstrap/Stack';
 import Toast from 'react-bootstrap/Toast';
-import Badge from 'react-bootstrap/Badge';
 import { FaRegCommentAlt } from 'react-icons/fa';
 import { useState } from 'react';
 import { useParams } from 'react-router';
@@ -46,13 +45,9 @@ const Actions = () => {
           {error}
         </Alert>
       )}
-      <Stack direction="horizontal" gap={2}>
-        <Badge onClick={handleLike} bg="light" text="dark">
-          <Likes currentLike={currentLike} />
-        </Badge>
-        <Badge bg="light" text="dark">
-          <FaRegCommentAlt onClick={toggleShowForm} />
-        </Badge>
+      <Stack direction="horizontal" bg="success">
+        <Likes handleLike={handleLike} currentLike={currentLike} />
+        <FaRegCommentAlt color="white" onClick={toggleShowForm} />
       </Stack>
       <Toast show={showForm} onClose={toggleShowForm}>
         <NewComment

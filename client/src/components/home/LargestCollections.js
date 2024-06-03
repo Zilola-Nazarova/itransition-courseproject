@@ -34,7 +34,7 @@ const LargestCollections = () => {
             <Card.Text>{collection.text}</Card.Text>
             <a
               aria-label="Navigate to collection"
-              href={`users/${collection.author}/collections/${collection._id}/items`}
+              href={`users/${collection.author._id}/collections/${collection._id}/items`}
               className="stretched-link"
             />
           </Card.Body>

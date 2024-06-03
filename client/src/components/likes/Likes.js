@@ -3,7 +3,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import { GoHeart, GoHeartFill } from 'react-icons/go';
 import { useSelector } from 'react-redux';
 
-const Likes = ({ currentLike }) => {
+const Likes = ({ currentLike, handleLike }) => {
   const { value, isLoading } = useSelector((state) => state.likes);
 
   return (
@@ -15,7 +15,9 @@ const Likes = ({ currentLike }) => {
       )}
       {!isLoading && (
         <>
-          {currentLike ? <GoHeartFill /> : <GoHeart />}
+          {currentLike
+            ? <GoHeartFill color="red" onClick={handleLike} />
+            : <GoHeart color="white" onClick={handleLike} />}
           <span>{value?.length}</span>
         </>
       )}
@@ -25,6 +27,7 @@ const Likes = ({ currentLike }) => {
 
 Likes.propTypes = {
   currentLike: PropTypes.objectOf(String).isRequired,
+  handleLike: PropTypes.func.isRequired,
 };
 
 export default Likes;
