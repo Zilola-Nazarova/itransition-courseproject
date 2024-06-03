@@ -20,7 +20,7 @@ const UserPage = () => {
 
   return (
     <>
-      <h2 className="text-light mb-4">USER COLLECTIONS PAGE</h2>
+      <h1 className="text-light mb-4">COLLECTIONS</h1>
       <Row>
         <Col xs={12} lg={4} className="mb-4 d-grid gap-4">
           <UserDetails />

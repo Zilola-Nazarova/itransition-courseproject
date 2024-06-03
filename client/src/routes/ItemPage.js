@@ -21,6 +21,7 @@ const ItemPage = () => {
 
   return (
     <>
+      <h1 className="text-light mb-4">ITEM</h1>
       <Container id="details" className="position-relative">
         <ItemDetails />
       </Container>
