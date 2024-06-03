@@ -70,7 +70,7 @@ export const createCollection = async (req, res) => {
     const author = await User.findById(userId);
     if (!author) return res.status(400).json({ message: 'User not found' });
     if (file) {
-      const buffer = await sharp(file.buffer).resize({ height: 1080, width: 1080, fit: 'contain' }).toBuffer();
+      const buffer = await sharp(file.buffer).resize(800, 800, { fit: 'inside' }).jpeg({ quality: 80 }).toBuffer();
       image = randomImageName();
       await uploadFile(buffer, image, file.mimetype);
     }
@@ -94,7 +94,7 @@ export const updateCollection = async (req, res) => {
     }
     if (file) {
       if (image) await deleteFile(image);
-      const buffer = await sharp(file.buffer).resize({ height: 1080, width: 1080, fit: 'contain' }).toBuffer();
+      const buffer = await sharp(file.buffer).resize(800, 800, { fit: 'inside' }).jpeg({ quality: 80 }).toBuffer();
       newImage = randomImageName();
       await uploadFile(buffer, newImage, req.file.mimetype);
     }

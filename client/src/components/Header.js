@@ -18,7 +18,6 @@ const Header = () => {
     dispatch(logout());
     navigate('/auth');
   };
-
   useEffect(() => {
     if (!Cookies.get('profile')) {
       dispatch(logout());
@@ -26,7 +25,7 @@ const Header = () => {
   }, [location, dispatch]);
 
   return (
-    <Navbar expand="lg" bg="dark" data-bs-theme="dark">
+    <Navbar className="border-bottom nav" expand="lg" data-bs-theme="dark">
       <Container fluid>
         <Navbar.Brand href="/">COLLECTIONS OF THINGS</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -37,8 +36,8 @@ const Header = () => {
                 <Nav.Link href={`${user.user.username}`}>
                   <Profile currentUser={user.user} signout={signout} />
                 </Nav.Link>
-              ) : <Nav.Link href="auth">Login</Nav.Link>}
-            {user?.user.role === 'Admin' && <Nav.Link to="/users">Admin</Nav.Link>}
+              ) : <Nav.Link href="/auth">Login</Nav.Link>}
+            {user?.user.role === 'Admin' && <Nav.Link href="/users">Admin</Nav.Link>}
           </Nav>
           <Searchbar />
         </Navbar.Collapse>
