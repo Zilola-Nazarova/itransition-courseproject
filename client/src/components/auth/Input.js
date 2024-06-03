@@ -8,7 +8,7 @@ import Container from 'react-bootstrap/Container';
 const AuthForm = ({
   handleSubmit, disabled, isSignup, handleChange, googleLogin, showPassword, handleShowPassword,
 }) => (
-  <Form onSubmit={handleSubmit} className="text-start w-50 m-auto d-grid gap-3">
+  <Form onSubmit={handleSubmit} className="text-start w-75 m-auto d-grid gap-3">
     {isSignup && (
       <Form.Group>
         <Form.Label>Username</Form.Label>

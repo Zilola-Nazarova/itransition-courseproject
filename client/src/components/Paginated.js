@@ -30,7 +30,7 @@ const Paginated = ({
       <ListGroup>
         {items && items.map((item) => renderItem(item))}
       </ListGroup>
-      <Pagination>{pages}</Pagination>
+      <Pagination className="mt-3 mb-0 d-flex justify-content-center">{pages}</Pagination>
     </>
   );
 };

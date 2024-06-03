@@ -6,7 +6,10 @@ import Header from '../components/Header';
 const Layout = () => (
   <>
     <Header />
-    <Container fluid className="bg-dark p-5 m-auto">
+    <Container
+      fluid
+      className="outlet bg-dark p-5 m-auto"
+    >
       <Outlet />
     </Container>
   </>

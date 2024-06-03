@@ -53,10 +53,10 @@ const Auth = () => {
     setShowPassword(false);
   };
   return (
-    <Card className="bg-dark text-white text-center border-success w-75 m-auto" data-bs-theme="dark">
+    <Card className="auth text-white text-center border-success m-auto" data-bs-theme="dark">
       {(isAuthenticating && 'Loading...') || error || message}
       <Card.Header><h2>{isSignup ? 'Sign Up' : 'Sign In'}</h2></Card.Header>
-      <Card.Body>
+      <Card.Body className="p-4">
         <FaLock size={30} className="text-danger" />
         <AuthForm
           handleSubmit={handleSubmit}

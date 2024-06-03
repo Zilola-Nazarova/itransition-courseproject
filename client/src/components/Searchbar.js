@@ -36,7 +36,7 @@ const Searchbar = () => {
         </Col>
         <Col xs="auto">
           <Button
-            variant="outline-success"
+            variant="success"
             onClick={searchItems}
           >
             Search

@@ -6,6 +6,10 @@
   flex-direction: column;
 }
 
+.nav {
+  background-color: rgb(49, 58, 49);
+}
+
 .outlet {
   flex: 1;
 }
@@ -19,9 +23,14 @@
   max-width: 45rem;
 }
 
-// .card {
-//   max-width: 60rem;
-// }
+.click-above {
+  position: relative;
+  z-index: 5;
+}
+
+.tag {
+  @extend a;
+}
 
 .home-container {
   max-width: 1700px;
@@ -31,21 +40,11 @@
   max-width: 1200px;
 }
 
-button,
-.tag {
-  position: relative;
-  z-index: 1;
-}
-
 .text-link,
 .text-link a {
   color: $success;
   text-decoration: none;
   z-index: 1;
-}
-
-.tag {
-  @extend a;
 }
 
 .text-link:hover {
@@ -66,7 +65,7 @@ button,
 
 .item-link:hover {
   cursor: pointer;
-  filter: brightness(120%);
+  background-color: $gray-800;
 }
 
 .accordion {
