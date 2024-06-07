@@ -5,10 +5,9 @@ import User from '../models/user.js';
 export const getComments = async (req, res) => {
   try {
     const { itemId } = req.params;
-    const comments = await Comment.find({ item: itemId });
+    const comments = await Comment.find({ item: itemId }).populate('author').lean();
     res.status(200).json(comments);
   } catch (error) {
-    console.log(error);
     res.status(404).json({ message: error.message });
   }
 };
@@ -22,7 +21,7 @@ export const createComment = async (req, res) => {
     const item = await Item.findById(itemId);
     if (!item) return res.status(400).json({ message: 'Item not found' });
     const commenter = await User.findById(commenterId);
-    const newComment = await Comment.create({ text, author: commenterId, item: itemId });
+    const newComment = await Comment.create({ text, author: commenterId, item: itemId }).populate('author');
     commenter.comments.push(newComment._id);
     item.comments.push(newComment._id);
     await commenter.save();
@@ -40,7 +39,7 @@ export const updateComment = async (req, res) => {
     const { commentId } = req.params;
     const { text } = req.body;
     if (!text) return res.status(400).json({ message: 'All fields are required' });
-    const comment = await Comment.findById(commentId);
+    const comment = await Comment.findById(commentId).populate('author');
     if (!comment) return res.status(400).json({ message: 'Comment not found' });
     if (currentUser !== comment.author._id.toString()) {
       return res.status(404).json({ message: 'You can not perform actions on behalf of other users' });

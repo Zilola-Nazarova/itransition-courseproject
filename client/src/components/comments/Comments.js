@@ -36,12 +36,12 @@ const Comments = () => {
           {value?.map((comment) => (
             <Toast key={uuidv4()}>
               <Toast.Header closeButton={false}>
-                <strong className="me-auto">{comment.author}</strong>
+                <strong className="me-auto">{comment.author.username}</strong>
                 <small>{new Date(comment.createdAt).toDateString()}</small>
               </Toast.Header>
               <Toast.Body>
                 {comment.text}
-                {(user.user._id === comment.author || user.user.role === 'Admin') && (
+                {(user.user._id === comment.author._id || user.user.role === 'Admin') && (
                   <Badge bg="secondary">
                     <FaTrash onClick={() => removeComment(comment._id)} />
                   </Badge>
