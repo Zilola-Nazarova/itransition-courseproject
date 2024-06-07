@@ -1,3 +1,5 @@
+import Spinner from 'react-bootstrap/Spinner';
+import Alert from 'react-bootstrap/Alert';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
@@ -31,9 +33,24 @@ const ItemDetails = () => {
 
   return (
     <>
-      {error && <p>{error}</p>}
-      {isLoading && <p>Loading...</p>}
-      {item ? (
+      {error === 'Item not found' && (
+        <Alert variant="danger">
+          Oops! Seems this item doesn&apos;t exist.
+          <br />
+          Go back to Items Page.
+        </Alert>
+      )}
+      {error && error !== 'Item not found' && (
+        <Alert variant="danger">
+          {error}
+        </Alert>
+      )}
+      {isLoading && (
+        <Spinner animation="border" role="status" variant="success">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      )}
+      {item && (
         <Card border="success" data-bs-theme="dark">
           <Card.Header className="d-flex">
             <strong className="me-auto">Item</strong>
@@ -69,12 +86,6 @@ const ItemDetails = () => {
             />
           )}
         </Card>
-      ) : (
-        <p>
-          Oops! Seems this item doesn&apos;t exist.
-          <br />
-          Go back to Items Page.
-        </p>
       )}
       {onEdit && (
         <ClickOutside

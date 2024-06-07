@@ -1,4 +1,6 @@
 import Card from 'react-bootstrap/Card';
+import Spinner from 'react-bootstrap/Spinner';
+import Alert from 'react-bootstrap/Alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useEffect, useState } from 'react';
@@ -28,9 +30,24 @@ const CollectionDetails = () => {
 
   return (
     <>
-      {error && <p>{error}</p>}
-      {isLoading && <p>Loading...</p>}
-      {collection ? (
+      {error === 'Collection not found' && (
+        <Alert variant="danger">
+          Oops! Seems this collection doesn&apos;t exist.
+          <br />
+          Go back to Collections Page.
+        </Alert>
+      )}
+      {error && error !== 'Collection not found' && (
+        <Alert variant="danger">
+          {error}
+        </Alert>
+      )}
+      {isLoading && (
+        <Spinner animation="border" role="status" variant="success">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      )}
+      {collection && (
         <Card border="success" data-bs-theme="dark">
           <Card.Header className="d-flex">
             <strong className="me-auto">Collection</strong>
@@ -58,12 +75,6 @@ const CollectionDetails = () => {
             />
           )}
         </Card>
-      ) : (
-        <p>
-          Oops! Seems this collection doesn&apos;t exist.
-          <br />
-          Go back to Collections Page.
-        </p>
       )}
       {onEdit && (
         <>
