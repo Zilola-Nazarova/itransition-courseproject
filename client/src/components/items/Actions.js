@@ -1,7 +1,8 @@
 import Container from 'react-bootstrap/esm/Container';
-import Alert from 'react-bootstrap/Alert';
 import Stack from 'react-bootstrap/Stack';
-import Toast from 'react-bootstrap/Toast';
+import Alert from 'react-bootstrap/Alert';
+import Collapse from 'react-bootstrap/Collapse';
+import Form from 'react-bootstrap/Form';
 import { BsChatLeft } from 'react-icons/bs';
 import { useState } from 'react';
 import { useParams } from 'react-router';
@@ -13,8 +14,7 @@ import Likes from '../likes/Likes';
 
 const Actions = () => {
   const dispatch = useDispatch();
-  const [showForm, setShowForm] = useState(false);
-  const toggleShowForm = () => setShowForm(!showForm);
+  const [open, setOpen] = useState(false);
   const { value, error: likeFailed } = useSelector((state) => state.likes);
   const { userId, collId, itemId } = useParams();
   const { user } = useSelector((state) => state.auth);
@@ -52,7 +52,9 @@ const Actions = () => {
           <BsChatLeft
             color="white"
             className="me-4"
-            onClick={toggleShowForm}
+            onClick={() => setOpen(!open)}
+            aria-controls="newcomment"
+            aria-expanded={open}
           />
           <Likes
             handleLike={handleLike}
@@ -69,13 +71,14 @@ const Actions = () => {
           </Alert>
         )}
       </Stack>
-      <Toast show={showForm} onClose={toggleShowForm}>
-        <NewComment
-          submit={comment}
-          commentData={commentData}
-          handleChange={(e) => setCommentData({ text: e.target.value })}
-        />
-      </Toast>
+      <Collapse in={open} className="my-2">
+        <Form onSubmit={comment} id="newcomment">
+          <NewComment
+            commentData={commentData}
+            handleChange={(e) => setCommentData({ text: e.target.value })}
+          />
+        </Form>
+      </Collapse>
     </Container>
   );
 };

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
-import { GoHeart, GoHeartFill } from 'react-icons/go';
+import { BsHeart, BsHeartFill } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 
 const Likes = ({ currentLike, handleLike }) => {
@@ -16,9 +16,11 @@ const Likes = ({ currentLike, handleLike }) => {
       {!isLoading && (
         <>
           {currentLike
-            ? <GoHeartFill color="red" onClick={handleLike} />
-            : <GoHeart color="white" onClick={handleLike} />}
-          <span>{value?.length}</span>
+            ? <BsHeartFill color="red" onClick={handleLike} />
+            : <BsHeart color="white" onClick={handleLike} />}
+          <span className="text-light ms-2">
+            {value?.length}
+          </span>
         </>
       )}
     </>
