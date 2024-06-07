@@ -4,13 +4,15 @@ import Alert from 'react-bootstrap/Alert';
 import { v4 as uuidv4 } from 'uuid';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router';
 import Paginated from '../Paginated';
 import Collection from './collection/Collection';
 import { getUserCollections } from '../../redux/collections/collectionsSlice';
 
 const Collections = () => {
+  const navigate = useNavigate();
+  const { location, state } = useLocation();
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page') || '1';
@@ -20,6 +22,7 @@ const Collections = () => {
       dispatch(getUserCollections({ userId, page }));
     }
   }, [dispatch, page, userId]);
+  useEffect(() => () => navigate(location, {}), []);
   const {
     value, numberOfPages, isLoading, error,
   } = useSelector((state) => state.collections);
@@ -27,6 +30,11 @@ const Collections = () => {
   return (
     <Container fluid data-bs-theme="dark" className="text-light">
       <h3>COLLECTIONS</h3>
+      {state && (
+        <Alert variant="success">
+          {state.message}
+        </Alert>
+      )}
       {error && (
         <Alert variant="danger">
           {error}

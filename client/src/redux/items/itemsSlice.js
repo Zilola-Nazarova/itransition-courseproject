@@ -70,6 +70,7 @@ const initialState = {
   numberOfPages: 1,
   isLoading: false,
   error: undefined,
+  status: undefined,
 };
 
 export const itemsSlice = createSlice({
@@ -150,6 +151,7 @@ export const itemsSlice = createSlice({
         state.value = state.value.filter((item) => (
           item._id !== action.payload._id
         ));
+        state.status = 'deleted';
       })
       .addCase(deleteItem.rejected, (state, action) => {
         state.isLoading = false;

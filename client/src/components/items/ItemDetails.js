@@ -2,6 +2,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 import Card from 'react-bootstrap/Card';
@@ -12,10 +13,13 @@ import EditDelete from '../EditDelete';
 import UpdateItem from './UpdateItem';
 
 const ItemDetails = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userId, collId } = useParams();
   const { user } = useSelector((state) => state.auth);
-  const { item, isLoading, error } = useSelector((state) => state.items);
+  const {
+    item, isLoading, error, status,
+  } = useSelector((state) => state.items);
   const [itemData, setItemData] = useState({});
   const [newTags, setNewTags] = useState([]);
   useEffect(() => {
@@ -30,7 +34,21 @@ const ItemDetails = () => {
     }));
     setOnEdit(false);
   };
-
+  const removeItem = () => {
+    dispatch(deleteItem({ userId, collId, itemId: item._id }));
+  };
+  useEffect(() => {
+    if (status === 'deleted') {
+      navigate(
+        `/users/${userId}/collections/${collId}/items`,
+        {
+          state: {
+            message: 'Successfully deleted!',
+          },
+        },
+      );
+    }
+  }, [status, userId, collId]);
   return (
     <>
       {error === 'Item not found' && (
@@ -90,7 +108,7 @@ const ItemDetails = () => {
           {(user?.user._id === item.author._id || user?.user.role === 'Admin') && (
             <EditDelete
               edit={() => setOnEdit(true)}
-              del={() => dispatch(deleteItem({ userId, collId, itemId: item._id }))}
+              del={removeItem}
             />
           )}
         </Card>

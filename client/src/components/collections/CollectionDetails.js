@@ -2,6 +2,7 @@ import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 import EditDelete from '../EditDelete';
@@ -9,9 +10,12 @@ import UpdateCollection from './UpdateCollection';
 import { updateCollection, deleteCollection } from '../../redux/collections/collectionsSlice';
 
 const CollectionDetails = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userId } = useParams();
-  const { collection, isLoading, error } = useSelector((state) => state.collections);
+  const {
+    collection, isLoading, error, status,
+  } = useSelector((state) => state.collections);
   const { user } = useSelector((state) => state.auth);
   const [onEdit, setOnEdit] = useState(false);
   const [collectionData, setCollectionData] = useState(collection);
@@ -27,7 +31,18 @@ const CollectionDetails = () => {
     dispatch(updateCollection({ userId, collId: collection._id, updatedCollection: formData }));
     setOnEdit(false);
   };
-
+  useEffect(() => {
+    if (status === 'deleted') {
+      navigate(
+        `/users/${userId}/collections`,
+        {
+          state: {
+            message: 'Successfully deleted!',
+          },
+        },
+      );
+    }
+  }, [status, userId]);
   return (
     <>
       {error === 'Collection not found' && (

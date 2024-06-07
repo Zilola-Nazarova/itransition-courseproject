@@ -4,13 +4,15 @@ import Alert from 'react-bootstrap/Alert';
 import { v4 as uuidv4 } from 'uuid';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router';
 import Paginated from '../Paginated';
 import Item from './item/Item';
 import { getCollectionItems } from '../../redux/items/itemsSlice';
 
 const Items = () => {
+  const navigate = useNavigate();
+  const { location, state } = useLocation();
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page') || '1';
@@ -20,13 +22,19 @@ const Items = () => {
       dispatch(getCollectionItems({ userId, collId, page }));
     }
   }, [dispatch, page, userId, collId]);
+  useEffect(() => () => navigate(location, {}), []);
   const {
     value, numberOfPages, isLoading, error,
   } = useSelector((state) => state.items);
 
   return (
-    <Container fluid data-bs-theme="dark" className="text-light">
-      <h3>ITEMS</h3>
+    <Container fluid data-bs-theme="dark" className="items text-light">
+      <h3 className="text-center">ITEMS</h3>
+      {state && (
+        <Alert variant="success">
+          {state.message}
+        </Alert>
+      )}
       {error && (
         <Alert variant="danger">
           {error}
