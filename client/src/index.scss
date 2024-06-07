@@ -6,6 +6,20 @@
   flex-direction: column;
 }
 
+.actions > .hstack {
+  height: 50px;
+}
+
+.actions .hstack svg {
+  height: 24px;
+  width: 24px;
+}
+
+.actions .hstack span {
+  font-size: 18px;
+  font-weight: 600;
+}
+
 .nav {
   background-color: rgb(49, 58, 49);
 }
