@@ -52,7 +52,7 @@ export const getItem = async (req, res) => {
     const tags = itemTags.map((itemtag) => itemtag.tag);
     const item = await Item.findOne(
       { _id: itemId, coll: collectionId, author: userId }
-    ).populate('author').lean();
+    ).populate('author').populate('coll').lean();
     if (!item) return res.status(400).json({ message: 'Item not found' });
     res.status(200).json({ ...item, tags });
   } catch (error) {
