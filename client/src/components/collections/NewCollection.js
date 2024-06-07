@@ -43,6 +43,7 @@ const NewCollection = () => {
                 <Form.Label>Title</Form.Label>
                 <Form.Control
                   required
+                  name="title"
                   placeholder="Name the Collection"
                   value={collectionData.title}
                   onChange={handleChange}
@@ -51,16 +52,18 @@ const NewCollection = () => {
               <Form.Group>
                 <Form.Label>Description</Form.Label>
                 <Form.Control
-                  as="textarea"
-                  rows={3}
                   required
+                  name="text"
                   placeholder="Describe the Collection"
                   value={collectionData.text}
                   onChange={handleChange}
+                  as="textarea"
+                  rows={3}
                 />
               </Form.Group>
               <Form.Select
                 required
+                name="category"
                 onChange={(e) => setCollectionData({ ...collectionData, category: e.target.value })}
                 value={collectionData.category}
               >

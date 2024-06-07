@@ -56,6 +56,7 @@ const NewItem = () => {
               <Form.Label>Title</Form.Label>
               <Form.Control
                 required
+                name="title"
                 placeholder="Name the Item"
                 value={itemData.title}
                 onChange={handleChange}
@@ -64,12 +65,13 @@ const NewItem = () => {
             <Form.Group>
               <Form.Label>Description</Form.Label>
               <Form.Control
-                as="textarea"
-                rows={3}
                 required
+                name="text"
                 placeholder="Describe the Item"
                 value={itemData.text}
                 onChange={handleChange}
+                as="textarea"
+                rows={3}
               />
             </Form.Group>
             <ListGroup horizontal="md">
@@ -94,7 +96,7 @@ const NewItem = () => {
                   pushTag={pushTag}
                   value={tagValue}
                   setTagError={setTagError}
-                  setTagValue={setTagValue}
+                  setValue={setTagValue}
                 />
               </Col>
               <Col xs={4}>
