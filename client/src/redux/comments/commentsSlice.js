@@ -32,6 +32,23 @@ export const postComment = createAsyncThunk(
   },
 );
 
+export const updateComment = createAsyncThunk(
+  'comments/updateComment',
+  async ({
+    userId, collId, itemId, commentId, updatedComment,
+  }, thunkAPI) => {
+    try {
+      const resp = await API.patch(
+        `/users/${userId}/collections/${collId}/items/${itemId}/comments/${commentId}`,
+        updatedComment,
+      );
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  },
+);
+
 export const deleteComment = createAsyncThunk(
   'comments/deleteComment',
   async ({
@@ -84,6 +101,21 @@ export const commentsSlice = createSlice({
         state.value.push(action.payload);
       })
       .addCase(postComment.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateComment.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(updateComment.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = false;
+        state.value = state.value.map((comment) => (
+          comment._id === action.payload._id ? action.payload : comment
+        ));
+      })
+      .addCase(updateComment.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
