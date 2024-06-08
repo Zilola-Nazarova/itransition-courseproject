@@ -80,7 +80,7 @@ const NewItem = () => {
                   {tag}
                   <CloseButton
                     onClick={() => excludeTag(tag)}
-                    aria-label="Hide"
+                    aria-label="Remove Tag"
                   />
                 </ListGroup.Item>
               ))}

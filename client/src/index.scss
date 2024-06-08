@@ -12,6 +12,14 @@
   padding: 0;
 }
 
+.width-limit {
+  max-width: 1000px;
+}
+
+.width-limit-sm {
+  max-width: 700px;
+}
+
 .actions > .hstack {
   height: 50px;
 }
@@ -78,10 +86,6 @@
   border-radius: 0.6rem;
 }
 
-.auth {
-  max-width: 45rem;
-}
-
 .click-above {
   position: relative;
   z-index: 5;
@@ -125,10 +129,6 @@
 
 .profile-card:hover {
   outline: $success 1px solid;
-}
-
-.width-limit {
-  max-width: 1200px;
 }
 
 .text-link,

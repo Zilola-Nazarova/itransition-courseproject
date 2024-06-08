@@ -54,7 +54,7 @@ const AuthPage = () => {
     setShowPassword(false);
   };
   return (
-    <Card className="auth text-white text-center border-success m-auto" data-bs-theme="dark">
+    <Card className="width-limit-sm text-white text-center border-success m-auto" data-bs-theme="dark">
       {(isAuthenticating && 'Loading...') || error || message}
       <Card.Header><h2>{isSignup ? 'Sign Up' : 'Sign In'}</h2></Card.Header>
       <Card.Body className="p-4">

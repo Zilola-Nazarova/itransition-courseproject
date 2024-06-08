@@ -41,7 +41,7 @@ const Actions = () => {
   };
 
   return (
-    <Container className="actions p-0">
+    <Container className="actions p-0 mt-1">
       <Stack
         direction="horizontal"
         gap={4}

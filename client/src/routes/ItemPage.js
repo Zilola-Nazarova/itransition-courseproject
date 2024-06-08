@@ -20,18 +20,15 @@ const ItemPage = () => {
   }, [dispatch, collId, userId, itemId]);
 
   return (
-    <>
+    <Container
+      className="width-limit"
+      data-bs-theme="dark"
+    >
       <h1 className="text-light mb-4">ITEM</h1>
-      <Container id="details" className="position-relative">
-        <ItemDetails />
-      </Container>
-      <Container id="likes">
-        <Actions />
-      </Container>
-      <Container id="comments">
-        <Comments />
-      </Container>
-    </>
+      <ItemDetails />
+      <Actions />
+      <Comments />
+    </Container>
   );
 };
 
