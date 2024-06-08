@@ -9,7 +9,7 @@ const Item = ({ item }) => {
 
   return (
     <ListGroup.Item className="item-link py-0">
-      <Row cassName="border-b position-relative">
+      <Row className="border-b position-relative">
         <a
           aria-label="Navigate to item"
           href={`/users/${item.author}/collections/${item.coll}/items/${item._id}`}

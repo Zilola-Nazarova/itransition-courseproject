@@ -8,7 +8,7 @@ const Layout = () => (
     <Header />
     <Container
       fluid
-      className="outlet bg-dark p-5 m-auto"
+      className="outlet bg-dark p-5"
     >
       <Outlet />
     </Container>
