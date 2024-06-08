@@ -1,5 +1,9 @@
 import Spinner from 'react-bootstrap/Spinner';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
+import Button from 'react-bootstrap/Button';
+import CloseButton from 'react-bootstrap/CloseButton';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -8,25 +12,36 @@ import { v4 as uuidv4 } from 'uuid';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { updateItem, deleteItem } from '../../redux/items/itemsSlice';
-import ClickOutside from '../../helpers/ClickOutside';
-import EditDelete from '../EditDelete';
-import UpdateItem from './UpdateItem';
+import ButtonGroup from '../buttonGroups/ButtonGroup';
+import TagInput from './TagInput';
 
 const ItemDetails = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userId, collId } = useParams();
+  const [tagError, setTagError] = useState(false);
+  const [tagValue, setTagValue] = useState('');
+  const [itemData, setItemData] = useState({});
+  const [newTags, setNewTags] = useState([]);
   const { user } = useSelector((state) => state.auth);
   const {
     item, isLoading, error, status,
   } = useSelector((state) => state.items);
-  const [itemData, setItemData] = useState({});
-  const [newTags, setNewTags] = useState([]);
+  const pushTag = (tag) => {
+    setNewTags([...newTags, tag]);
+    setTagValue('');
+  };
+  const excludeTag = (toDelete) => {
+    setNewTags(newTags.filter((tag) => tag !== toDelete));
+  };
   useEffect(() => {
     setItemData(item);
     setNewTags(item?.tags.map((tag) => tag.tagname));
   }, [item]);
   const [onEdit, setOnEdit] = useState(false);
+  const handleChange = (e) => {
+    setItemData({ ...itemData, [e.target.name]: e.target.value });
+  };
   const handleSave = (e) => {
     e.preventDefault();
     dispatch(updateItem({
@@ -69,7 +84,7 @@ const ItemDetails = () => {
         </Spinner>
       )}
       {item && (
-        <Card border="success" data-bs-theme="dark">
+        <Card border="success" data-bs-theme="dark" className="item">
           <Card.Header className="d-flex">
             <strong className="me-auto text-link">
               In
@@ -87,50 +102,92 @@ const ItemDetails = () => {
             </strong>
           </Card.Header>
           <Card.Body>
-            <Card.Title>{item.title}</Card.Title>
+            <Card.Title>
+              {onEdit ? (
+                <input
+                  required
+                  name="title"
+                  value={itemData.title}
+                  onChange={handleChange}
+                />
+              ) : item.title}
+            </Card.Title>
             <Card.Text className="mb-2 text-muted">
-              {item.text}
+              {onEdit ? (
+                <textarea
+                  required
+                  name="text"
+                  value={itemData.text}
+                  onChange={handleChange}
+                />
+              ) : item.text}
             </Card.Text>
           </Card.Body>
           <ListGroup className="list-group-flush tags">
-            {item.tags.map((tag) => (
-              <ListGroup.Item
-                variant="success"
-                className="py-1"
-                action
-                key={uuidv4()}
-                href={`/tags/${tag._id}`}
-              >
-                {`#${tag.tagname} `}
-              </ListGroup.Item>
-            ))}
+            {onEdit ? (
+              newTags.map((tag) => (
+                <ListGroup.Item key={uuidv4()}>
+                  {tag}
+                  <CloseButton
+                    onClick={() => excludeTag(tag)}
+                    aria-label="Remove tag"
+                  />
+                </ListGroup.Item>
+              ))
+            ) : (
+              item.tags.map((tag) => (
+                <ListGroup.Item
+                  variant="success"
+                  className="py-1"
+                  action
+                  key={uuidv4()}
+                  href={`/tags/${tag._id}`}
+                >
+                  {`#${tag.tagname} `}
+                  {onEdit && <button type="button" onClick={() => excludeTag(tag)}>X</button>}
+                </ListGroup.Item>
+              ))
+            )}
           </ListGroup>
+          {tagError && (
+            <Alert variant="danger">
+              Only letters, numbers and _ are allowed.
+            </Alert>
+          )}
+          {onEdit && (
+            <Card.Body>
+              <Row>
+                <Col xs={8}>
+                  <TagInput
+                    pushTag={pushTag}
+                    value={tagValue}
+                    setTagError={setTagError}
+                    setValue={setTagValue}
+                  />
+                </Col>
+                <Col xs={4}>
+                  <Button
+                    disabled={tagError}
+                    className="btn-wide"
+                    type="button"
+                    onClick={() => pushTag(tagValue)}
+                  >
+                    Add tag
+                  </Button>
+                </Col>
+              </Row>
+            </Card.Body>
+          )}
           {(user?.user._id === item.author._id || user?.user.role === 'Admin') && (
-            <EditDelete
+            <ButtonGroup
+              cancel={() => setOnEdit(false)}
+              save={handleSave}
               edit={() => setOnEdit(true)}
               del={removeItem}
+              onEdit={onEdit}
             />
           )}
         </Card>
-      )}
-      {onEdit && (
-        <ClickOutside
-          onClick={() => {
-            setOnEdit(false);
-            setItemData(item);
-            // setValue('');
-            setNewTags([]);
-          }}
-        >
-          <UpdateItem
-            itemData={itemData}
-            item={item}
-            newTags={newTags}
-            setNewTags={setNewTags}
-            handleChange={(data) => setItemData(data)}
-          />
-          <button type="button" onClick={handleSave}>Save</button>
-        </ClickOutside>
       )}
     </>
   );

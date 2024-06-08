@@ -1,27 +1,33 @@
 import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
+import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { useEffect, useState } from 'react';
-import EditDelete from '../EditDelete';
-import UpdateCollection from './UpdateCollection';
 import { updateCollection, deleteCollection } from '../../redux/collections/collectionsSlice';
+import ButtonGroup from '../buttonGroups/ButtonGroup';
 
 const CollectionDetails = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userId } = useParams();
+  const [onEdit, setOnEdit] = useState(false);
+  const {
+    value: cat, isLoading: catLoading, error: catError,
+  } = useSelector((state) => state.categories);
   const {
     collection, isLoading, error, status,
   } = useSelector((state) => state.collections);
   const { user } = useSelector((state) => state.auth);
-  const [onEdit, setOnEdit] = useState(false);
   const [collectionData, setCollectionData] = useState(collection);
   useEffect(() => {
     setCollectionData(collection);
   }, [collection]);
+  const handleChange = (e) => {
+    setCollectionData({ ...collectionData, [e.target.name]: e.target.value });
+  };
   const handleSave = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -30,6 +36,9 @@ const CollectionDetails = () => {
     ));
     dispatch(updateCollection({ userId, collId: collection._id, updatedCollection: formData }));
     setOnEdit(false);
+  };
+  const removeCollection = () => {
+    dispatch(deleteCollection({ userId, collId: collection._id }));
   };
   useEffect(() => {
     if (status === 'deleted') {
@@ -63,7 +72,7 @@ const CollectionDetails = () => {
         </Spinner>
       )}
       {collection && (
-        <Card border="success" data-bs-theme="dark">
+        <Card border="success" data-bs-theme="dark" className="collection">
           <Card.Header className="d-flex">
             <strong className="me-auto">Collection</strong>
             <strong className="text-muted">
@@ -75,31 +84,54 @@ const CollectionDetails = () => {
           {collection.imageUrl
             && <Card.Img variant="top" src={collection.imageUrl} />}
           <Card.Body>
-            <Card.Title>{collection.title}</Card.Title>
+            <Card.Title>
+              {onEdit ? (
+                <input
+                  required
+                  name="title"
+                  value={collectionData.title}
+                  onChange={handleChange}
+                />
+              ) : collection.title}
+            </Card.Title>
             <Card.Subtitle className="mb-2 text-muted">
-              {collection.category}
+              {onEdit ? (
+                <select
+                  required
+                  name="category"
+                  value={collectionData.category}
+                  onChange={handleChange}
+                >
+                  <option value="none" disabled hidden>Please select a category</option>
+                  {catLoading && <option value="none" disabled hidden>Browsing categories</option>}
+                  {catError && <option value="none" disabled hidden>Could not browse categories. Please refresh the page.</option>}
+                  {cat?.map((category) => (
+                    <option key={uuidv4()} value={category}>{category}</option>
+                  ))}
+                </select>
+              ) : collection.category}
             </Card.Subtitle>
             <Card.Text className="mb-2 text-muted">
-              {collection.text}
+              {onEdit ? (
+                <textarea
+                  required
+                  name="text"
+                  value={collectionData.text}
+                  onChange={handleChange}
+                />
+              ) : collection.text}
             </Card.Text>
           </Card.Body>
           {(user?.user._id === collection.author._id || user?.user.role === 'Admin') && (
-            <EditDelete
+            <ButtonGroup
+              onEdit={onEdit}
+              cancel={() => setOnEdit(false)}
+              save={handleSave}
               edit={() => setOnEdit(true)}
-              del={() => dispatch(deleteCollection({ userId, collId: collection._id }))}
+              del={removeCollection}
             />
           )}
         </Card>
-      )}
-      {onEdit && (
-        <>
-          <UpdateCollection
-            collectionData={collectionData}
-            collection={collection}
-            handleChange={(data) => setCollectionData(data)}
-          />
-          <button type="button" onClick={handleSave}>Save</button>
-        </>
       )}
     </>
   );

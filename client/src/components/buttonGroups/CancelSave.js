@@ -1,29 +1,28 @@
 import Card from 'react-bootstrap/Card';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
-import { FaTrash } from 'react-icons/fa';
 
-const EditDelete = ({ edit, del }) => (
+const CancelSave = ({ cancel, save }) => (
   <Card.Footer className="edit-delete d-flex justify-content-center gap-3">
     <Button
-      onClick={() => edit()}
+      onClick={cancel}
       variant="secondary"
     >
-      Edit
+      Cancel
     </Button>
     <Button
       className="d-flex justify-content-center align-items-center"
-      onClick={() => del()}
-      variant="danger"
+      onClick={save}
+      variant="success"
     >
-      <FaTrash size={14} />
+      Save
     </Button>
   </Card.Footer>
 );
 
-EditDelete.propTypes = {
-  edit: PropTypes.func.isRequired,
-  del: PropTypes.func.isRequired,
+CancelSave.propTypes = {
+  cancel: PropTypes.func.isRequired,
+  save: PropTypes.func.isRequired,
 };
 
-export default EditDelete;
+export default CancelSave;
