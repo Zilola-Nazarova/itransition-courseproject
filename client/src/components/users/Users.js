@@ -27,7 +27,11 @@ const Users = () => {
   } = useSelector((state) => state.users);
 
   return (
-    <Container fluid data-bs-theme="dark" className="text-light">
+    <Container
+      fluid
+      data-bs-theme="dark"
+      className="users text-light"
+    >
       <h3>USERS COMPONENT</h3>
       {error && (
         <Alert variant="danger">

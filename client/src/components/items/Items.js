@@ -28,7 +28,11 @@ const Items = () => {
   } = useSelector((state) => state.items);
 
   return (
-    <Container fluid data-bs-theme="dark" className="items text-light">
+    <Container
+      fluid
+      data-bs-theme="dark"
+      className="items text-light"
+    >
       <h3 className="text-center">ITEMS</h3>
       {state && (
         <Alert variant="success">

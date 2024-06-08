@@ -28,7 +28,11 @@ const Collections = () => {
   } = useSelector((state) => state.collections);
 
   return (
-    <Container fluid data-bs-theme="dark" className="text-light">
+    <Container
+      fluid
+      data-bs-theme="dark"
+      className="collections text-light"
+    >
       <h3>COLLECTIONS</h3>
       {state && (
         <Alert variant="success">

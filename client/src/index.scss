@@ -6,6 +6,12 @@
   flex-direction: column;
 }
 
+.items,
+.collections,
+.users {
+  padding: 0;
+}
+
 .actions > .hstack {
   height: 50px;
 }
@@ -20,12 +26,13 @@
   font-weight: 600;
 }
 
-.toast {
-  width: 100%;
-}
 
 .comments {
   position: static;
+  
+  .toast {
+    width: 100%;
+  }
 }
 
 .comment {
@@ -206,10 +213,6 @@
 img {
   max-width: 100%;
   height: auto;
-}
-
-.big-img {
-  max-width: 200px;
 }
 
 .btn-wide {
