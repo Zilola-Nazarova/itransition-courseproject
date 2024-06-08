@@ -11,6 +11,7 @@ import { deleteLike, postLike } from '../../redux/likes/likesSlice';
 import { postComment } from '../../redux/comments/commentsSlice';
 import NewComment from '../comments/NewComment';
 import Likes from '../likes/Likes';
+import ClickOutside from '../../helpers/ClickOutside';
 
 const Actions = () => {
   const dispatch = useDispatch();
@@ -71,14 +72,16 @@ const Actions = () => {
           </Alert>
         )}
       </Stack>
-      <Collapse in={open} className="my-2">
-        <Form onSubmit={comment} id="newcomment">
-          <NewComment
-            commentData={commentData}
-            handleChange={(e) => setCommentData({ text: e.target.value })}
-          />
-        </Form>
-      </Collapse>
+      <ClickOutside onClick={() => setOpen(false)}>
+        <Collapse in={open} className="mb-3">
+          <Form onSubmit={comment} id="newcomment">
+            <NewComment
+              commentData={commentData}
+              handleChange={(e) => setCommentData({ text: e.target.value })}
+            />
+          </Form>
+        </Collapse>
+      </ClickOutside>
     </Container>
   );
 };
