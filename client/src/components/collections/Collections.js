@@ -2,7 +2,7 @@ import Container from 'react-bootstrap/Container';
 import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
 import { v4 as uuidv4 } from 'uuid';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router';
@@ -12,17 +12,20 @@ import { getUserCollections } from '../../redux/collections/collectionsSlice';
 
 const Collections = () => {
   const navigate = useNavigate();
-  const { location, state } = useLocation();
+  const location = useLocation();
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page') || '1';
   const { userId } = useParams();
+  const [state] = useState(location.state || null);
   useEffect(() => {
     if (page) {
       dispatch(getUserCollections({ userId, page }));
     }
   }, [dispatch, page, userId]);
-  useEffect(() => () => navigate(location, {}), []);
+  useEffect(() => {
+    navigate('.', { replace: true });
+  }, [navigate]);
   const {
     value, numberOfPages, isLoading, error,
   } = useSelector((state) => state.collections);
