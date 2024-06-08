@@ -1,11 +1,12 @@
 import Card from 'react-bootstrap/Card';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FaLock } from 'react-icons/fa';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getUser, signin, signup } from '../../redux/auth/authSlice';
-import AuthForm from './Input';
+import { getUser, signin, signup } from '../redux/auth/authSlice';
+import AuthForm from '../components/auth/AuthForm';
+import SignUpSwitcher from '../components/auth/SignUpSwitcher';
 
 const initialState = {
   username: '',
@@ -14,7 +15,7 @@ const initialState = {
   confirmedPassword: '',
 };
 
-const Auth = () => {
+const AuthPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isAuthenticating, error } = useSelector((state) => state.auth);
@@ -68,16 +69,9 @@ const Auth = () => {
           handleShowPassword={() => setShowPassword((prev) => !prev)}
         />
       </Card.Body>
-      <Card.Footer className="p-3 text-muted">
-        <Card.Text className="mb-2">
-          {isSignup ? 'Already have an account?' : "Don't have an account?"}
-        </Card.Text>
-        <Card.Link href="#" className="text-success" onClick={switchSignup}>
-          {isSignup ? 'Sign In' : 'Sign Up'}
-        </Card.Link>
-      </Card.Footer>
+      <SignUpSwitcher isSignup={isSignup} switchSignup={switchSignup} />
     </Card>
   );
 };
 
-export default Auth;
+export default AuthPage;

@@ -7,7 +7,7 @@ import Collection from '../components/collections/collection/Collection';
 import Paginated from '../components/Paginated';
 import { getItemsBySearch } from '../redux/search/searchSlice';
 
-const Results = () => {
+const ResultsPage = () => {
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page') || '1';
@@ -53,4 +53,4 @@ const Results = () => {
   );
 };
 
-export default Results;
+export default ResultsPage;

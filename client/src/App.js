@@ -9,8 +9,8 @@ import UserPage from './routes/UserPage';
 import HomePage from './routes/HomePage';
 import Layout from './routes/Layout';
 import NotFound from './routes/NotFound';
-import Auth from './components/auth/Auth';
-import Results from './routes/Results';
+import AuthPage from './routes/AuthPage';
+import ResultsPage from './routes/ResultsPage';
 import TagPage from './routes/TagPage';
 import ProfilePage from './routes/ProfilePage';
 
@@ -23,9 +23,9 @@ const App = () => {
         <Route path="/" element={<Layout />}>
           <Route path="*" element={<NotFound />} />
           <Route index element={<HomePage />} />
-          <Route path="search" element={<Results />} />
+          <Route path="search" element={<ResultsPage />} />
           <Route path="tags/:tagId" element={<TagPage />} />
-          <Route path="auth" element={user ? <Navigate to="/" /> : <Auth />} />
+          <Route path="auth" element={user ? <Navigate to="/" /> : <AuthPage />} />
           <Route path="/:username" element={user ? <ProfilePage /> : <Navigate to="/auth" />} />
           <Route path="users">
             <Route index element={user?.user.role === 'Admin' ? <AdminPage /> : <NotFound />} />
