@@ -24,9 +24,7 @@ const ItemDetails = () => {
   const [itemData, setItemData] = useState({});
   const [newTags, setNewTags] = useState([]);
   const { user } = useSelector((state) => state.auth);
-  const {
-    item, isLoading, error, status,
-  } = useSelector((state) => state.items);
+  const { item, isLoading, error } = useSelector((state) => state.items);
   const pushTag = (tag) => {
     setNewTags([...newTags, tag]);
     setTagValue('');
@@ -50,20 +48,11 @@ const ItemDetails = () => {
     setOnEdit(false);
   };
   const removeItem = () => {
-    dispatch(deleteItem({ userId, collId, itemId: item._id }));
+    dispatch(deleteItem({
+      userId, collId, itemId: item._id, navigate,
+    }));
   };
-  useEffect(() => {
-    if (status === 'deleted') {
-      navigate(
-        `/users/${userId}/collections/${collId}/items`,
-        {
-          state: {
-            message: 'Successfully deleted!',
-          },
-        },
-      );
-    }
-  }, [status, userId, collId]);
+
   return (
     <>
       {error === 'Item not found' && (

@@ -53,9 +53,19 @@ export const updateItem = createAsyncThunk(
 
 export const deleteItem = createAsyncThunk(
   'items/deleteItem',
-  async ({ userId, collId, itemId }, thunkAPI) => {
+  async ({
+    userId, collId, itemId, navigate,
+  }, thunkAPI) => {
     try {
       const resp = await API.delete(`users/${userId}/collections/${collId}/items/${itemId}`);
+      navigate(
+        `/users/${userId}/collections/${collId}/items`,
+        {
+          state: {
+            message: 'Successfully deleted!',
+          },
+        },
+      );
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);

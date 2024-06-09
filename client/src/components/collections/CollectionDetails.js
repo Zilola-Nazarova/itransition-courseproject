@@ -17,9 +17,7 @@ const CollectionDetails = () => {
   const {
     value: cat, isLoading: catLoading, error: catError,
   } = useSelector((state) => state.categories);
-  const {
-    collection, isLoading, error, status,
-  } = useSelector((state) => state.collections);
+  const { collection, isLoading, error } = useSelector((state) => state.collections);
   const { user } = useSelector((state) => state.auth);
   const [collectionData, setCollectionData] = useState(collection);
   useEffect(() => {
@@ -38,20 +36,11 @@ const CollectionDetails = () => {
     setOnEdit(false);
   };
   const removeCollection = () => {
-    dispatch(deleteCollection({ userId, collId: collection._id }));
+    dispatch(deleteCollection({
+      userId, collId: collection._id, navigate,
+    }));
   };
-  useEffect(() => {
-    if (status === 'deleted') {
-      navigate(
-        `/users/${userId}/collections`,
-        {
-          state: {
-            message: 'Successfully deleted!',
-          },
-        },
-      );
-    }
-  }, [status, userId]);
+
   return (
     <>
       {error === 'Collection not found' && (
