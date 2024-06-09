@@ -5,7 +5,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { updateUser, deleteUser } from '../../../redux/users/usersSlice';
 import UpdateUser from './UpdateUser';
-import EditDelete from '../../EditDelete';
+import ButtonGroup from '../../buttonGroups/ButtonGroup';
 
 const User = ({ user }) => {
   const dispatch = useDispatch();
@@ -24,14 +24,11 @@ const User = ({ user }) => {
     <Row className="user position-relative">
       <p>SINGLE USER</p>
       {onEdit ? (
-        <>
-          <UpdateUser
-            userData={userData}
-            user={user}
-            handleChange={(data) => setUserData(data)}
-          />
-          <button type="button" onClick={handleSave}>Save</button>
-        </>
+        <UpdateUser
+          userData={userData}
+          user={user}
+          handleChange={(data) => setUserData(data)}
+        />
       ) : (
         <>
           <a
@@ -45,9 +42,12 @@ const User = ({ user }) => {
           <Col>{password}</Col>
           <Col>{role}</Col>
           <Col>{`${active}`}</Col>
-          <EditDelete
+          <ButtonGroup
+            onEdit={onEdit}
             edit={() => setOnEdit(true)}
             del={() => dispatch(deleteUser(_id))}
+            save={handleSave}
+            cancel={() => setOnEdit(false)}
           />
         </>
       )}

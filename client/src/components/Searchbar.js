@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 const Searchbar = () => {
   const navigate = useNavigate();
@@ -18,22 +20,22 @@ const Searchbar = () => {
     }
   };
   return (
-    <div>
-      <h2>Searchbar</h2>
-      <input
-        name="search"
-        label="Search Items"
-        value={search}
+    <Form className="d-flex align-items-center gap-3">
+      <Form.Control
+        className="searchbar"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
         onKeyDown={handleKeyDown}
         onChange={(e) => setSearch(e.target.value)}
       />
-      <button
-        type="button"
+      <Button
+        variant="success"
         onClick={searchItems}
       >
         Search
-      </button>
-    </div>
+      </Button>
+    </Form>
   );
 };
 

@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import store from './redux/store';
 import App from './App';
-import './index.css';
+import './index.scss';
 
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -1,46 +1,35 @@
-// import React, { useEffect } from 'react';
-import { useParams } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteLike, postLike } from '../../redux/likes/likesSlice';
+import PropTypes from 'prop-types';
+import Spinner from 'react-bootstrap/Spinner';
+import { BsHeart, BsHeartFill } from 'react-icons/bs';
+import { useSelector } from 'react-redux';
 
-const Likes = () => {
-  const dispatch = useDispatch();
-  const { value, isLoading, error } = useSelector((state) => state.likes);
-  const { userId, collId, itemId } = useParams();
-  const { user } = useSelector((state) => state.auth);
-  const currentLike = value?.find(
-    ({ item, author }) => item === itemId && author === user?.user._id,
-  );
-  const handleLike = (e) => {
-    e.preventDefault();
-    dispatch(currentLike
-      ? deleteLike({
-        userId, collId, itemId, likeId: currentLike._id,
-      })
-      : postLike({ userId, collId, itemId }));
-  };
+const Likes = ({ currentLike, handleLike }) => {
+  const { value, isLoading } = useSelector((state) => state.likes);
 
   return (
-    <div>
-      {error && <p>{error}</p>}
-      {isLoading && <p>Loading...</p>}
-      {value && (
+    <>
+      {isLoading && (
+        <Spinner size="sm" animation="border" role="status" variant="success">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      )}
+      {!isLoading && (
         <>
-          <h4>
-            Likes:
-            <span>{value?.length}</span>
-          </h4>
-          <h5>{ currentLike ? 'Liked' : 'Disliked' }</h5>
-          <button
-            type="button"
-            onClick={handleLike}
-          >
-            { currentLike ? 'Dislike' : 'Like' }
-          </button>
+          {currentLike
+            ? <BsHeartFill color="red" onClick={handleLike} />
+            : <BsHeart color="white" onClick={handleLike} />}
+          <span className="text-light ms-2 like-count">
+            {value?.length}
+          </span>
         </>
       )}
-    </div>
+    </>
   );
+};
+
+Likes.propTypes = {
+  currentLike: PropTypes.objectOf(String).isRequired,
+  handleLike: PropTypes.func.isRequired,
 };
 
 export default Likes;

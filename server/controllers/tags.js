@@ -6,7 +6,10 @@ const ObjectId = mongoose.Types.ObjectId;
 
 export const getTags = async (req, res) => {
   try {
-    const tags = await Tag.find().exec();
+    const tags = await Tag.aggregate([
+      { $project: { tagname: 1, itemCount: { $size: '$items' } } },
+      { $sort: { itemCount: -1 } }
+    ]);
     res.status(200).json(tags);
   } catch (error) {
     console.log(error);
@@ -47,7 +50,7 @@ export const getTagsCloud = async (req, res) => {
     const tags = await Tag.aggregate([
       { $project: { tagname: 1, itemCount: { $size: '$items' } } },
       { $sort: { itemCount: -1 } },
-      { $limit: 3 }
+      { $limit: 20 }
     ]);
     res.status(200).json(tags);
   } catch (error) {

@@ -1,3 +1,6 @@
+import Container from 'react-bootstrap/Container';
+import Spinner from 'react-bootstrap/Spinner';
+import Alert from 'react-bootstrap/Alert';
 import { v4 as uuidv4 } from 'uuid';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -24,10 +27,22 @@ const Users = () => {
   } = useSelector((state) => state.users);
 
   return (
-    <>
+    <Container
+      fluid
+      data-bs-theme="dark"
+      className="users text-light"
+    >
       <h3>USERS COMPONENT</h3>
-      {error && <p>{error}</p>}
-      {isLoading && <p>Loading...</p>}
+      {error && (
+        <Alert variant="danger">
+          {error}
+        </Alert>
+      )}
+      {isLoading && (
+        <Spinner animation="border" role="status" variant="success">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      )}
       {value?.length > 0 && (
         <Paginated
           pageCount={numberOfPages}
@@ -38,7 +53,7 @@ const Users = () => {
       )}
       {value?.length === 0
         && <p>Oops! Seems you there are no users registered. Want to create one?</p>}
-    </>
+    </Container>
   );
 };
 

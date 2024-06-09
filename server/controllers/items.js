@@ -52,7 +52,7 @@ export const getItem = async (req, res) => {
     const tags = itemTags.map((itemtag) => itemtag.tag);
     const item = await Item.findOne(
       { _id: itemId, coll: collectionId, author: userId }
-    ).lean();
+    ).populate('author').populate('coll').lean();
     if (!item) return res.status(400).json({ message: 'Item not found' });
     res.status(200).json({ ...item, tags });
   } catch (error) {
@@ -76,7 +76,6 @@ export const createItem = async (req, res) => {
     collection.items.push(newItem._id);
     await collection.save();
     await author.save();
-    const newTags = [];
     let tag;
     for (const tagname of tags) {
       tag = await Tag.findOne({ tagname });
@@ -84,13 +83,12 @@ export const createItem = async (req, res) => {
         tag = await Tag.create({ tagname });
       }
       const itemTag = await ItemTag.create({ item: newItem._id, tag: tag._id });
-      newTags.push(tag);
       newItem.tags.push(itemTag._id);
       tag.items.push(itemTag._id);
       await tag.save();
     };
     await newItem.save();
-    if (newItem) res.status(201).json({ ...newItem.toObject(), tags: newTags });
+    if (newItem) res.status(201).json(newItem);
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
@@ -112,7 +110,7 @@ export const updateItem = async (req, res) => {
         tag = await Tag.create({ tagname });
       }
       const itemTag = await ItemTag.create({ item: itemId, tag: tag._id });
-      newTags.push(tag);
+      newTags.push(itemTag._id);
       tag.items.push(itemTag._id);
       await tag.save();
     };
@@ -122,7 +120,7 @@ export const updateItem = async (req, res) => {
       { new: true }
     );
     if (!updatedItem) return res.status(400).json({ message: 'Item not found' });
-    res.status(201).json({ ...updatedItem.toObject(), tags: newTags });
+    res.status(201).json(updatedItem);
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
@@ -157,9 +155,13 @@ export const getLatestItems = async (req, res) => {
     const result = await Item.aggregate([
       { $lookup: { from: 'itemtags', localField: 'tags', foreignField: '_id', as: 'tags' } },
       { $lookup: { from: 'tags', localField: 'tags.tag', foreignField: '_id', as: 'tags' } },
-      { $project: { title: 1, text: 1, tags: 1, author: 1, coll: 1 } },
+      { $lookup: { from: 'users', localField: 'author', foreignField: '_id', as: 'author' } },
+      { $lookup: { from: 'collections', localField: 'coll', foreignField: '_id', as: 'coll' } },
+      { $unwind: '$author' },
+      { $unwind: '$coll' },
+      { $project: { title: 1, text: 1, tags: 1, author: { _id: 1, username: 1 }, coll: { _id: 1, title: 1 } } },
       { $sort: { createdAt: -1 } },
-      { $limit: 3 }
+      { $limit: 10 }
     ]);
     res.status(200).json(result);
   } catch (error) {

@@ -1,25 +1,22 @@
-import React from 'react';
+import Form from 'react-bootstrap/Form';
 import { v4 as uuidv4 } from 'uuid';
 import PropTypes from 'prop-types';
 
 const Radio = ({
-  legend, options, name, current = null, handleChange,
+  legend, options, current = null, handleChange,
 }) => (
   <fieldset>
     <legend>{legend}</legend>
     {options.map((opt) => (
-      <label key={uuidv4()} htmlFor={`${opt}`}>
-        <input
-          required
-          checked={current === opt}
-          type="radio"
-          name={name}
-          value={opt}
-          id={`${opt}`}
-          onChange={(e) => handleChange(e, opt)}
-        />
-        {`${opt}`}
-      </label>
+      <Form.Check
+        key={uuidv4()}
+        required
+        type="radio"
+        label={`${opt}`}
+        checked={current === opt}
+        value={opt}
+        onChange={(e) => handleChange(e, opt)}
+      />
     ))}
   </fieldset>
 );
@@ -31,7 +28,6 @@ Radio.propTypes = {
     PropTypes.bool,
   ]),
   options: PropTypes.arrayOf(String).isRequired,
-  name: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
 };
 

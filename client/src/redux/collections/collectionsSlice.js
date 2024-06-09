@@ -51,9 +51,17 @@ export const updateCollection = createAsyncThunk(
 
 export const deleteCollection = createAsyncThunk(
   'collections/deleteCollection',
-  async ({ userId, collId }, thunkAPI) => {
+  async ({ userId, collId, navigate }, thunkAPI) => {
     try {
       const resp = await API.delete(`users/${userId}/collections/${collId}`);
+      navigate(
+        `/users/${userId}/collections`,
+        {
+          state: {
+            message: 'Successfully deleted!',
+          },
+        },
+      );
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -68,6 +76,7 @@ const initialState = {
   numberOfPages: 1,
   isLoading: false,
   error: undefined,
+  status: undefined,
 };
 
 export const collectionsSlice = createSlice({
@@ -144,6 +153,7 @@ export const collectionsSlice = createSlice({
         state.value = state.value.filter((collection) => (
           collection._id !== action.payload._id
         ));
+        state.status = 'deleted';
       })
       .addCase(deleteCollection.rejected, (state, action) => {
         state.isLoading = false;

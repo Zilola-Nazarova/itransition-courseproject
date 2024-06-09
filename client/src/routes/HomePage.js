@@ -1,67 +1,48 @@
+import Container from 'react-bootstrap/esm/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Spinner from 'react-bootstrap/Spinner';
+import Alert from 'react-bootstrap/Alert';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
-import { getLargestCollections, getLatestItems, getTagsCloud } from '../redux/home/homeSlice';
+import { getLargestCollections, getRecentItems, getPopularTags } from '../redux/home/homeSlice';
+import RecentItems from '../components/home/RecentItems';
+import LargestCollections from '../components/home/LargestCollections';
+import PopularTags from '../components/home/PopularTags';
 
 const HomePage = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getLargestCollections());
-    dispatch(getLatestItems());
-    dispatch(getTagsCloud());
+    dispatch(getRecentItems());
+    dispatch(getPopularTags());
   }, [dispatch]);
   const {
-    latestItems, largestCollections, tagsCloud, isLoading, error,
+    recentItems, largestCollections, popularTags, isLoading, error,
   } = useSelector((state) => state.home);
   return (
-    <div>
-      <h2>THIS IS THE HOMEPAGE</h2>
-      {error && <p>{error}</p>}
-      {isLoading && <p>Loading...</p>}
-      {latestItems && (
-        <section id="section#1">
-          <h3>LATEST ITEMS</h3>
-          {latestItems && latestItems.map((item) => (
-            <div key={uuidv4()}>
-              <Link
-                to={`users/${item.author}/collections/${item.coll}/items/${item._id}`}
-              >
-                <h5>{item.title}</h5>
-                <p>{item.text}</p>
-                {item.tags.map((tag) => <span key={uuidv4()}>{`#${tag.tagname} `}</span>)}
-              </Link>
-            </div>
-          ))}
-        </section>
+    <>
+      <h1 className="text-light text-center mb-3">WELCOME TO COLLECTIONS OF THINGS</h1>
+      {error && (
+        <Alert variant="danger">
+          {error}
+        </Alert>
       )}
-      {largestCollections && (
-        <section id="section#2">
-          <h3>LARGEST COLLECTIONS</h3>
-          {largestCollections && largestCollections.map((collection) => (
-            <div key={uuidv4()}>
-              <Link to={`users/${collection.author}/collections/${collection._id}/items`}>
-                <h5>{collection.title}</h5>
-                <span>{`${collection.itemCount} items`}</span>
-              </Link>
-            </div>
-          ))}
-        </section>
+      {isLoading && (
+        <Spinner animation="border" role="status" variant="success">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
       )}
-      {tagsCloud && (
-        <section id="section#3">
-          <h3>POPULAR TAGS</h3>
-          {tagsCloud && tagsCloud.map((tag) => (
-            <div key={uuidv4()}>
-              <Link to={`/tags/${tag._id}`}>
-                <h5>{`#${tag.tagname}`}</h5>
-                <span>{`${tag.itemCount} items`}</span>
-              </Link>
-            </div>
-          ))}
-        </section>
-      )}
-    </div>
+      <Container
+        className="home-container"
+      >
+        <Row>
+          <Col className="py-3" sm={12} lg={4}>{recentItems && <RecentItems />}</Col>
+          <Col className="py-3" sm={12} lg={4}>{largestCollections && <LargestCollections />}</Col>
+          <Col className="py-3" sm={12} lg={4}>{popularTags && <PopularTags />}</Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

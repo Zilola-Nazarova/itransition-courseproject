@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
 import ItemDetails from '../components/items/ItemDetails';
-import Likes from '../components/likes/Likes';
+import Actions from '../components/items/Actions';
 import Comments from '../components/comments/Comments';
 import { getItem } from '../redux/items/itemsSlice';
 import { getComments } from '../redux/comments/commentsSlice';
@@ -20,17 +20,15 @@ const ItemPage = () => {
   }, [dispatch, collId, userId, itemId]);
 
   return (
-    <>
-      <Container id="details" className="position-relative">
-        <ItemDetails />
-      </Container>
-      <Container id="comments">
-        <Comments />
-      </Container>
-      <Container id="likes">
-        <Likes />
-      </Container>
-    </>
+    <Container
+      className="width-limit"
+      data-bs-theme="dark"
+    >
+      <h1 className="text-light mb-4">ITEM</h1>
+      <ItemDetails />
+      <Actions />
+      <Comments />
+    </Container>
   );
 };
 

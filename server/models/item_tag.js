@@ -18,6 +18,8 @@ const itemTagSchema = mongoose.Schema(
   }
 );
 
+itemTagSchema.index({ item: 1, tag: 1 }, { unique: true });
+
 const ItemTag = mongoose.model('ItemTag', itemTagSchema);
 
 export default ItemTag;
