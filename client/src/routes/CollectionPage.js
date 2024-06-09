@@ -7,6 +7,7 @@ import Items from '../components/items/Items';
 import { getCollection } from '../redux/collections/collectionsSlice';
 import CollectionDetails from '../components/collections/CollectionDetails';
 import NewItem from '../components/items/NewItem';
+import { getCategories } from '../redux/categories/categoriesSlice';
 
 const CollectionPage = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const CollectionPage = () => {
 
   useEffect(() => {
     dispatch(getCollection({ userId, collId }));
+    dispatch(getCategories());
   }, [dispatch, collId, userId]);
 
   return (

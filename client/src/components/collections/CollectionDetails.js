@@ -1,11 +1,13 @@
+import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { updateCollection, deleteCollection } from '../../redux/collections/collectionsSlice';
 import ButtonGroup from '../buttonGroups/ButtonGroup';
 
@@ -13,16 +15,16 @@ const CollectionDetails = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userId } = useParams();
+  const [imgPreview, setImgPreview] = useState('');
   const [onEdit, setOnEdit] = useState(false);
   const {
     value: cat, isLoading: catLoading, error: catError,
   } = useSelector((state) => state.categories);
-  const { collection, isLoading, error } = useSelector((state) => state.collections);
+  const {
+    collection, isLoading, error,
+  } = useSelector((state) => state.collections);
   const { user } = useSelector((state) => state.auth);
-  const [collectionData, setCollectionData] = useState(collection);
-  useEffect(() => {
-    setCollectionData(collection);
-  }, [collection]);
+  const [collectionData, setCollectionData] = useState({});
   const handleChange = (e) => {
     setCollectionData({ ...collectionData, [e.target.name]: e.target.value });
   };
@@ -40,7 +42,22 @@ const CollectionDetails = () => {
       userId, collId: collection._id, navigate,
     }));
   };
-
+  const handlePreview = (e) => {
+    if (e.target.files) {
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        setImgPreview(reader.result);
+      });
+      reader.readAsDataURL(e.target.files[0]);
+    } else {
+      setImgPreview(null);
+    }
+  };
+  const handleEdit = () => {
+    setOnEdit(true);
+    setImgPreview(collection.imageUrl);
+    setCollectionData({ ...collection, newImage: undefined, deleteImage: false });
+  };
   return (
     <>
       {error === 'Collection not found' && (
@@ -70,12 +87,44 @@ const CollectionDetails = () => {
               <a className="text-muted" href={`/users/${collection.author._id}/collections`}>{collection.author.username}</a>
             </strong>
           </Card.Header>
-          {collection.imageUrl
-            && <div className="img-container"><Card.Img variant="top" src={collection.imageUrl} /></div>}
+            {onEdit ? (
+              imgPreview
+                && <div className="img-container"><Card.Img variant="top" src={imgPreview} /></div>
+            ) : (
+              collection.imageUrl
+                && <div className="img-container"><Card.Img variant="top" src={collection.imageUrl} /></div>
+            )}
           <Card.Body>
+            {onEdit && (
+              <>
+                {imgPreview
+                  && (
+                    <Button
+                      onClick={(e) => {
+                        setCollectionData({ ...collectionData, deleteImage: true });
+                        handlePreview(e);
+                      }}
+                    >
+                      Delete image
+                    </Button>
+                  )}
+                <Form.Group>
+                  <Form.Label>Update image:</Form.Label>
+                  <Form.Control
+                    type="file"
+                    onChange={(e) => {
+                      setCollectionData({
+                        ...collectionData, newImage: e.target.files[0], deleteImage: true,
+                      });
+                      handlePreview(e);
+                    }}
+                  />
+                </Form.Group>
+              </>
+            )}
             <Card.Title>
               {onEdit ? (
-                <input
+                <Form.Control
                   required
                   name="title"
                   value={collectionData.title}
@@ -102,11 +151,12 @@ const CollectionDetails = () => {
             </Card.Subtitle>
             <Card.Text className="mb-2 text-muted">
               {onEdit ? (
-                <textarea
+                <Form.Control
                   required
                   name="text"
                   value={collectionData.text}
                   onChange={handleChange}
+                  as="textarea"
                 />
               ) : collection.text}
             </Card.Text>
@@ -116,7 +166,7 @@ const CollectionDetails = () => {
               onEdit={onEdit}
               cancel={() => setOnEdit(false)}
               save={handleSave}
-              edit={() => setOnEdit(true)}
+              edit={handleEdit}
               del={removeCollection}
             />
           )}

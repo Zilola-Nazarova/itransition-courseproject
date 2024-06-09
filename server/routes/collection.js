@@ -12,7 +12,7 @@ const router = express.Router({ mergeParams: true });
 router.get('/', getUserCollections);
 router.get('/:collectionId', getCollection);
 router.post('/', auth, ownerCheck, upload.single('image'), createCollection);
-router.patch('/:collectionId', auth, ownerCheck, upload.single('image'), updateCollection);
+router.patch('/:collectionId', auth, ownerCheck, upload.single('newImage'), updateCollection);
 router.delete('/:collectionId', auth, ownerCheck, deleteCollection);
 
 export default router;

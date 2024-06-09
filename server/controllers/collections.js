@@ -74,10 +74,14 @@ export const createCollection = async (req, res) => {
       image = randomImageName();
       await uploadFile(buffer, image, file.mimetype);
     }
-    const newCollection = await Collection.create({ title, text, category, image, author: userId });
-    author.colls.push(newCollection._id);
+    const created = await Collection.create({ title, text, category, image, author: userId });
+    const collection = await Collection.findById(created._id).lean();
+    if (collection.image) {
+      collection.imageUrl = await getObjectSignedUrl(collection.image);
+    }
+    author.colls.push(collection._id);
     await author.save();
-    if (newCollection) res.status(201).json(newCollection);
+    if (collection) res.status(201).json(collection);
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
@@ -86,24 +90,33 @@ export const createCollection = async (req, res) => {
 export const updateCollection = async (req, res) => {
   try {
     const { collectionId, userId } = req.params;
-    const { title, text, category, image } = req.body;
+    const { title, text, category } = req.body;
+    let { image, deleteImage } = req.body;
     const file = req.file;
-    let newImage;
     if (!title || !text || !category) {
       return res.status(400).json({ message: 'All fields are required' });
     }
+    if ((image !== 'null') && (deleteImage === 'true')) {
+      await deleteFile(image);
+    }
     if (file) {
-      if (image) await deleteFile(image);
       const buffer = await sharp(file.buffer).resize(800, 800, { fit: 'inside' }).jpeg({ quality: 80 }).toBuffer();
-      newImage = randomImageName();
-      await uploadFile(buffer, newImage, req.file.mimetype);
+      image = randomImageName();
+      await uploadFile(buffer, image, file.mimetype);
+    } else {
+      image = null;
     }
     const updatedCollection = await Collection.findOneAndUpdate(
       { _id: collectionId, author: userId },
-      { title, text, category, image: newImage },
+      { title, text, category, image },
       { new: true }
-    );
+    )
+      .populate('author')
+      .lean();
     if (!updatedCollection) return res.status(400).json({ message: 'Collection not found' });
+    if (updatedCollection.image) {
+      updatedCollection.imageUrl = await getObjectSignedUrl(updatedCollection.image);
+    }
     res.status(201).json(updatedCollection);
   } catch (error) {
     res.status(409).json({ message: error.message });
