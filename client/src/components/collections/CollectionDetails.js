@@ -71,7 +71,7 @@ const CollectionDetails = () => {
             </strong>
           </Card.Header>
           {collection.imageUrl
-            && <Card.Img variant="top" src={collection.imageUrl} />}
+            && <div className="img-container"><Card.Img variant="top" src={collection.imageUrl} /></div>}
           <Card.Body>
             <Card.Title>
               {onEdit ? (

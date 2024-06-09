@@ -18,7 +18,7 @@ const Likes = ({ currentLike, handleLike }) => {
           {currentLike
             ? <BsHeartFill color="red" onClick={handleLike} />
             : <BsHeart color="white" onClick={handleLike} />}
-          <span className="text-light ms-2">
+          <span className="text-light ms-2 like-count">
             {value?.length}
           </span>
         </>
