@@ -76,7 +76,6 @@ export const createItem = async (req, res) => {
     collection.items.push(newItem._id);
     await collection.save();
     await author.save();
-    const newTags = [];
     let tag;
     for (const tagname of tags) {
       tag = await Tag.findOne({ tagname });
@@ -84,13 +83,12 @@ export const createItem = async (req, res) => {
         tag = await Tag.create({ tagname });
       }
       const itemTag = await ItemTag.create({ item: newItem._id, tag: tag._id });
-      newTags.push(tag);
       newItem.tags.push(itemTag._id);
       tag.items.push(itemTag._id);
       await tag.save();
     };
     await newItem.save();
-    if (newItem) res.status(201).json({ ...newItem.toObject(), tags: newTags });
+    if (newItem) res.status(201).json(newItem);
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
@@ -112,7 +110,7 @@ export const updateItem = async (req, res) => {
         tag = await Tag.create({ tagname });
       }
       const itemTag = await ItemTag.create({ item: itemId, tag: tag._id });
-      newTags.push(tag);
+      newTags.push(itemTag._id);
       tag.items.push(itemTag._id);
       await tag.save();
     };
@@ -122,7 +120,7 @@ export const updateItem = async (req, res) => {
       { new: true }
     );
     if (!updatedItem) return res.status(400).json({ message: 'Item not found' });
-    res.status(201).json({ ...updatedItem.toObject(), tags: newTags });
+    res.status(201).json(updatedItem);
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
