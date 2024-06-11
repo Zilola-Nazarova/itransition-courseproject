@@ -56,7 +56,7 @@ const Collections = () => {
         <Paginated
           pageCount={numberOfPages}
           page={page}
-          items={value}
+          slice="collections"
           renderItem={(item) => <Collection collection={item} key={uuidv4()} />}
         />
       )}

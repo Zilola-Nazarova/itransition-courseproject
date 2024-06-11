@@ -56,7 +56,7 @@ const Items = () => {
         <Paginated
           pageCount={numberOfPages}
           page={page}
-          items={value}
+          slice="items"
           renderItem={(item) => <Item item={item} key={uuidv4()} />}
         />
       )}
