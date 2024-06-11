@@ -1,4 +1,7 @@
 import axios from 'axios';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const username = process.env.ATLASSIAN_USERNAME;
 const password = process.env.ATLASSIAN_API_KEY;
