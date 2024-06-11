@@ -47,7 +47,7 @@ const Users = () => {
         <Paginated
           pageCount={numberOfPages}
           page={page}
-          items={value}
+          slice="users"
           renderItem={(item) => <User user={item} key={uuidv4()} />}
         />
       )}

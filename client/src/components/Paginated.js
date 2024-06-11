@@ -1,12 +1,14 @@
 import ListGroup from 'react-bootstrap/ListGroup';
 import { useNavigate } from 'react-router';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Pagination from 'react-bootstrap/Pagination';
 import { useSearchParams } from 'react-router-dom';
 
 const Paginated = ({
-  items, renderItem, page, pageCount,
+  slice, renderItem, page, pageCount,
 }) => {
+  const { value } = useSelector((state) => state[slice]);
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const handlePageClick = (event) => {
@@ -28,7 +30,7 @@ const Paginated = ({
   return (
     <>
       <ListGroup>
-        {items && items.map((item) => renderItem(item))}
+        {value?.map((item) => renderItem(item))}
       </ListGroup>
       <Pagination className="mt-3 mb-0 d-flex justify-content-center">{pages}</Pagination>
     </>
@@ -36,13 +38,7 @@ const Paginated = ({
 };
 
 Paginated.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string,
-    email: PropTypes.string,
-    title: PropTypes.string,
-    text: PropTypes.string,
-  })).isRequired,
+  slice: PropTypes.string.isRequired,
   renderItem: PropTypes.func.isRequired,
   page: PropTypes.string.isRequired,
   pageCount: PropTypes.number.isRequired,

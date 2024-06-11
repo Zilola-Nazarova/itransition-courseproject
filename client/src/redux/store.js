@@ -10,6 +10,7 @@ import tagsReducer from './tags/tagsSlice';
 import categoriesReducer from './categories/categoriesSlice';
 import homeReducer from './home/homeSlice';
 import searchReducer from './search/searchSlice';
+import jiraReducer from './jira/jiraSlice';
 
 const store = configureStore({
   reducer: {
@@ -23,6 +24,7 @@ const store = configureStore({
     categories: categoriesReducer,
     home: homeReducer,
     search: searchReducer,
+    jira: jiraReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

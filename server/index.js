@@ -13,6 +13,7 @@ import authRoutes from './routes/auth.js';
 import categoryRoutes from './routes/category.js';
 import homeRoutes from './routes/home.js';
 import searchRoutes from './routes/search.js';
+import jiraRoutes from './routes/jira.js';
 import { checkParams } from './middleware/params.js';
 
 const app = express();
@@ -32,6 +33,7 @@ app.use('/tags', tagRoutes);
 app.use('/categories', categoryRoutes);
 app.use('/home', homeRoutes);
 app.use('/search', searchRoutes);
+app.use('/jira', jiraRoutes);
 
 const PORT = process.env.PORT || 5000;
 
