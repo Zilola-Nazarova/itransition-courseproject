@@ -21,7 +21,7 @@ const TagPage = () => {
     }
   }, [dispatch, tagId, page]);
   const {
-    tagItems, numberOfPages, isLoading, error,
+    tag, value, numberOfPages, isLoading, error,
   } = useSelector((state) => state.tags);
 
   return (
@@ -40,20 +40,20 @@ const TagPage = () => {
           <span className="visually-hidden">Loading...</span>
         </Spinner>
       )}
-      {tagItems?.items?.length > 0 && (
+      {value?.length > 0 && (
         <>
           <h2 className="text-center text-light pb-2">
-            {`ITEMS IN #${tagItems.tag.tagname}`}
+            {`ITEMS IN #${tag.tagname}`}
           </h2>
           <Paginated
             pageCount={numberOfPages}
             page={page}
-            items={tagItems.items}
+            slice="tags"
             renderItem={(item) => <Item item={item} key={uuidv4()} />}
           />
         </>
       )}
-      {tagItems?.items?.length === 0
+      {value?.length === 0
         && <p>Oops! Seems there are no items with this tag.</p>}
     </Container>
   );
