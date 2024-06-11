@@ -4,7 +4,7 @@ import { createOdooToken, getOdooCollections } from '../controllers/odoo.js';
 
 const router = express.Router();
 
-router.post('/token', auth, createOdooToken);
+router.get('/token', auth, createOdooToken);
 router.get('/collections', getOdooCollections);
 
 export default router;

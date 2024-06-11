@@ -6,6 +6,7 @@ import UserDetails from '../components/users/UserDetails';
 import { getUser } from '../redux/users/usersSlice';
 import { getCategories } from '../redux/categories/categoriesSlice';
 import JiraRequests from '../components/profile/JiraRequests';
+import Odoo from '../components/profile/Odoo';
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const ProfilePage = () => {
     >
       <h1 className="text-light mb-4">MY PROFILE</h1>
       <UserDetails user={user.user} />
+      <Odoo />
       <Link to={`/users/${user.user._id}/collections`}>
         <h2>MY COLLECTIONS</h2>
       </Link>

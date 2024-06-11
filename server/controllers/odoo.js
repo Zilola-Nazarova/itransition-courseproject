@@ -10,7 +10,7 @@ dotenv.config();
 export const createOdooToken = async (req, res) => {
   try {
     const currentUser = await User.findById(req.userId);
-    const token = jwt.sign({ email: currentUser.email, id: currentUser._id }, 'test', { expiresIn: '6h' });
+    const token = jwt.sign({ email: currentUser.email, id: currentUser._id }, 'test', { expiresIn: '1h' });
     res.status(201).json({ odooToken: token });
   } catch (error) {
     res.status(409).json({ message: error.message });
