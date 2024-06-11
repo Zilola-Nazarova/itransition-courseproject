@@ -11,6 +11,7 @@ import categoriesReducer from './categories/categoriesSlice';
 import homeReducer from './home/homeSlice';
 import searchReducer from './search/searchSlice';
 import jiraReducer from './jira/jiraSlice';
+import odooReducer from './odoo/odooSlice';
 
 const store = configureStore({
   reducer: {
@@ -25,6 +26,7 @@ const store = configureStore({
     home: homeReducer,
     search: searchReducer,
     jira: jiraReducer,
+    odoo: odooReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

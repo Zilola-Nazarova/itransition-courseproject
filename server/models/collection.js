@@ -41,7 +41,11 @@ const collectionSchema = mongoose.Schema(
     items: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Item'
-    }]
+    }],
+    odoo_id: {
+      type: Number,
+      default: null
+    }
   },
   {
     timestamps: true

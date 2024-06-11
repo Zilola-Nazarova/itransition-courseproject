@@ -26,7 +26,8 @@ export const getTagItems = createAsyncThunk(
 );
 
 const initialState = {
-  tagItems: null,
+  value: [],
+  tag: null,
   tagList: [],
   currentPage: 1,
   numberOfPages: 1,
@@ -47,7 +48,8 @@ export const tagsSlice = createSlice({
       .addCase(getTagItems.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = false;
-        state.tagItems = action.payload.data;
+        state.value = action.payload.data.items;
+        state.tag = action.payload.data.tag;
         state.currentPage = action.payload.currentPage;
         state.numberOfPages = action.payload.numberOfPages;
       })

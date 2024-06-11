@@ -3,6 +3,8 @@ import Col from 'react-bootstrap/Col';
 import PropTypes from 'prop-types';
 import ListGroup from 'react-bootstrap/ListGroup';
 
+const domain = process.env.REACT_APP_DOMAIN;
+const JIRA_URL = `https://${domain}.atlassian.net`;
 const JiraTicket = ({
   summary, description, status, issueKey,
 }) => (
@@ -13,7 +15,7 @@ const JiraTicket = ({
       <Col sm={12} md={3} className="py-3">{status}</Col>
       <Col sm={12} md={3} className="odd-col py-3">
         <a
-          href={`https://zilolanazarova.atlassian.net/browse/${issueKey}`}
+          href={`${JIRA_URL}/browse/${issueKey}`}
         >
           Open in Jira
         </a>
