@@ -21,14 +21,14 @@ export const getOdooCollections = async (req, res) => {
   try {
     const odooToken = req.headers.authorization.split(' ')[1];
     const decodedData = jwt.verify(odooToken, 'test');
-    let includeRecordsRaw = await Collection.aggregate([
+    const includeRecordsRaw = await Collection.aggregate([
       { $match: { author: ObjectId.createFromHexString(decodedData.id), odoo_id: null } },
       { $lookup: { from: 'users', localField: 'author', foreignField: '_id', as: 'author' } },
       { $unwind: '$author' },
       { $project: { title: 1, text: 1, category: 1, author: { username: 1 }, itemsCount: { $size: '$items' } } }
     ]);
     const includeRecords = includeRecordsRaw.map((item) => {
-      let { title, text, category, author, itemsCount } = item;
+      const { title, text, category, author, itemsCount } = item;
       return {
         title,
         descritpion: text,
