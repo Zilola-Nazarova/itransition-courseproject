@@ -6,9 +6,26 @@
   flex-direction: column;
 }
 
+.btn-help {
+  height: 15vw;
+  width: 15vw;
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  z-index: 2;
+}
+
+#jira-form {
+  width: 40vw;
+  max-width: 500px;
+  z-index: 2;
+}
+
 .items,
 .collections,
-.users {
+.users,
+.issues {
   padding: 0;
 }
 
@@ -103,7 +120,7 @@ img {
 
 .click-above {
   position: relative;
-  z-index: 5;
+  z-index: 1;
 }
 
 .tag {
