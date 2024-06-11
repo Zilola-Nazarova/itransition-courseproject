@@ -73,7 +73,6 @@ export const authSlice = createSlice({
       .addCase(getUser.fulfilled, (state, action) => {
         state.isAuthenticating = false;
         state.error = false;
-        Cookies.set('profile', JSON.stringify(action.payload), { expires: 1 / 24 });
         state.user = action.payload;
       })
       .addCase(getUser.rejected, (state, action) => {

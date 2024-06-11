@@ -52,6 +52,7 @@ const Support = () => {
       {user && (
         <Button
           className="position-fixed bottom-0 end-0 m-3 p-3 btn-help"
+          variant="success"
           onClick={() => {
             setOpen(!open);
             setFormData({ ...formData, user: user.user });
