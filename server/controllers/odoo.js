@@ -31,7 +31,7 @@ export const getOdooCollections = async (req, res) => {
       const { title, text, category, author, itemsCount } = item;
       return {
         title,
-        descritpion: text,
+        description: text,
         category,
         author: author.username,
         itemsCount
