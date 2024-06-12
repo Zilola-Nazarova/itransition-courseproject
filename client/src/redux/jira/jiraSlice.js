@@ -72,7 +72,7 @@ export const jiraSlice = createSlice({
       .addCase(getIssues.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = false;
-        state.value = action.payload.issues;
+        state.value = action.payload.issues ? action.payload.issues : [];
         state.pageCount = Math.ceil(
           action.payload.total / action.payload.maxResults,
         );
@@ -89,7 +89,7 @@ export const jiraSlice = createSlice({
       .addCase(getIssuesByUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = false;
-        state.value = action.payload.issues;
+        state.value = action.payload.issues ? action.payload.issues : [];
         state.pageCount = Math.ceil(
           action.payload.total / action.payload.maxResults,
         );
