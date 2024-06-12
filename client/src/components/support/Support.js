@@ -10,7 +10,7 @@ import Form from 'react-bootstrap/Form';
 import Collapse from 'react-bootstrap/Collapse';
 import { createIssue } from '../../redux/jira/jiraSlice';
 
-const BASE_URL = process.env.REACT_APP_API_ENDPOINT || 'https://itransition-courseproject-tljv.onrender.com';
+const BASE_URL = 'https://itransition-courseproject-frontend.onrender.com';
 const domain = process.env.REACT_APP_DOMAIN;
 const JIRA_URL = `https://${domain}.atlassian.net`;
 
@@ -19,20 +19,22 @@ const Support = () => {
   const { pathname } = useLocation();
   const { collId } = useParams();
   const [open, setOpen] = useState(false);
+  const [url, setUrl] = useState(null);
   const [collectionId, setCollectionId] = useState(null);
   const [jiraLink, setJiraLink] = useState(null);
   const { user } = useSelector((state) => state.auth);
   const { newIssueKey, isLoading, error } = useSelector((state) => state.jira);
   const initialState = {
-    url: `${BASE_URL}${pathname}`,
+    url: null,
     collId: null,
     description: '',
     priority: '',
   };
   const [formData, setFormData] = useState(initialState);
   useEffect(() => {
+    setUrl(`${BASE_URL}${pathname}`);
     setCollectionId(collId);
-  }, [collId]);
+  }, [collId, pathname]);
   useEffect(() => {
     if (newIssueKey) {
       setJiraLink(`${JIRA_URL}/browse/${newIssueKey}`);
@@ -42,7 +44,7 @@ const Support = () => {
   }, [newIssueKey]);
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createIssue({ ...formData, collId: collectionId }));
+    dispatch(createIssue({ ...formData, collId: collectionId, url }));
   };
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

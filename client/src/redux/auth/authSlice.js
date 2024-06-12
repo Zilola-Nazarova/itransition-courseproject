@@ -61,6 +61,7 @@ export const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       Cookies.remove('profile');
+      Cookies.remove('odoo');
       state.user = null;
     },
   },
