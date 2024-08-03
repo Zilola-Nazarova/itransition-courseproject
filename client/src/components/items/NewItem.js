@@ -46,7 +46,7 @@ const NewItem = () => {
   return (
     <Accordion data-bs-theme="dark">
       <Accordion.Item eventKey="0">
-        <Accordion.Header>CREATE ITEM</Accordion.Header>
+        <Accordion.Header>ADD NEW ITEM</Accordion.Header>
         <Accordion.Body>
           <Form
             className="text-start m-auto d-grid gap-3"

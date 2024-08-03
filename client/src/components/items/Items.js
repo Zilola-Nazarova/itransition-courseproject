@@ -8,6 +8,7 @@ import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router';
 import Paginated from '../Paginated';
 import Item from './item/Item';
+import NewItem from './NewItem';
 import { getCollectionItems } from '../../redux/items/itemsSlice';
 
 const Items = () => {
@@ -15,6 +16,7 @@ const Items = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
+  const { user } = useSelector((state) => state.auth);
   const page = searchParams.get('page') || '1';
   const { userId, collId } = useParams();
   const [state] = useState(location.state || null);
@@ -36,7 +38,7 @@ const Items = () => {
       data-bs-theme="dark"
       className="items text-light"
     >
-      <h3 className="text-center">ITEMS</h3>
+      <h3 className="text-center mb-4">ITEMS</h3>
       {state && (
         <Alert variant="success">
           {state.message}
@@ -51,6 +53,9 @@ const Items = () => {
         <Spinner animation="border" role="status" variant="success">
           <span className="visually-hidden">Loading...</span>
         </Spinner>
+      )}
+      {(user?.user._id === userId || user?.user.role === 'Admin') && (
+        <NewItem />
       )}
       {value?.length > 0 && (
         <Paginated

@@ -34,7 +34,7 @@ const HomePage = () => {
         </Spinner>
       )}
       <Container
-        className="home-container"
+        className="main-container"
       >
         <Row>
           <Col className="py-3" sm={12} lg={4}>{recentItems && <RecentItems />}</Col>

@@ -29,7 +29,7 @@ const Paginated = ({
   }
   return (
     <>
-      <ListGroup>
+      <ListGroup className="mt-4">
         {value?.map((item) => renderItem(item))}
       </ListGroup>
       <Pagination className="mt-3 mb-0 d-flex justify-content-center">{pages}</Pagination>
