@@ -1,6 +1,7 @@
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
 import { v4 as uuidv4 } from 'uuid';
@@ -59,7 +60,12 @@ const CollectionDetails = () => {
     setCollectionData({ ...collection, newImage: undefined, deleteImage: false });
   };
   return (
-    <>
+    <Container
+      fluid
+      data-bs-theme="dark"
+      className="text-light p-0"
+    >
+      <h3 className="text-center mb-4">COLLECTION</h3>
       {error === 'Collection not found' && (
         <Alert variant="danger">
           Oops! Seems this collection doesn&apos;t exist.
@@ -80,11 +86,15 @@ const CollectionDetails = () => {
       {collection && (
         <Card border="success" data-bs-theme="dark" className="collection">
           <Card.Header className="d-flex">
-            <strong className="me-auto">Collection</strong>
-            <strong className="text-muted">
+            <strong className="text-muted me-auto">
+              {`${collection.items.length} items`}
+            </strong>
+            <strong className="text-link text-muted">
               By
               {' '}
-              <a className="text-muted" href={`/users/${collection.author._id}/collections`}>{collection.author.username}</a>
+              <a href={`/users/${collection.author._id}/collections`}>
+                {collection.author.username}
+              </a>
             </strong>
           </Card.Header>
             {onEdit ? (
@@ -172,7 +182,7 @@ const CollectionDetails = () => {
           )}
         </Card>
       )}
-    </>
+    </Container>
   );
 };
 
