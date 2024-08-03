@@ -163,11 +163,12 @@ img {
   outline: $success 1px solid;
 }
 
-.text-link,
-.text-link a {
-  color: $success;
-  text-decoration: none;
+.text-link {
   z-index: 1;
+  
+  a {
+    color: $success;
+  }
 }
 
 .text-link:hover {

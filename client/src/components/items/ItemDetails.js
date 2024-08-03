@@ -75,14 +75,14 @@ const ItemDetails = () => {
       {item && (
         <Card border="success" data-bs-theme="dark" className="item">
           <Card.Header className="d-flex">
-            <strong className="me-auto text-link">
+            <strong className="me-auto text-link text-muted">
               In
               {' '}
               <a href={`users/${item.author._id}/collections/${item.coll._id}/items`}>
                 {item.coll.title}
               </a>
             </strong>
-            <strong className="text-link">
+            <strong className="text-link text-muted">
               By
               {' '}
               <a href={`users/${item.author._id}/collections`}>

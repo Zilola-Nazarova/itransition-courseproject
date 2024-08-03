@@ -22,8 +22,10 @@ const LargestCollections = () => {
               {`${collection.itemCount} items`}
             </strong>
             <strong className="text-link text-muted">
+              By
+              {' '}
               <a href={`users/${collection.author._id}/collections`}>
-                {`By ${collection.author.username}`}
+                {collection.author.username}
               </a>
             </strong>
           </Card.Header>

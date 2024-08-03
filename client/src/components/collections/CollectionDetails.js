@@ -86,11 +86,15 @@ const CollectionDetails = () => {
       {collection && (
         <Card border="success" data-bs-theme="dark" className="collection">
           <Card.Header className="d-flex">
-            <strong className="me-auto">Collection</strong>
-            <strong className="text-muted">
+            <strong className="text-muted me-auto">
+              {`${collection.items.length} items`}
+            </strong>
+            <strong className="text-link text-muted">
               By
               {' '}
-              <a className="text-muted" href={`/users/${collection.author._id}/collections`}>{collection.author.username}</a>
+              <a href={`/users/${collection.author._id}/collections`}>
+                {collection.author.username}
+              </a>
             </strong>
           </Card.Header>
             {onEdit ? (
